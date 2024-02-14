@@ -1,5 +1,6 @@
 let ship = document.getElementById('ship');
 let aliens = document.getElementById('aliens');
+let aliensClass = document.querySelectorAll('.alien')
 
 let x = 46;
 let y = 84;
@@ -33,15 +34,18 @@ document.onkeydown = function (event) {
     ship.style.top = y + "vh"
 
     var shipInfo = ship.getBoundingClientRect()
-    var alienInfo = aliens.getBoundingClientRect()
 
-    if (shipInfo.left < alienInfo.right &&
-        shipInfo.right > alienInfo.left &&
-        shipInfo.top < alienInfo.bottom - 20 &&
-        shipInfo.bottom > alienInfo.top) {
-        ship.src = 'images/explosion.png'
+    for (let i = 0; i < aliensClass.length; i++) {
+        var alienInfo = aliensClass[i].getBoundingClientRect()
+
+        if (shipInfo.left < alienInfo.right &&
+            shipInfo.right > alienInfo.left &&
+            shipInfo.top < alienInfo.bottom - 20 &&
+            shipInfo.bottom > alienInfo.top) {
+            ship.src = 'images/explosion.png'
+            aliensClass[i].src = 'images/explosion.png'
+        }
     }
-
 
 }
 
