@@ -35,7 +35,10 @@ document.onkeydown = function (event) {
     var shipInfo = ship.getBoundingClientRect()
     var alienInfo = aliens.getBoundingClientRect()
 
-    if (shipInfo.left < alienInfo.right && shipInfo.right > alienInfo.left && shipInfo.top < alienInfo.bottom - 20 && shipInfo.bottom > alienInfo.top) {
+    if (shipInfo.left < alienInfo.right &&
+        shipInfo.right > alienInfo.left &&
+        shipInfo.top < alienInfo.bottom - 20 &&
+        shipInfo.bottom > alienInfo.top) {
         ship.src = 'images/explosion.png'
     }
 
