@@ -1,0 +1,51 @@
+.building {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+.building__floor {
+  background-color: brown;
+  background-image: url("https://t4.ftcdn.net/jpg/00/58/81/97/360_F_58819731_fGTowGhMmHx4AdDdGA4AoZB03vjSh2lD.jpg");
+  background-size: contain;
+  width: 250px;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.building__window {
+  background-color: #151f45;
+  background-image: url("windows.png");
+  background-size: cover;
+  width: 19px;
+  height: 30px;
+  margin-bottom: 5px;
+}
+.building__window--big {
+  background-color: #151f45;
+  width: 60px;
+  height: 40px;
+  margin-bottom: 5px;
+}
+
+.light {
+  background-color: #ffe893;
+}
+
+.door {
+  width: 30px;
+  height: 45px;
+  background-color: #3c1717;
+  display: flex;
+  align-items: center;
+}
+.door__knob {
+  width: 5px;
+  height: 5px;
+  background-color: #b7a749;
+  border-radius: 5px;
+}
+
+/*# sourceMappingURL=styles.css.map */

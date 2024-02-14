@@ -1,0 +1,48 @@
+.background {
+    background-color: rgb(209, 236, 255);
+    height: 600px;
+    width: 600px;
+    position: relative;
+}
+
+.center {
+    background-color: rgb(255, 208, 114);
+    width: 70px;
+    height: 70px;
+    border-radius: 100px;
+    position: absolute;
+    top: 230px;
+    left: 225px;
+    z-index: 1;
+
+}
+
+.petal {
+    width: 40px;
+    height: 150px;
+    background-color: white;
+    border-radius: 100% 10% 100% 10% / 60% 60% 60% 60%;
+    position: absolute;
+    top: 190px;
+    left: 240px;
+}
+
+.petal1 {
+    transform: rotate(30deg);
+}
+
+.petal2 {
+    transform: rotate(60deg);
+}
+
+.petal3 {
+    transform: rotate(90deg);
+}
+
+.petal4 {
+    transform: rotate(120deg);
+}
+
+.petal5 {
+    transform: rotate(150deg);
+}

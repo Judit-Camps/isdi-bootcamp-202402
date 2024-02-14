@@ -1,0 +1,97 @@
+.painting {
+  background-color: white;
+  outline: 5px 0px 5px 5px solid #313131;
+  width: 470px;
+  height: 465px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.painting__column {
+  display: flex;
+  flex-direction: column;
+}
+.painting__line {
+  display: flex;
+  flex-direction: row;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  outline: 5px solid #313131;
+  margin: 0px 5px 5px 0px;
+}
+.square__small {
+  width: 50px;
+  height: 50px;
+  outline: 5px solid #313131;
+  margin: 0px 5px 5px 0px;
+}
+.square__big {
+  width: 255px;
+  height: 250px;
+  outline: 5px solid #313131;
+  margin: 0px 5px 5px 0px;
+}
+
+.rectangle {
+  width: 150px;
+  height: 100px;
+  outline: 5px solid #313131;
+  margin: 0px 5px 5px 0px;
+}
+.rectangle__small {
+  width: 50px;
+  height: 100px;
+  outline: 5px solid #313131;
+  margin: 0px 5px 5px 0px;
+}
+.rectangle__big {
+  width: 205px;
+  height: 150px;
+  outline: 5px solid #313131;
+  margin: 0px 5px 5px 0px;
+}
+.rectangle__long {
+  width: 200px;
+  height: 50px;
+  outline: 5px solid #313131;
+  margin: 0px 5px 5px 0px;
+}
+.rectangle__medium {
+  width: 150px;
+  height: 50px;
+  outline: 5px solid #313131;
+  margin: 0px 5px 5px 0px;
+}
+.rectangle__medium--small {
+  width: 100px;
+  height: 50px;
+  outline: 5px solid #313131;
+  margin: 0px 5px 5px 0px;
+}
+.rectangle__smaller {
+  width: 145px;
+  height: 100px;
+  outline: 5px solid #313131;
+  margin: 0px 5px 5px 0px;
+}
+
+.yellow {
+  background-color: #e1c512;
+}
+
+.red {
+  background-color: #cd1d1d;
+}
+
+.black {
+  background-color: #000;
+}
+
+.blue {
+  background-color: #4a3fe6;
+}
+
+/*# sourceMappingURL=style.css.map */

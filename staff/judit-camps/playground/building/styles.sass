@@ -1,0 +1,43 @@
+@import '../utils/utils'
+
+.building
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    padding-top: 10px
+
+    &__floor
+        background-color: brown
+        background-image: url("https://t4.ftcdn.net/jpg/00/58/81/97/360_F_58819731_fGTowGhMmHx4AdDdGA4AoZB03vjSh2lD.jpg")
+        background-size: contain
+        @include size(250px, 50px)
+        display: flex
+        justify-content: space-around
+        align-items: center
+
+    &__window
+        background-color: #151f45
+        background-image: url("windows.png")
+        background-size: cover
+        @include size(19px, 30px)
+        margin-bottom: 5px
+
+        &--big
+            background-color: #151f45
+            @include size(60px, 40px)
+            margin-bottom: 5px
+
+.light
+    background-color: #ffe893
+
+.door
+    @include size(30px, 45px)
+    background-color: #3c1717
+    display: flex
+    align-items: center
+
+    &__knob
+        @include size(5px, 5px)
+        background-color: #b7a749
+        border-radius: 5px

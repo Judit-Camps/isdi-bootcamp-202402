@@ -1,0 +1,79 @@
+.car__first {
+  border-bottom: 150px solid rgb(152, 21, 21);
+  border-left: 40px solid transparent;
+  border-right: 30px solid transparent;
+  width: 300px;
+  height: 0px;
+  border-top-left-radius: 30px;
+  margin-left: 50px;
+  position: relative;
+}
+.car__window--left {
+  border-bottom: 150px solid rgb(195, 195, 222);
+  border-left: 40px solid transparent;
+  border-right: 0px solid transparent;
+  width: 100px;
+  height: 0px;
+  border-top-left-radius: 30px;
+  position: absolute;
+  top: 20px;
+  left: -10px;
+}
+.car__window--right {
+  border-bottom: 150px solid rgb(195, 195, 222);
+  border-left: 0px solid transparent;
+  border-right: 30px solid transparent;
+  width: 125px;
+  height: 0px;
+  position: absolute;
+  left: 150px;
+  top: 20px;
+}
+.car__second {
+  background-color: rgb(152, 21, 21);
+  width: 550px;
+  height: 150px;
+  border-radius: 30px;
+  position: relative;
+}
+.car__light {
+  background-color: rgb(234, 234, 188);
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  position: absolute;
+  left: 525px;
+  top: 25px;
+  z-index: -1;
+}
+.car__line {
+  background-color: rgb(37, 37, 37);
+  width: 12px;
+  height: 50px;
+  border-radius: 5px;
+  position: absolute;
+  left: 548px;
+  top: 25px;
+}
+.car__wheel {
+  background-color: rgb(37, 37, 37);
+  width: 180px;
+  height: 180px;
+  border-radius: 100px;
+  position: absolute;
+  top: 40px;
+}
+.car__wheel--inner-wheel {
+  background-color: grey;
+  width: 90px;
+  height: 90px;
+  border-radius: 100px;
+  position: absolute;
+  left: 45px;
+  top: 45px;
+}
+.car__wheel--right {
+  left: 350px;
+}
+
+/*# sourceMappingURL=style.css.map */

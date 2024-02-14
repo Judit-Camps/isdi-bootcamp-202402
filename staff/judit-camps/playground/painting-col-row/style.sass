@@ -1,0 +1,105 @@
+@import ../utils/utils
+
+.painting
+    background-color: white
+    outline: 5px 0px 5px 5px solid #313131
+    @include size(470px, 465px)
+    display: grid
+    grid-template-columns: repeat(5, 1fr) repeat(2, 1.2fr) 0.5fr
+    grid-template-rows: repeat(6, 1fr) 0.7fr 0.5fr 0.5fr
+
+.block
+    outline: 5px solid #313131
+    margin: 0px 5px 5px 0px
+
+.block:nth-child(1)
+    grid-column: span 2
+    grid-row: span 1
+
+.block:nth-child(2)
+    grid-column: span 3
+    grid-row: span 1
+
+.block:nth-child(3)
+    grid-column: span 2
+    grid-row: span 1
+
+.block:nth-child(4)
+    grid-column: span 1
+    grid-row: span 6
+
+.block:nth-child(5)
+    grid-column: span 1
+    grid-row: span 2
+
+.block:nth-child(6)
+    grid-column: span 4
+    grid-row: span 4
+
+.block:nth-child(7)
+    grid-column: span 2
+    grid-row: span 2
+
+.block:nth-child(8)
+    grid-column: span 1
+    grid-row: span 3
+
+.block:nth-child(9)
+    grid-column: span 1
+    grid-row: span 2
+
+.block:nth-child(10)
+    grid-column: span 1
+    grid-row: span 2
+
+.block:nth-child(11)
+    grid-column: span 2
+    grid-row: span 2
+
+.block:nth-child(12)
+    grid-column: span 2
+    grid-row: span 1
+
+.block:nth-child(13)
+    grid-column: span 2
+    grid-row: span 1
+
+.block:nth-child(14)
+    grid-column: span 1
+    grid-row: span 3
+
+.block:nth-child(15)
+    grid-column: span 2
+    grid-row: span 1
+
+.block:nth-child(16)
+    grid-column: span 2
+    grid-row: span 2
+
+.block:nth-child(17)
+    grid-column: span 1
+    grid-row: span 3
+
+.block:nth-child(18)
+    grid-column: span 2
+    grid-row: span 2
+
+.block:nth-child(19)
+    grid-column: span 2
+    grid-row: span 1
+
+.block:nth-child(20)
+    grid-column: span 4
+    grid-row: span 1
+
+.yellow
+    background-color: #e1c512
+
+.red
+    background-color: #cd1d1d
+
+.black
+    background-color: #000
+
+.blue
+    background-color: #4a3fe6

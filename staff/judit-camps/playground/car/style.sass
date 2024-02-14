@@ -1,0 +1,67 @@
+@import ../utils/utils
+
+.car
+    &__first
+        border-bottom: 150px solid rgb(152, 21, 21)
+        border-left: 40px solid transparent
+        border-right: 30px solid transparent
+        @include size(300px, 0px)
+        border-top-left-radius: 30px
+        margin-left: 50px
+        position: relative
+
+    &__window--left
+        border-bottom: 150px solid rgb(195, 195, 222)
+        border-left: 40px solid transparent
+        border-right: 0px solid transparent
+        @include size(100px, 0px)
+        border-top-left-radius: 30px
+        position: absolute
+        top: 20px
+        left: -10px
+
+    &__window--right
+        border-bottom: 150px solid rgb(195, 195, 222)
+        border-left: 0px solid transparent
+        border-right: 30px solid transparent
+        @include size(125px, 0px)
+        position: absolute
+        @include move(150px, 20px)
+
+    &__second
+        background-color: rgb(152, 21, 21)
+        @include size(550px, 150px)
+        border-radius: 30px
+        position: relative
+
+    &__light
+        background-color: rgb(234, 234, 188)
+        @include size(50px, 50px)
+        border-radius: 50px
+        position: absolute
+        @include move(525px, 25px)
+        z-index: -1
+
+    &__line
+        background-color: rgb(37, 37, 37)
+        @include size(12px, 50px)
+        border-radius: 5px
+        position: absolute
+        @include move(548px, 25px)
+
+    &__wheel
+        background-color: rgb(37, 37, 37)
+        @include size(180px, 180px)
+        border-radius: 100px
+        position: absolute
+        top: 40px
+
+        &--inner-wheel
+            background-color: grey
+            @include size(90px, 90px)
+            border-radius: 100px
+            position: absolute
+            @include move(45px, 45px)
+
+        &--right
+            left: 350px

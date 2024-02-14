@@ -1,0 +1,79 @@
+@import ../utils/utils
+
+.painting
+    background-color: white
+    outline: 5px 0px 5px 5px solid #313131
+    @include size(470px, 465px)
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+
+    &__column
+        display: flex
+        flex-direction: column
+
+    &__line
+        display: flex
+        flex-direction: row
+
+.square
+    @include size(100px, 100px)
+    outline: 5px solid #313131
+    margin: 0px 5px 5px 0px
+
+    &__small
+        @include size(50px, 50px)
+        outline: 5px solid #313131
+        margin: 0px 5px 5px 0px
+
+    &__big
+        @include size(255px, 250px)
+        outline: 5px solid #313131
+        margin: 0px 5px 5px 0px
+
+.rectangle
+    @include size(150px, 100px)
+    outline: 5px solid #313131
+    margin: 0px 5px 5px 0px
+
+    &__small
+        @include size(50px, 100px)
+        outline: 5px solid #313131
+        margin: 0px 5px 5px 0px
+
+    &__big
+        @include size(205px, 150px)
+        outline: 5px solid #313131
+        margin: 0px 5px 5px 0px
+
+    &__long
+        @include size(200px, 50px)
+        outline: 5px solid #313131
+        margin: 0px 5px 5px 0px
+
+    &__medium
+        @include size(150px, 50px)
+        outline: 5px solid #313131
+        margin: 0px 5px 5px 0px
+
+        &--small
+            @include size(100px, 50px)
+            outline: 5px solid #313131
+            margin: 0px 5px 5px 0px
+
+    &__smaller
+        @include size(145px, 100px)
+        outline: 5px solid #313131
+        margin: 0px 5px 5px 0px
+
+.yellow
+    background-color: #e1c512
+
+.red
+    background-color: #cd1d1d
+
+.black
+    background-color: #000
+
+.blue
+    background-color: #4a3fe6

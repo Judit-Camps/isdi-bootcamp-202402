@@ -1,0 +1,97 @@
+@import ../utils/utils
+
+.pig
+    margin: 10px
+    background-color: yellow
+
+    &__ear
+        background-color: rgb(244, 165, 178)
+        @include size(30px, 30px)
+        border-radius: 10px
+        position: absolute
+
+        &--right
+            position: absolute
+            @include move(100px, 25px)
+
+        &--left
+            @include move(35px, 25px)
+
+    &__head
+        background-color: pink
+        @include size(100px, 100px)
+        position: relative
+        border-radius: 45px
+        @include move(25px, 20px)
+        z-index: 1
+        box-shadow: 0px 2px rgb(226, 169, 178)
+
+    &__eye
+        background-color: white
+        @include size(30px, 30px)
+        position: absolute
+        border-radius: 30px
+
+        &--right
+            @include move(60px, 30px)
+
+        &--left
+            @include move(10px, 30px)
+
+    &__pupil
+        background-color: black
+        @include size(10px, 10px)
+        position: absolute
+        border-radius: 10px
+        @include move(7px, 10px)
+
+    &__nose
+        background-color: rgb(255, 221, 227)
+        @include size(40px, 40px)
+        border-radius: 20px
+        position: absolute
+        @include move(30px, 40px)
+        box-shadow: 0px 1px rgb(220, 187, 193)
+
+    &__hole
+        background-color: rgb(230, 177, 186)
+        @include size(5px, 10px)
+        border-radius: 10px
+        position: absolute
+
+        &--right
+            position: absolute
+            @include move(25px, 15px)
+
+        &--left
+            position: absolute
+            @include move(10px, 15px)
+
+    &__body
+        background-color: pink
+        @include size(140px, 120px)
+        border-radius: 50px
+        margin-left: 5px
+        position: relative
+
+    &__leg
+        background-color: rgb(255, 206, 214)
+        @include size(30px, 45px)
+        border-radius: 10px
+        position: absolute
+
+        &--left
+            @include move(20px, 85px)
+
+        &--right
+            @include move(90px, 85px)
+
+    &__feet
+        background-color: rgb(224, 201, 205)
+        position: absolute
+        @include size(15px, 10px)
+        border-radius: 4px
+        top: 37px
+
+        &--right
+            @include move(15px, 37px)

@@ -1,0 +1,119 @@
+.pig {
+  margin: 10px;
+  background-color: yellow;
+}
+.pig__ear {
+  background-color: rgb(244, 165, 178);
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  position: absolute;
+}
+.pig__ear--right {
+  position: absolute;
+  left: 100px;
+  top: 25px;
+}
+.pig__ear--left {
+  left: 35px;
+  top: 25px;
+}
+.pig__head {
+  background-color: pink;
+  width: 100px;
+  height: 100px;
+  position: relative;
+  border-radius: 45px;
+  left: 25px;
+  top: 20px;
+  z-index: 1;
+  box-shadow: 0px 2px rgb(226, 169, 178);
+}
+.pig__eye {
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  border-radius: 30px;
+}
+.pig__eye--right {
+  left: 60px;
+  top: 30px;
+}
+.pig__eye--left {
+  left: 10px;
+  top: 30px;
+}
+.pig__pupil {
+  background-color: black;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  border-radius: 10px;
+  left: 7px;
+  top: 10px;
+}
+.pig__nose {
+  background-color: rgb(255, 221, 227);
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  position: absolute;
+  left: 30px;
+  top: 40px;
+  box-shadow: 0px 1px rgb(220, 187, 193);
+}
+.pig__hole {
+  background-color: rgb(230, 177, 186);
+  width: 5px;
+  height: 10px;
+  border-radius: 10px;
+  position: absolute;
+}
+.pig__hole--right {
+  position: absolute;
+  left: 25px;
+  top: 15px;
+}
+.pig__hole--left {
+  position: absolute;
+  left: 10px;
+  top: 15px;
+}
+.pig__body {
+  background-color: pink;
+  width: 140px;
+  height: 120px;
+  border-radius: 50px;
+  margin-left: 5px;
+  position: relative;
+}
+.pig__leg {
+  background-color: rgb(255, 206, 214);
+  width: 30px;
+  height: 45px;
+  border-radius: 10px;
+  position: absolute;
+}
+.pig__leg--left {
+  left: 20px;
+  top: 85px;
+}
+.pig__leg--right {
+  left: 90px;
+  top: 85px;
+}
+.pig__feet {
+  background-color: rgb(224, 201, 205);
+  position: absolute;
+  width: 15px;
+  height: 10px;
+  border-radius: 4px;
+  top: 37px;
+}
+.pig__feet--right {
+  left: 15px;
+  top: 37px;
+}
+
+/*# sourceMappingURL=styles.css.map */
