@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+}
+
+#space {
+  background-color: #030428;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  position: relative;
+}
+
+#ship {
+  height: 8vw;
+  position: absolute;
+  top: 84vh;
+  left: 46vw;
+}
+
+#aliens {
+  margin: 1vh;
+  top: 1vh;
+  width: 75vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  text-align: center;
+}
+
+.alien__row {
+  margin: 0;
+}
+
+.alien {
+  height: 3.5vw;
+  margin: 0;
+}
+
+/*# sourceMappingURL=style.css.map */
