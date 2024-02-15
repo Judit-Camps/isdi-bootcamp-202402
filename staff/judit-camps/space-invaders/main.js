@@ -38,10 +38,10 @@ document.onkeydown = function (event) {
     for (let i = 0; i < aliensClass.length; i++) {
         var alienInfo = aliensClass[i].getBoundingClientRect()
 
-        if (shipInfo.left < alienInfo.right &&
-            shipInfo.right > alienInfo.left &&
+        if (shipInfo.left < alienInfo.right - 10 &&
+            shipInfo.right > alienInfo.left - 10 &&
             shipInfo.top < alienInfo.bottom - 20 &&
-            shipInfo.bottom > alienInfo.top) {
+            shipInfo.bottom > alienInfo.top - 10) {
             ship.src = 'images/explosion.png'
             aliensClass[i].src = 'images/explosion.png'
         }
