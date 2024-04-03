@@ -1,6 +1,6 @@
 import express from 'express'
 
-import logic from './logic/index.js'
+import logic from './logic/index.mjs'
 
 const api = express()
 
