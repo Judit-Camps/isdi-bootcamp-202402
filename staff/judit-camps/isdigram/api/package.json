@@ -1,17 +1,22 @@
 {
 	"devDependencies": {
-		"mocha": "^10.4.0",
-		"chai": "^5.1.0"
+		"chai": "^5.1.0",
+		"mocha": "^10.4.0"
 	},
 	"name": "api",
 	"version": "1.0.0",
 	"type": "module",
 	"main": "index.js",
 	"scripts": {
-		"test": "mocha"
+		"start": "node .",
+		"test": "mocha",
+		"test-inspect": "npx mocha --inspect-brk data logic"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"description": ""
+	"description": "",
+	"dependencies": {
+		"express": "^4.19.2"
+	}
 }

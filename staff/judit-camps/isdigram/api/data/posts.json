@@ -1,0 +1,37 @@
+[
+    {
+        "author": "8c45fb67f0beb8",
+        "image": "https://images.pexels.com/photos/20356890/pexels-photo-20356890/free-photo-of-fusta-vacances-carrer-estiu.jpeg",
+        "caption": "vacation",
+        "date": "2024-03-09",
+        "id": "14340c24a65c050"
+    },
+    {
+        "author": "45b761817a826c",
+        "image": "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "caption": "😍",
+        "date": "2024-03-10",
+        "id": "17233c04bbcc07"
+    },
+    {
+        "author": "45b761817a826c",
+        "image": "https://images.pexels.com/photos/47547/squirrel-animal-cute-rodents-47547.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "caption": "🥜",
+        "date": "2024-03-10",
+        "id": "5a663e3605afa0"
+    },
+    {
+        "author": "45b761817a826c",
+        "image": "https://thispersondoesnotexist.com/",
+        "caption": "my friend",
+        "date": "2024-03-17",
+        "id": "ieb6xjla2vs"
+    },
+    {
+        "author": "45b761817a826c",
+        "image": "https://images.pexels.com/photos/45170/kittens-cat-cat-puppy-rush-45170.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        "caption": "kittens",
+        "date": "2024-03-18",
+        "id": "k7u2y1mbrj4"
+    }
+]

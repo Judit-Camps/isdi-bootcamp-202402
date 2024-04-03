@@ -1,4 +1,3 @@
-import { error } from 'console'
 import fs from 'fs'
 
 class Collection {
@@ -91,7 +90,7 @@ class Collection {
                     callback(error)
                     return
                 }
-                callback(null)
+                callback(null, document.id)
             })
         })
 
