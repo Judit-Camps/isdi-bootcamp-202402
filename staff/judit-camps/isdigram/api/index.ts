@@ -1,6 +1,6 @@
 import express from 'express'
 
-import logic from './logic/index.js'
+import logic from './logic/index.ts'
 
 const api = express()
 
@@ -59,23 +59,35 @@ api.get('/users/:userId', (req, res) => {
     })
 })
 
+api.patch('/users/:userId', jsonBodyParser, (req, res) => {
+    logic.logoutUser(req.params.userId, (error, user) => {
+        if (error) {
+            res.status(500).json({ error: error.constructor.name, message: error.message })
+            return
+        }
+
+        if (user) {
+            res.status(201).json(user)
+        } else {
+            res.status(404).json(null)
+        }
+
+    })
+})
+
+
+api.patch('/users/:userId', jsonBodyParser, (req, res) => {
+    // @ts-ignore
+    logic.logoutUser(req.params.userId)
+})
+
 // TODO retrieve posts -> GET /posts
 api.get('/posts', (req, res) => {
     const posts = logic.retrievePostsLatestFirst()
 
-    res.status(201).send(`<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API</title>
-</head>
-<body>
-    <h1>POSTS</h1>
-    <p>${posts[0].author}</p>
-    <img ${src = posts[0].image} />
-</body>
-</html>`)
+    res.status(201).json(posts)
 })
+
+
 
 api.listen(8080, () => console.log('API listening on port 8080'))

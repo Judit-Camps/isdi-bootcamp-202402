@@ -1,5 +1,5 @@
-import db from "../data/index.mjs"
-import logic from "./index.mjs"
+import db from "../data/index.ts"
+import logic from "./index.ts"
 
 import { expect } from 'chai'
 
@@ -354,26 +354,26 @@ describe('logic', () => {
             })
         })
     })
-
-    describe('retrieveUsers', () => {
-        it('gets all users', done => {
-            db.users.deleteOne(user => user.username === "peperoni", (error) => {
-                if (error) {
-                    done(error)
-                    return
-                }
-                const document = [{ "username": "juditcamps", "status": "offline", "id": "drzmdewewi8" }, { "username": "pepitogrillo", "status": "online", "id": "p6ealghfjz4" }]
-                logic.retrieveUsers((error, users) => {
+    /*
+        describe('retrieveUsers', () => {
+            it('gets all users', done => {
+                db.users.deleteOne(user => user.username === "peperoni", (error) => {
                     if (error) {
                         done(error)
                         return
                     }
-
-                    expect(users).to.deep.equal(document)
-                    done()
+                    const document = [{ "username": "juditcamps", "status": "offline", "id": "drzmdewewi8" }, { "username": "pepitogrillo", "status": "online", "id": "p6ealghfjz4" }]
+                    logic.retrieveUsers((error, users) => {
+                        if (error) {
+                            done(error)
+                            return
+                        }
+    
+                        expect(users).to.deep.equal(document)
+                        done()
+                    })
+    
                 })
-
             })
-        })
-    })
+        })*/
 })

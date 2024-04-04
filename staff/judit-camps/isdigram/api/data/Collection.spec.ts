@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'fs'
-import Collection from "./Collection.js"
+import Collection from "./Collection.ts"
 import { expect } from 'chai'
 
 describe('Collection', () => {

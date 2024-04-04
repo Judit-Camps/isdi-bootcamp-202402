@@ -4,17 +4,17 @@
 		"@types/mocha": "^10.0.6",
 		"@types/node": "^20.12.3",
 		"chai": "^5.1.0",
-		"mocha": "^10.4.0"
+		"mocha": "^10.4.0",
+		"ts-node": "^10.9.2"
 	},
 	"name": "api",
 	"version": "1.0.0",
 	"type": "module",
 	"main": "index.js",
 	"scripts": {
-		"build": "tsc",
-		"start": "node .",
-		"test": "pnpx mocha data logic",
-		"test-inspect": "npx mocha --inspect-brk data logic"
+		"start": "npx tsx index.ts",
+		"test": "mocha",
+		"test-inspect": "npx mocha --inspect-brk"
 	},
 	"keywords": [],
 	"author": "",

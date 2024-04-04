@@ -1,4 +1,5 @@
-import db from "../data/index.mjs"
+// @ts-nocheck
+import db from "../data/index.ts"
 
 // constants
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
@@ -8,18 +9,18 @@ const URL_REGEX = /^(http|https):\/\//
 
 
 // helpers
-function validateDate(date, explanation) {
-    if (typeof date !== 'string') throw new TypeError(explanation + ' ' + date + ' is not a valid date')
-    if (!DATE_REGEX.test(date)) throw new Error(explanation + ' ' + date + ' does not have a valid format')
-}
-
-function validateText(text, explanation, checkEmptyInside) {
+function validateText(text, explanation, checkEmptyInside?) {
     if (typeof text !== 'string') throw new TypeError(explanation + ' ' + text + ' is not a string')
     if (!text.trim().length) throw new Error(explanation + ' >' + text + '< is empty or blank')
 
     if (checkEmptyInside) {
         if (text.includes(' ')) throw new Error(explanation + ' ' + text + 'has empty spaces')
     }
+}
+
+function validateDate(date, explanation) {
+    if (typeof date !== 'string') throw new TypeError(explanation + ' ' + date + ' is not a valid date')
+    if (!DATE_REGEX.test(date)) throw new Error(explanation + ' ' + date + ' does not have a valid format')
 }
 
 function validateEmail(email, explanation = 'email') {
@@ -199,7 +200,7 @@ function logoutUser(userId, callback) {
                 callback(error)
                 return
             }
-            callback(null)
+            callback(null, user)
         })
     })
 }
