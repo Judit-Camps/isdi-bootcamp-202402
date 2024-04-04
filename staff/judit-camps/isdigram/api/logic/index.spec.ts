@@ -68,7 +68,7 @@ describe('logic', () => {
                 errorThrown = error
             }
 
-            console.log(errorThrown)
+
             expect(errorThrown).to.be.instanceOf(TypeError)
             expect(errorThrown.message).to.equal('name 123 is not a string')
         })
@@ -83,7 +83,7 @@ describe('logic', () => {
                 errorThrown = error
             }
 
-            console.log(errorThrown)
+
             expect(errorThrown).to.be.instanceOf(Error)
             expect(errorThrown.message).to.equal('name >< is empty or blank')
         })
@@ -98,7 +98,7 @@ describe('logic', () => {
                 errorThrown = error
             }
 
-            console.log(errorThrown)
+
             expect(errorThrown).to.be.instanceOf(TypeError)
             expect(errorThrown.message).to.equal('birthdate 123 is not a valid date')
         })
