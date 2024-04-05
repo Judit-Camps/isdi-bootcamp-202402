@@ -5,8 +5,10 @@ import logic from '../logic.mjs'
 import { Component } from 'react'
 
 import UserChat from '../components/UserChat'
+
 class Chat extends Component {
     constructor() {
+        logger.debug('Chat')
         super()
 
         try {
@@ -26,6 +28,7 @@ class Chat extends Component {
         }
     }
 
+    handleMessageSent = () => this.setState({ stamp: Date.now() })
 
     render() {
         return <main >
@@ -60,7 +63,7 @@ class Chat extends Component {
             {this.state.viewMessageWithUser && (
                 <UserChat userToChat={this.state.selectedUser}
                     onBackToChatsClick={() => this.setState({ viewUsers: true, viewMessageWithUser: false })}
-                    onMessageSent={() => this.setState({ stamp: Date.now() })}
+                    onMessageSent={this.handleMessageSent}
                     refreshStamp={this.state.stamp} />)}
         </main>
     }

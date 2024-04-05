@@ -2,46 +2,39 @@ import { logger, showFeedback } from "../utils";
 
 import logic from "../logic.mjs";
 
-import { Component } from "react";
+function Post(props) {
 
-class Post extends Component {
-    constructor() {
-        logger.debug('Post')
-        super()
-    }
-
-    handleDeleteClick = postId => {
+    const handleDeleteClick = postId => {
         if (confirm('Do you want to delete this post?')) {
             try {
                 logic.removePost(postId)
 
-                this.props.onDeleted()
+                props.onDeleted()
             } catch (error) {
                 showFeedback(error)
             }
         }
     }
 
-    handleEditClick = post => this.props.onEditClick(post)
+    const handleEditClick = post => props.onEditClick(post)
 
-    render() {
-        const { item: post } = this.props
+    const { item: post } = props
 
-        return <article className='post'>
-            <h3 className='post-author'>{post.author.username}</h3>
-            <img src={post.image} alt="" />
-            <div className='post-caption'>
-                <p>{post.caption}</p>
+    logger.debug('Post -> Render')
+    return <article className='post'>
+        <h3 className='post-author'>{post.author.username}</h3>
+        <img className='post-image' src={post.image} alt="" />
+        <div className='post-caption'>
+            <p className='post-text' >{post.caption}</p>
 
-                {post.author.id === logic.getLoggedInUser() &&
-                    <div>
-                        <button onClick={() => this.handleEditClick(post)}>edit</button>
-                        <button onClick={() => this.handleDeleteClick(post.id)}>delete</button>
-                    </div>}
-            </div>
-            <time>{post.date}</time>
-        </article>
-    }
+            {post.author.id === logic.getLoggedInUser() &&
+                <div>
+                    <button onClick={() => handleEditClick(post)}>edit</button>
+                    <button onClick={() => handleDeleteClick(post.id)}>delete</button>
+                </div>}
+        </div>
+        <time className='post-date' >{post.date}</time>
+    </article>
 }
 
 export default Post

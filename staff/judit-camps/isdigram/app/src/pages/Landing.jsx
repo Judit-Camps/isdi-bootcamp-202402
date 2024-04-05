@@ -1,38 +1,28 @@
 import { logger } from '../utils'
 
-import { Component } from 'react'
+function Landing(props) {
 
-class Landing extends Component {
-    constructor() {
-        logger.debug('Landing')
-        super()
-    }
-
-    handleLoginClick = (event) => {
+    const handleLoginClick = (event) => {
         event.preventDefault()
 
-        this.props.onLoginClick()
+        props.onLoginClick()
     }
 
-    handleRegisterClick = (event) => {
+    const handleRegisterClick = (event) => {
         event.preventDefault()
 
-        this.props.onRegisterClick()
+        props.onRegisterClick()
     }
 
-    render() {
-        logger.debug('Landing -> render')
+    logger.debug('Landing -> render')
 
-        return <main className='landing-main'>
-            <h1 className='landing-title'>App</h1>
+    return <main className='landing-main'>
+        <h1 className='landing-title'>App</h1>
 
-            <a className="landing-link" href="" onClick={this.handleLoginClick}>Login</a>
+        <a className="landing-link" href="" onClick={handleLoginClick}>Login</a>
 
-            <a className="landing-link" href="" onClick={this.handleRegisterClick}>Register</a>
-        </main>
-    }
-
-    on
+        <a className="landing-link" href="" onClick={handleRegisterClick}>Register</a>
+    </main>
 }
 
 export default Landing

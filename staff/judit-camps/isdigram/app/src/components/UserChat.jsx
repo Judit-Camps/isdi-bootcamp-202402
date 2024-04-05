@@ -3,8 +3,11 @@ import logic from "../logic.mjs";
 
 import { Component } from "react";
 
+import SendMessageForm from "./SendMessageForm";
+
 class UserChat extends Component {
     constructor(props) {
+        logger.debug('UserChat')
         super(props)
 
         try {
@@ -32,16 +35,15 @@ class UserChat extends Component {
         }
     }
 
-
     render() {
-        const { userToChat } = this.state
+        const { userToChat, messages } = this.state
 
         return <section>
             <button onClick={() => this.props.onBackToChatsClick()}>back to chats</button>
             <h2>{userToChat.username}</h2>
 
             <div className="message-div">
-                {this.state.messages.map((message) => {
+                {messages.map((message) => {
                     let classType
                     if (message.from === logic.getLoggedInUser()) classType = 'message__right'
                     else classType = 'message__left'
@@ -51,25 +53,10 @@ class UserChat extends Component {
 
             </div>
 
-            <form className="message-form" onSubmit={event => {
-                event.preventDefault()
-
-                const form = event.target
-
-                const message = form.message.value
-
-                try {
-                    logic.sendMessageTo(userToChat.id, message)
-
-                    form.reset()
-                    this.props.onMessageSent()
-                } catch (error) {
-                    utils.showFeedback(error)
-                }
-            }} >
-                <input id="message" type="text" />
-                <button>send</button>
-            </form>
+            <SendMessageForm
+                userToChat={userToChat}
+                onMessageSubmit={this.props.onMessageSent}
+            />
 
         </section>
 

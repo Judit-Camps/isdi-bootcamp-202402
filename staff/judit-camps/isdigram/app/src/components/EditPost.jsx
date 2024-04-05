@@ -1,23 +1,11 @@
 import { logger, showFeedback } from "../utils";
 import logic from "../logic.mjs";
-import { Component } from "react";
 
-class EditPost extends Component {
-    constructor() {
-        logger.debug('EditPost')
-        super()
+import './EditPost.sass'
 
-    }
+function EditPost(props) {
 
-    componentDidMount() {
-        logger.debug('EditPost -> componentDidMount')
-    }
-
-    componentWillUnmount() {
-        logger.debug('EditPost -> componentWillUnmount')
-    }
-
-    handleSubmit = event => {
+    const handleSubmit = event => {
         event.preventDefault()
 
         const form = event.target
@@ -26,32 +14,31 @@ class EditPost extends Component {
         logger.debug('EditPost -> handleSubmit', newText)
 
         try {
-            logic.editPostText(this.props.post.id, newText)
+            logic.editPostText(props.post.id, newText)
 
             form.reset()
 
-            this.props.onPostEdited()
+            props.onPostEdited()
 
         } catch (error) {
             showFeedback(error)
         }
     }
 
-    handleCancelClick = () => this.props.onCancelClick()
+    const handleCancelClick = () => props.onCancelClick()
 
-    render() {
-        logger.debug('EditPost -> render')
+    logger.debug('EditPost -> render')
 
-        return <section className="edit-post">
-            <form onSubmit={this.handleSubmit}>
-                <label>Text</label>
-                <input id="text" type="text" placeholder={this.props.post.caption} />
+    return <section className="edit-post">
+        <form onSubmit={handleSubmit}>
+            <label>Text</label>
+            <input id="text" type="text" placeholder={props.post.caption} />
 
-                <button type="submit">save changes</button>
-            </form>
-            <button onClick={this.handleCancelClick}>Cancel</button>
-        </section>
-    }
+            <button type="submit">save changes</button>
+        </form>
+        <button onClick={handleCancelClick}>Cancel</button>
+    </section>
 }
+
 
 export default EditPost
