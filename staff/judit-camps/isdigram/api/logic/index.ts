@@ -9,7 +9,7 @@ const URL_REGEX = /^(http|https):\/\//
 
 
 // helpers
-function validateText(text, explanation, checkEmptyInside?) {
+function validateText(text: string, explanation: string, checkEmptyInside?: boolean) {
     if (typeof text !== 'string') throw new TypeError(explanation + ' ' + text + ' is not a string')
     if (!text.trim().length) throw new Error(explanation + ' >' + text + '< is empty or blank')
 
@@ -18,16 +18,16 @@ function validateText(text, explanation, checkEmptyInside?) {
     }
 }
 
-function validateDate(date, explanation) {
+function validateDate(date, explanation: string) {
     if (typeof date !== 'string') throw new TypeError(explanation + ' ' + date + ' is not a valid date')
     if (!DATE_REGEX.test(date)) throw new Error(explanation + ' ' + date + ' does not have a valid format')
 }
 
-function validateEmail(email, explanation = 'email') {
+function validateEmail(email: string, explanation = 'email') {
     if (!EMAIL_REGEX.test(email)) throw new Error(`${explanation} is not a correct email`)
 }
 
-function validateUrl(url, explanation) {
+function validateUrl(url, explanation: string) {
     if (!URL_REGEX.test(url)) throw new Error(explanation + ' ' + url + ' is not a correct url path')
 }
 

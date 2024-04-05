@@ -33,8 +33,7 @@ api.post('/users/auth', jsonBodyParser, (req, res) => {
                 res.status(400).json({ error: error.constructor.name, message: error.message })
                 return
             }
-            console.log(userId)
-            res.status(202).json({ userId })
+            res.json(userId)
         })
 
     } catch (error) {
