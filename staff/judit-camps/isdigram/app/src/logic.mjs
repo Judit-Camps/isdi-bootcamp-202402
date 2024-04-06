@@ -1,17 +1,14 @@
 import db from "./data/index.mjs"
 
+// constants
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
 const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[A-Za-z])[A-Za-z0-9]+$/
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const URL_REGEX = /^(http|https):\/\//
 
 // helpers
-function validateDate(date, explanation) {
-    if (!DATE_REGEX.test(date)) throw new Error(explanation + ' ' + date + ' is not a valid date')
-}
-
-function validateText(text, explanation, checkEmptyInside) {
-    if (typeof text !== 'string') throw new Error(explanation + ' ' + text) + ' is not a string'
+function validateText(text, explanation = 'text', checkEmptyInside) {
+    if (typeof text !== 'string') throw new Error(explanation + ' ' + text + ' is not a string')
     if (!text.trim().length) throw new Error(explanation + ' >' + text + '< is empty or blank')
 
     if (checkEmptyInside) {
@@ -19,61 +16,143 @@ function validateText(text, explanation, checkEmptyInside) {
     }
 }
 
-function validateEmail(email, explanation) {
-    if (!EMAIL_REGEX.test(email)) throw new Error(explanation + ' ' + email + ' is not a correct email')
+function validateDate(date, explanation = 'date') {
+    if (typeof date !== 'string') throw new TypeError(`${explanation} is not a string`)
+    if (!DATE_REGEX.test(date)) throw new Error(`${explanation} is not a valid date`)
 }
 
-function validateUrl(url, explanation) {
-    if (!URL_REGEX.test(url)) throw new Error(explanation + ' ' + url + ' is not a correct url path')
+function validateEmail(email, explanation = 'email') {
+    if (!EMAIL_REGEX.test(email)) throw new Error(`${explanation} is not an email`)
 }
 
-function validatePassword(password, explanation) {
-    if (!PASSWORD_REGEX.test(password)) throw new Error(explanation + ' ' + password + ' is not acceptable')
+function validateUrl(url, explanation = 'url') {
+    if (!URL_REGEX.test(url)) throw new Error(`${explanation} is not a url`)
+}
+
+function validatePassword(password, explanation = 'password') {
+    if (!PASSWORD_REGEX.test(password)) throw new Error(`${explanation} is not valid`)
+}
+
+function validateCallback(callback, explanation = 'callback') {
+    if (typeof callback !== 'function') throw new TypeError(`${explanation} is not a function`)
 }
 
 // logic
-function registerUser(name, birthdate, email, username, password) {
-    validateText(name, 'the name')
-    validateDate(birthdate)
-    validateEmail(email, 'the email')
-    validateText(username, 'the username', true)
-    validatePassword(password, 'the password')
+function registerUser(name, birthdate, email, username, password, callback) {
+    validateText(name, 'name')
+    validateDate(birthdate, 'birthdate')
+    validateEmail(email)
+    validateText(username, 'username', true)
+    validatePassword(password)
+    validateCallback(callback)
 
-    let user = db.users.findOne(user => user.email === email || user.username === username)
+    const xhr = new XMLHttpRequest
 
-    if (user) throw new Error('user already exists')
+    xhr.onload = function () {
+        const { status, responseText: json } = xhr
 
-    user = {
-        name: name,
-        birthdate: birthdate,
-        email: email,
-        username: username,
-        password: password
+        if (status >= 500) {
+            callback(new Error('system error'))
+            return
+        } else if (status >= 400) {
+            const { error, message } = JSON.parse(json)
+
+            // to grab the selected type of error and use it to send the message
+            const constructor = window[error]
+
+            callback(new constructor(message))
+        } else if (status >= 300) {
+            callback(new Error('system error'))
+            return
+        } else callback(null)
     }
 
-    db.users.insertOne(user)
+    xhr.open('POST', 'http://localhost:8080/users')
+
+    xhr.setRequestHeader('Content-Type', 'application/json')
+
+    const user = { name, birthdate, email, username, password }
+
+    const json = JSON.stringify(user)
+
+    xhr.send(json)
 }
 
 
-function loginUser(username, password) {
-    const user = db.users.findOne(user => user.username === username && user.password === password)
+function loginUser(username, password, callback) {
+    validateText(username, 'username', true)
+    validatePassword(password)
+    validateCallback(callback)
 
-    if (!user) throw new Error('wrong credentials')
+    const xhr = new XMLHttpRequest
 
-    user.status = 'online'
+    xhr.onload = function () {
+        const { status, responseText: json } = xhr
 
-    db.users.updateOne(user)
+        if (status >= 500) {
+            callback(new Error('system error'))
+            return
+        } else if (status >= 400) {
+            const { error, message } = JSON.parse(json)
 
-    sessionStorage.userId = user.id
+            const constructor = window[error]
+
+            callback(new constructor(message))
+        } else if (status >= 300) {
+            callback(new Error('system error'))
+            return
+        } else {
+            const userId = JSON.parse(json)
+            sessionStorage.userId = userId
+
+            callback(null)
+        }
+    }
+
+    xhr.open('POST', 'http://localhost:8080/users/auth')
+
+    xhr.setRequestHeader('Content-Type', 'application/json')
+
+    const user = { username, password }
+
+    const json = JSON.stringify(user)
+
+    xhr.send(json)
+
 }
 
 
-function getUser() {
-    const user = db.users.findOne(user => user.id === sessionStorage.userId)
+function getUser(callback) {
+    validateCallback(callback)
 
-    if (!user) throw new Error('user not found')
+    var xhr = new XMLHttpRequest
 
-    return user
+    xhr.onload = function () {
+        const { status, responseText: json } = xhr
+
+        if (status >= 500) {
+            callback(new Error('system error'))
+            return
+
+        } else if (status >= 400) {
+            const { error, message } = JSON.parse(json)
+            const constructor = window[error]
+            callback(new constructor(message))
+
+        } else if (status >= 300) {
+            callback(new Error('system error'))
+            return
+
+        } else {
+            const user = JSON.parse(json)
+
+            callback(null, user)
+        }
+    }
+
+    xhr.open('GET', `http://localhost:8080/users/${sessionStorage.userId}`)
+
+    xhr.send()
 }
 
 function retrieveUsers() {

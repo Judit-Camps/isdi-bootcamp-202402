@@ -13,22 +13,30 @@ class Home extends Component {
 
         super()
 
-        try {
-            const user = logic.getUser()
+        this.state = {
+            user: null,
+            view: null,
+            stamp: null,
+            post: null
+        }
+    }
 
-            this.state = {
-                user,
-                view: null,
-                stamp: null,
-                post: null
-            }
+    componentDidMount() {
+        try {
+            logic.getUser((error, user) => {
+                if (error) {
+                    showFeedback(error)
+                    return
+                }
+                this.setState({ user })
+            })
         } catch (error) {
             showFeedback(error)
         }
     }
 
     setState(state) {
-        // logger.debug('Home -> setState', JSON.stringify(state))
+        logger.debug('Home -> setState', JSON.stringify(state))
 
         super.setState(state)
     }
