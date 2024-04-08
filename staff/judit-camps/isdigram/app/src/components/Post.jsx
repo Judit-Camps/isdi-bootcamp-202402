@@ -21,6 +21,7 @@ function Post(props) {
     const { item: post } = props
 
     logger.debug('Post -> Render')
+
     return <article className='post'>
         <h3 className='post-author'>{post.author.username}</h3>
         <img className='post-image' src={post.image} alt="" />

@@ -2,63 +2,57 @@ import { logger, showFeedback } from "../utils/index.mjs";
 
 import logic from "../logic.mjs";
 
-import { Component } from "react";
+import { useState, useEffect } from "react";
 
 import Post from "./Post";
 
-class PostList extends Component {
-    constructor() {
+function PostList(props) {
 
-        logger.debug('PostList')
-        super()
+    const [posts, setPosts] = useState([])
 
-        this.state = {
-            posts: []
-        }
-    }
-
-    loadPosts() {
+    const loadPosts = () => {
         logger.debug('PostList -> loadPosts')
 
         try {
             logic.retrievePostsLatestFirst((error, posts) => {
                 if (error) {
                     showFeedback(error)
+                    return
                 }
-                this.setState({ posts })
+                setPosts(posts)
             })
         } catch (error) {
             showFeedback(error)
         }
     }
 
-    componentWillReceiveProps(newProps) {
-        logger.debug('PostList -> componentWillReceiveProps', JSON.stringify(this.props), JSON.stringify(newProps))
-        newProps.stamp !== this.props.stamp && this.loadPosts()
-    }
+    // componentWillReceiveProps(newProps) {
+    //     logger.debug('PostList -> componentWillReceiveProps', JSON.stringify(props), JSON.stringify(newProps))
+    //     newProps.stamp !== props.stamp && loadPosts()
+    // }
 
-    componentDidMount() {
-        logger.debug('PostList -> componentDidMount')
-        this.loadPosts()
-    }
+    // componentDidMount() {
+    //     logger.debug('PostList -> componentDidMount')
+    //     loadPosts()
+    // }
 
-    handlePostDeleted = () => this.loadPosts()
+    useEffect(() => {
+        loadPosts()
+    }, [props.stamp])
 
-    handleEditPost = post => this.props.onEditButtonClicked(post)
+    const handlePostDeleted = () => loadPosts()
 
+    const handleEditPost = post => props.onEditButtonClicked(post)
 
+    logger.debug('PostList -> render')
 
-    render() {
-        logger.debug('PostList -> render')
-
-        return <section className="post-section">
-            {this.state.posts.map(post => <Post
-                key={post.id}
-                item={post}
-                onEditClick={this.handleEditPost}
-                onDeleted={this.handlePostDeleted} />)}
-        </section>
-    }
+    return <section className="post-section">
+        {posts.map(post => <Post
+            key={post.id}
+            item={post}
+            onEditClick={handleEditPost}
+            onDeleted={handlePostDeleted} />)}
+    </section>
 }
 
 

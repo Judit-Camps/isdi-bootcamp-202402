@@ -252,6 +252,7 @@ function retrievePostsLatestFirst(userId, callback) {
             }
 
             let count = 0
+            let errorDetected = false
 
             posts.forEach(post => {
                 db.users.findOne(user => user.id === post.author, (error, user) => {
@@ -259,6 +260,15 @@ function retrievePostsLatestFirst(userId, callback) {
                         callback(error)
                         return
                     }
+
+                    if (!user) {
+                        callback(new Error('post owner not found'))
+
+                        errorDetected = true
+
+                        return
+                    }
+
                     post.author = {
                         id: user.id,
                         username: user.username
@@ -266,21 +276,13 @@ function retrievePostsLatestFirst(userId, callback) {
 
                     count++
 
-                    if (count === posts.length) {
+                    if (!errorDetected && count === posts.length) {
                         callback(null, posts.reverse())
                     }
                 })
             })
         })
     })
-
-
-    posts.forEach(function (post) {
-        const user = db.users.findOne(user => user.id === post.author)
-        post.author = { id: user.id, username: user.username }
-    })
-
-    return posts.slice().reverse()
 }
 
 function removePost(postId) {

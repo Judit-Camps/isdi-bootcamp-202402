@@ -2,8 +2,6 @@ import { logger, showFeedback } from '../utils'
 
 import logic from "../logic.mjs"
 
-import { Component } from "react"
-
 function User(props) {
 
     const handleLogoutClick = () => {
@@ -31,7 +29,7 @@ function User(props) {
             <button>Chat</button>
 
         </header>
-        <h1>hello, {user.name}!</h1>
+        {user && <h1>hello, {user.name}!</h1>}
         <button>Change password</button>
         <button onClick={handleLogoutClick}>Log out</button>
 
