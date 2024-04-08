@@ -57,17 +57,19 @@ api.get('/users/:userId', (req, res) => {
         logic.getUser(userId, (error, user) => {
             if (error) {
                 res.status(400).json({ error: error.constructor.name, message: error.message })
+
                 return
             }
 
             res.json(user)
         })
-
     } catch (error) {
         res.status(400).json({ error: error.constructor.name, message: error.message })
     }
 })
 
+
+// LOGOUT
 // api.patch('/users/:userId', jsonBodyParser, (req, res) => {
 //     logic.logoutUser(req.params.userId, (error, user) => {
 //         if (error) {
@@ -90,12 +92,26 @@ api.get('/users/:userId', (req, res) => {
 //     logic.logoutUser(req.params.userId)
 // })
 
-// // TODO retrieve posts -> GET /posts
-// api.get('/posts', (req, res) => {
-//     const posts = logic.retrievePostsLatestFirst()
+// TODO retrieve posts -> GET /posts
+api.get('/posts', (req, res) => {
+    try {
+        const { authorization: userId } = req.headers
 
-//     res.status(201).json(posts)
-// })
+        logic.retrievePostsLatestFirst(userId, (error, posts) => {
+            if (error) {
+                res.status(400).json({ error: error.constructor.name, message: error.message })
+
+                return
+            }
+
+            res.json(posts)
+
+        })
+
+    } catch (error) {
+        res.status(400).json({ error: error.constructor.name, message: error.message })
+    }
+})
 
 
 

@@ -21,8 +21,12 @@ class PostList extends Component {
         logger.debug('PostList -> loadPosts')
 
         try {
-            const posts = logic.retrievePostsLatestFirst()
-            this.setState({ posts })
+            logic.retrievePostsLatestFirst((error, posts) => {
+                if (error) {
+                    showFeedback(error)
+                }
+                this.setState({ posts })
+            })
         } catch (error) {
             showFeedback(error)
         }

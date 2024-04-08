@@ -1,6 +1,6 @@
 import { logger, showFeedback } from '../utils/index.mjs'
 
-import logic from '../logic.mjs'
+import logic from '../logic'
 
 import { Component } from "react"
 import PostList from '../components/PostList'
@@ -26,8 +26,10 @@ class Home extends Component {
             logic.getUser((error, user) => {
                 if (error) {
                     showFeedback(error)
+
                     return
                 }
+
                 this.setState({ user })
             })
         } catch (error) {
@@ -65,6 +67,7 @@ class Home extends Component {
     render() {
         logger.debug('Home -> render')
 
+        logger.debug('Home -> sessionId: ' + sessionStorage.userId)
         return <main className='main'>
             <header id='header'>
                 <h3>Isdigram</h3>
@@ -72,7 +75,7 @@ class Home extends Component {
                 <button onClick={this.handleChatClick}>Chat</button>
             </header>
 
-            <h1>hello, {this.state.user.name}!</h1>
+            {this.state.user && <h1>hello, {this.state.user.name}!</h1>}
 
             <PostList
                 stamp={this.state.stamp}

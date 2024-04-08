@@ -1,6 +1,7 @@
 import { readFile, writeFile } from 'fs'
 import Collection from "./Collection.ts"
 import { expect } from 'chai'
+import { error } from 'console'
 
 describe('Collection', () => {
     describe('>constructor', () => {
@@ -716,6 +717,56 @@ describe('Collection', () => {
 
                 done()
 
+            })
+        })
+
+        describe('deleteAll', () => {
+            it('deletes all documents', done => {
+                const documents = [{ brand: "seat", model: "ibiza" }, { brand: "VW", model: "golf" }]
+
+                const documentJSON = JSON.stringify(documents)
+
+                writeFile('./data/cars.json', documentJSON, error => {
+                    if (error) {
+                        done(error)
+                        return
+                    }
+
+                    const cars = new Collection('cars')
+
+                    cars.deleteAll(error => {
+                        if (error) {
+                            done(error)
+                            return
+                        }
+
+                        readFile('./data/cars.json', 'utf8', (error, json) => {
+                            if (error) {
+                                done(error)
+                                return
+                            }
+                            expect(json).to.equal('[]')
+
+                            done()
+                        })
+                    })
+                })
+            })
+
+            it('fails on no callback', () => {
+                const cars = new Collection('cars')
+
+                let errorThrown
+                try {
+                    // @ts-ignore
+                    cars.deleteAll()
+
+                } catch (error) {
+                    errorThrown = error
+                }
+
+                expect(errorThrown).to.be.instanceOf(TypeError)
+                expect(errorThrown.message).to.equal('callback is not a function')
             })
         })
     })

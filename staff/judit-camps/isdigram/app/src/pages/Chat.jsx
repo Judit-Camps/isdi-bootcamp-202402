@@ -39,7 +39,8 @@ class Chat extends Component {
                     this.props.onHomeClick()
                 }}>Home</button>
             </header>
-            <h1 className='chats-title'>hello, {this.user.name}!</h1>
+
+            {this.state.user && <h1 className='chats-title'>hello, {this.user.name}!</h1>}
 
 
             {this.state.viewUsers && (<ul className='user-list'>

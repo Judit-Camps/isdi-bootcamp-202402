@@ -125,6 +125,8 @@ function loginUser(username, password, callback) {
 function getUser(callback) {
     validateCallback(callback)
 
+    console.log('logic app -> ')
+
     var xhr = new XMLHttpRequest
 
     xhr.onload = function () {
@@ -132,17 +134,18 @@ function getUser(callback) {
 
         if (status >= 500) {
             callback(new Error('system error'))
-            return
 
+            return
         } else if (status >= 400) {
             const { error, message } = JSON.parse(json)
-            const constructor = window[error]
-            callback(new constructor(message))
 
+            const constructor = window[error]
+
+            callback(new constructor(message))
         } else if (status >= 300) {
             callback(new Error('system error'))
-            return
 
+            return
         } else {
             const user = JSON.parse(json)
 

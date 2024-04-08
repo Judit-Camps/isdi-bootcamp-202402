@@ -126,11 +126,13 @@ function getUser(userId, callback) {
     db.users.findOne(user => user.id === userId, (error, user) => {
         if (error) {
             callback(error)
+
             return
         }
 
         if (!user) {
             callback(new Error('user not found'))
+
             return
         }
 
@@ -228,8 +230,50 @@ function savePostInfo(image, caption) {
     db.posts.insertOne(post)
 }
 
-function retrievePostsLatestFirst() {
-    const posts = db.posts.getAll()
+function retrievePostsLatestFirst(userId, callback) {
+    validateText(userId, 'userId', true)
+    validateCallback(callback)
+
+    db.users.findOne(user => user.id === userId, (error, user) => {
+        if (error) {
+            callback(error)
+            return
+
+        }
+        if (!user) {
+            callback(new Error('user not found'))
+            return
+        }
+
+        db.posts.getAll((error, posts) => {
+            if (error) {
+                callback(error)
+                return
+            }
+
+            let count = 0
+
+            posts.forEach(post => {
+                db.users.findOne(user => user.id === post.author, (error, user) => {
+                    if (error) {
+                        callback(error)
+                        return
+                    }
+                    post.author = {
+                        id: user.id,
+                        username: user.username
+                    }
+
+                    count++
+
+                    if (count === posts.length) {
+                        callback(null, posts.reverse())
+                    }
+                })
+            })
+        })
+    })
+
 
     posts.forEach(function (post) {
         const user = db.users.findOne(user => user.id === post.author)

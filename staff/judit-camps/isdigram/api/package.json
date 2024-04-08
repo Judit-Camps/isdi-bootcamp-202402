@@ -13,6 +13,7 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "npx tsx index.ts",
+		"inspect": "npx tsx --inspect-brk index.ts",
 		"test": "mocha",
 		"test-inspect": "npx mocha --inspect-brk"
 	},
