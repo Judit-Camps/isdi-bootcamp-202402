@@ -1,0 +1,1 @@
+curl -H "Authorization: h9larggin9s" http://localhost:8080/posts -v
