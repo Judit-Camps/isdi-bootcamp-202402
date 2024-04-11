@@ -4,7 +4,7 @@ import express from 'express'
 import logic from './logic/index.ts'
 import { errors } from 'com'
 
-const { ContentError, SystemError, DuplicityError } = errors
+const { ContentError, SystemError, DuplicityError, NotFoundError, CredentialsError } = errors
 
 const client = new MongoClient('mongodb://localhost:27017')
 

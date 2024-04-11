@@ -1,31 +1,19 @@
-// @ts-nocheck
-import registerUser from './registerUser.ts'
-import loginUser from './loginUser.ts'
-import getUser from './getUser.ts'
-import retrieveUsers from './retrieveUsers.ts'
-import logoutUser from './logoutUser.ts'
-
-import savePostInfo from './savePostInfo.ts'
-import editPostText from './editPostText.ts'
-import retrievePostsLatestFirst from './retrievePosts.ts'
-import removePost from './removePost.ts'
-
 import { validate, errors } from 'com'
 
+import registerUser from './registerUser'
+import loginUser from './loginUser'
+import getUser from './getUser'
+import retrieveUsers from './retrieveUsers'
+import logoutUser from './logoutUser'
 
+import getLoggedInUser from './getLoggedInUser'
+import isUserLoggedIn from './isUserLoggedIn'
+import cleanUpLoggedInUser from './cleanUppLoggedInUser'
 
-function getLoggedInUser() {
-    return sessionStorage.userId
-}
-
-function isUserLoggedIn() {
-    return !!sessionStorage.userId
-}
-
-function cleanUpLoggedInUser() {
-    delete sessionStorage.userId
-}
-
+import savePostInfo from './savePostInfo'
+import retrievePostsLatestFirst from './retrievePosts'
+import removePost from './removePost'
+import editPostText from './editPostText'
 
 function sendMessageTo(userId, text) {
     validate.text(userId, 'userId', true)
@@ -66,7 +54,6 @@ function retrieveMessagesWith(userId) {
 }
 
 const logic = {
-    users: null,
     registerUser,
     loginUser,
     getUser,
