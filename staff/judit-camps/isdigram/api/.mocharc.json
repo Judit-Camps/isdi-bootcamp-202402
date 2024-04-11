@@ -5,7 +5,6 @@
         "ts"
     ],
     "spec": [
-        "data/*.spec.*",
         "logic/*.spec.*"
     ]
 }

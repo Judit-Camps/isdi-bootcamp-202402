@@ -1,9 +1,7 @@
-import mongodb from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 import logic from "./index.ts"
 
 import { expect } from 'chai'
-
-const { MongoClient, ObjectId } = mongodb
 
 describe('logic', () => {
     let client, users, posts
@@ -80,6 +78,7 @@ describe('logic', () => {
             let errorThrown
 
             try {
+                // @ts-ignore
                 logic.registerUser(123, '2000-01-01', 'pepe@roni.com', 'peperoni', '123qwe123', () => { })
 
             } catch (error) {
@@ -109,6 +108,7 @@ describe('logic', () => {
             let errorThrown
 
             try {
+                // @ts-ignore
                 logic.registerUser('Pepe Roni', 123, 'pepe@roni.com', 'peperoni', '123qwe123', () => { })
 
             } catch (error) {
@@ -166,6 +166,7 @@ describe('logic', () => {
             let errorThrown
 
             try {
+                // @ts-ignore
                 logic.registerUser('Pepe Roni', '2000-01-01', 'pepe@roni.com', 123, '123qwe123', () => { })
             } catch (error) {
                 errorThrown = error
@@ -182,7 +183,7 @@ describe('logic', () => {
             users.deleteMany()
                 .then(() => {
                     users.insertOne({ name: 'Pepe Roni', birthdate: '2000-01-01', email: 'pepe@roni.com', username: 'peperoni', password: '123qwe123' })
-                        .then(() => {
+                        .then(result => {
                             logic.loginUser('peperoni', '123qwe123', (error, userId) => {
                                 if (error) {
                                     done(error)
@@ -190,13 +191,17 @@ describe('logic', () => {
                                     return
                                 }
 
-                                users.findOne({ _id: userId })
+                                expect(userId).to.be.a('string')
+                                expect(userId).to.equal(result.insertedId.toString())
+
+                                users.findOne({ _id: new ObjectId(userId) })
                                     .then(user => {
                                         expect(user.status).to.equal('online')
-                                        expect(user._id).to.deep.equal(userId)
+
                                         done()
                                     })
                                     .catch(done)
+
                             })
                         })
                         .catch(done)
@@ -257,6 +262,7 @@ describe('logic', () => {
                                 .then(user => {
                                     insertedUserId = user._id
 
+                                    // @ts-ignore
                                     logic.getUser(insertedUserId, (error, user) => {
                                         if (error) {
                                             done(error)
@@ -288,6 +294,7 @@ describe('logic', () => {
                 .then(() => {
                     users.insertOne({ name: 'Pepe Roni', birthdate: '2000-01-01', email: 'pepe@roni.com', username: 'peperoni', password: '123qwe123' })
                         .then(() => {
+                            // @ts-ignore
                             logic.getUser('wrong-id', (error, user) => {
                                 expect(error).to.be.instanceOf(Error)
                                 expect(error.message).to.equal('user not found')
