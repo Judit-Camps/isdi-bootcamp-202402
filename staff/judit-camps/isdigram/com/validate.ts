@@ -1,4 +1,4 @@
-import { ContentError } from "./errors"
+import { ContentError } from './errors'
 
 // constants
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/

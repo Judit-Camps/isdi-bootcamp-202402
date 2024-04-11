@@ -1,4 +1,4 @@
-import { ContentError } from "./errors.js";
+import { ContentError } from './errors.js';
 // constants
 const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[A-Za-z])[A-Za-z0-9]+$/;
@@ -40,3 +40,4 @@ const validate = {
     }
 };
 export default validate;
+
