@@ -1,8 +1,18 @@
 import { MongoClient } from 'mongodb'
 import express from 'express'
-
 import logic from './logic/index.ts'
 import { errors } from 'com'
+import tracer from 'tracer'
+import colors from 'colors'
+
+const logger = tracer.colorConsole({
+    filters: {
+        debug: colors.green,
+        info: colors.blue,
+        warn: colors.yellow,
+        error: colors.red
+    }
+})
 
 const { ContentError, SystemError, DuplicityError, NotFoundError, CredentialsError } = errors
 
@@ -34,14 +44,30 @@ client.connect()
 
                 logic.registerUser(name, birthdate, email, username, password, error => {
                     if (error) {
-                        res.status(400).json({ error: error.constructor.name, message: error.message })
+                        if (error instanceof SystemError) {
+                            logger.error(error.message)
+
+                            res.status(500).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof DuplicityError) {
+                            logger.warn(error.message)
+
+                            res.status(400).json({ error: error.constructor.name, message: error.message })
+                        }
 
                         return
                     }
                     res.status(201).send()
                 })
             } catch (error) {
-                res.status(400).json({ error: error.constructor.name, message: error.message })
+                if (error instanceof TypeError || error instanceof ContentError) {
+                    logger.warn(error.message)
+
+                    res.status(406).json({ error: error.constructor.name, message: error.message })
+                } else {
+                    logger.error(error.message)
+
+                    res.status(500).json({ error: error.constructor.name, message: error.message })
+                }
             }
         })
 
@@ -52,19 +78,39 @@ client.connect()
 
                 logic.loginUser(username, password, (error, userId) => {
                     if (error) {
-                        res.status(400).json({ error: error.constructor.name, message: error.message })
+                        if (error instanceof SystemError) {
+                            logger.error(error.message)
+
+                            res.status(500).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof CredentialsError) {
+                            logger.warn(error.message)
+
+                            res.status(400).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof NotFoundError) {
+                            logger.warn(error.message)
+
+                            res.status(400).json({ error: error.constructor.name, message: error.message })
+                        }
                         return
                     }
                     res.json(userId)
                 })
 
             } catch (error) {
-                res.status(400).json({ error: error.constructor.name, message: error.message })
+                if (error instanceof TypeError || error instanceof ContentError) {
+                    logger.warn(error.message)
+
+                    res.status(406).json({ error: error.constructor.name, message: error.message })
+                } else {
+                    logger.error(error.message)
+
+                    res.status(400).json({ error: error.constructor.name, message: error.message })
+                }
             }
         })
 
         // TODO retrieve user -> GET /user
-        api.get('/users/:userId', (req, res) => {
+        api.get('/users/:targetUserId', (req, res) => {
             try {
                 const { authorization: userId } = req.params
 
@@ -72,7 +118,15 @@ client.connect()
 
                 logic.getUser(userId, targetUserId, (error, user) => {
                     if (error) {
-                        res.status(400).json({ error: error.constructor.name, message: error.message })
+                        if (error instanceof SystemError) {
+                            logger.error(error.message)
+
+                            res.status(500).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof NotFoundError) {
+                            logger.warn(error.message)
+
+                            res.status(404).json({ error: error.constructor.name, message: error.message })
+                        }
 
                         return
                     }
@@ -80,7 +134,16 @@ client.connect()
                     res.json(user)
                 })
             } catch (error) {
-                res.status(400).json({ error: error.constructor.name, message: error.message })
+                if (error instanceof TypeError || error instanceof ContentError) {
+                    logger.warn(error.message)
+
+                    res.status(406).json({ error: error.constructor.name, message: error.message })
+
+                } else {
+                    logger.warn(error.message)
+
+                    res.status(500).json({ error: error.constructor.name, message: error.message })
+                }
             }
         })
 

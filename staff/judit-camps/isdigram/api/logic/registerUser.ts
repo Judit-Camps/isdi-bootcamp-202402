@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { validate, errors } from "com"
 
 const { DuplicityError, SystemError } = errors

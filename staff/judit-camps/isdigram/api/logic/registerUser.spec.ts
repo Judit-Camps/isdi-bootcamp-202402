@@ -1,13 +1,13 @@
 import { MongoClient, ObjectId } from 'mongodb'
 import logic from './index.ts'
 import { errors } from 'com'
+import { expect } from 'chai'
 
 const { DuplicityError } = errors
 
-import { expect } from 'chai'
 
 describe('registerUser', () => {
-    let client, users, posts
+    let client, users
 
     before(done => {
         client = new MongoClient('mongodb://localhost:27017')
@@ -17,7 +17,6 @@ describe('registerUser', () => {
                 const db = connection.db('test')
 
                 users = db.collection('users')
-                posts = db.collection('posts')
 
                 logic.users = users
 
