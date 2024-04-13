@@ -1,5 +1,5 @@
 import { logger, showFeedback } from "../utils";
-import logic from "../logic.mjs";
+import logic from "../logic";
 
 import './EditPost.sass'
 

@@ -14,7 +14,7 @@ function retrievePostsLatestFirst(callback) {
         } else if (status >= 400) {
             const { error, message } = JSON.parse(json)
 
-            const constructor = window[error]
+            const constructor = errors[error]
 
             callback(new constructor(message))
         } else if (status >= 300) {

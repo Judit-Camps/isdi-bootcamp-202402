@@ -1,6 +1,6 @@
 import { logger, showFeedback } from "../utils/index.mjs"
 
-import logic from "../logic.mjs"
+import logic from "../logic"
 
 import './SendMessageForm.sass'
 

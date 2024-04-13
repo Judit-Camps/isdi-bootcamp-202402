@@ -1,60 +1,58 @@
 import { ObjectId } from "mongodb"
 import { validate, errors } from "com"
 
-const { DuplicityError, SystemError } = errors
+const { DuplicityError, SystemError, NotFoundError } = errors
 
 function retrievePostsLatestFirst(userId, callback) {
-    // validate.text(userId, 'userId', true)
-    // validate.callback(callback)
+    validate.text(userId, 'userId', true)
+    validate.callback(callback)
 
-    // db.users.findOne(user => user.id === userId, (error, user) => {
-    //     if (error) {
-    //         callback(error)
-    //         return
+    this.users.findOne({ _id: new ObjectId(userId) })
+        .then(user => {
+            if (!user) {
+                callback(new NotFoundError('user not found'))
+                return
+            }
 
-    //     }
-    //     if (!user) {
-    //         callback(new Error('user not found'))
-    //         return
-    //     }
+            this.posts.find({})
+                .then(posts => {
+                    let count = 0
+                    let errorDetected = false
 
-    //     db.posts.getAll((error, posts) => {
-    //         if (error) {
-    //             callback(error)
-    //             return
-    //         }
+                    posts.forEach(post => {
+                        this.users.findOne({ _id: post.author })
+                            .then(user => {
+                                if (errorDetected) return
 
-    //         let count = 0
-    //         let errorDetected = false
+                                if (!user) {
+                                    callback(new Error('post owner not found'))
 
-    //         posts.forEach(post => {
-    //             db.users.findOne(user => user.id === post.author, (error, user) => {
-    //                 if (error) {
-    //                     callback(error)
-    //                     return
-    //                 }
+                                    errorDetected = true
 
-    //                 if (!user) {
-    //                     callback(new Error('post owner not found'))
+                                    return
+                                }
 
-    //                     errorDetected = true
+                                post.id = post._id.toString()
+                                delete post._id
 
-    //                     return
-    //                 }
+                                post.author = {
+                                    id: user.id,
+                                    username: user.username
+                                }
 
-    //                 post.author = {
-    //                     id: user.id,
-    //                     username: user.username
-    //                 }
+                                count++
 
-    //                 count++
+                                if (count === posts.length) {
+                                    callback(null, posts.reverse())
+                                }
+                            })
+                            .catch(error => callback(new SystemError(error.message)))
+                    })
+                })
+                .catch(error => callback(new SystemError(error.message)))
 
-    //                 if (!errorDetected && count === posts.length) {
-    //                     callback(null, posts.reverse())
-    //                 }
-    //             })
-    //         })
-    //     })
-    // })
+        })
+        .catch(error => callback(new SystemError(error.message)))
 }
+
 export default retrievePostsLatestFirst

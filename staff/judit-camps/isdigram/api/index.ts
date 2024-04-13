@@ -1,3 +1,4 @@
+
 import { MongoClient } from 'mongodb'
 import express from 'express'
 import logic from './logic/index.ts'
@@ -23,8 +24,11 @@ client.connect()
         const db = connection.db('isdigram')
 
         const users = db.collection('users')
+        const posts = db.collection('posts')
 
         logic.users = users
+        // @ts-ignore
+        logic.posts = posts
 
         const api = express()
 
@@ -51,7 +55,7 @@ client.connect()
                         } else if (error instanceof DuplicityError) {
                             logger.warn(error.message)
 
-                            res.status(400).json({ error: error.constructor.name, message: error.message })
+                            res.status(409).json({ error: error.constructor.name, message: error.message })
                         }
 
                         return
@@ -64,7 +68,7 @@ client.connect()
 
                     res.status(406).json({ error: error.constructor.name, message: error.message })
                 } else {
-                    logger.error(error.message)
+                    logger.warn(error.message)
 
                     res.status(500).json({ error: error.constructor.name, message: error.message })
                 }
@@ -85,11 +89,11 @@ client.connect()
                         } else if (error instanceof CredentialsError) {
                             logger.warn(error.message)
 
-                            res.status(400).json({ error: error.constructor.name, message: error.message })
+                            res.status(401).json({ error: error.constructor.name, message: error.message })
                         } else if (error instanceof NotFoundError) {
                             logger.warn(error.message)
 
-                            res.status(400).json({ error: error.constructor.name, message: error.message })
+                            res.status(404).json({ error: error.constructor.name, message: error.message })
                         }
                         return
                     }
@@ -102,21 +106,21 @@ client.connect()
 
                     res.status(406).json({ error: error.constructor.name, message: error.message })
                 } else {
-                    logger.error(error.message)
+                    logger.warn(error.message)
 
-                    res.status(400).json({ error: error.constructor.name, message: error.message })
+                    res.status(500).json({ error: error.constructor.name, message: error.message })
                 }
             }
         })
 
         // TODO retrieve user -> GET /user
-        api.get('/users/:targetUserId', (req, res) => {
+        api.get('/users/:targetUserId', jsonBodyParser, (req, res) => {
             try {
-                const { authorization: userId } = req.params
+                const { authorization: userId } = req.headers
 
                 const { targetUserId } = req.params
 
-                logic.getUser(userId, targetUserId, (error, user) => {
+                logic.retrieveUser(userId, targetUserId, (error, user) => {
                     if (error) {
                         if (error instanceof SystemError) {
                             logger.error(error.message)
@@ -172,7 +176,7 @@ client.connect()
         // })
 
         // TODO retrieve posts -> GET /posts
-        api.get('/posts', (req, res) => {
+        api.get('/posts', jsonBodyParser, (req, res) => {
             try {
                 const { authorization: userId } = req.headers
 
@@ -192,9 +196,17 @@ client.connect()
             }
         })
 
+        api.post('/posts', jsonBodyParser, (req, res) => {
+            try {
+
+            } catch (error) {
+                res.status(400).json({ error: error.constructor.name, message: error.message })
+            }
+        })
 
 
-        api.listen(8080, () => console.log('API listening on port 8080'))
+
+        api.listen(8080, () => logger.info('API listening on port 8080'))
 
     })
-    .catch(error => console.error(error))
+    .catch(error => logger.error(error))

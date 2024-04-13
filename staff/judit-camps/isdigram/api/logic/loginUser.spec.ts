@@ -14,7 +14,6 @@ describe('loginUser', () => {
                 const db = connection.db('test')
 
                 users = db.collection('users')
-                posts = db.collection('posts')
 
                 logic.users = users
 

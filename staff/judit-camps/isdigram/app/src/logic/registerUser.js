@@ -12,23 +12,19 @@ function registerUser(name, birthdate, email, username, password, callback) {
 
     const xhr = new XMLHttpRequest
 
-    xhr.onload = function () {
+    xhr.onload = () => {
         const { status, responseText: json } = xhr
 
-        if (status >= 500) {
-            callback(new Error('system error'))
-            return
-        } else if (status >= 400) {
-            const { error, message } = JSON.parse(json)
+        if (status == 201) {
+            callback(null)
 
-            // to grab the selected type of error and use it to send the message
-            const constructor = window[error]
-
-            callback(new constructor(message))
-        } else if (status >= 300) {
-            callback(new Error('system error'))
             return
-        } else callback(null)
+        }
+
+        const { error, message } = JSON.parse(json)
+
+        const constructor = errors[error]
+        callback(new constructor(message))
     }
 
     xhr.open('POST', 'http://localhost:8080/users')

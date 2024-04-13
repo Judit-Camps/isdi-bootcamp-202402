@@ -1,8 +1,6 @@
-// @ts-nocheck
-import { ObjectId } from "mongodb"
 import { validate, errors } from "com"
 
-const { DuplicityError, SystemError } = errors
+const { CredentialsError, SystemError, NotFoundError } = errors
 
 
 function loginUser(username: string, password: string, callback: Function) {
@@ -13,23 +11,21 @@ function loginUser(username: string, password: string, callback: Function) {
     this.users.findOne({ username: username })
         .then(user => {
             if (!user) {
-                callback(new Error('user not found'))
+                callback(new NotFoundError('user not found'))
                 return
             }
             if (user.password !== password) {
-                callback(new Error('wrong password'))
+                callback(new CredentialsError('wrong password'))
                 return
             }
 
-            const userId = user._id
-
-            this.users.updateOne({ _id: new ObjectId(userId) }, { $set: { status: 'online' } })
-                .then(() => { callback(null, userId.toString()) })
-                .catch(error => { callback(error) })
+            this.users.updateOne({ _id: user._id }, { $set: { status: 'online' } })
+                .then(() => { callback(null, user._id.toString()) })
+                .catch(error => { callback(new SystemError(error.message)) })
 
 
         })
-        .catch(error => callback(error))
+        .catch(error => callback(new SystemError(error.message)))
 }
 
 

@@ -1,8 +1,7 @@
 // @ts-nocheck
 import registerUser from './registerUser.ts'
 import loginUser from './loginUser.ts'
-import getUser from './getUser.ts'
-import retrieveUsers from './retrieveUsers.ts'
+import retrieveUser from './retrieveUser.ts'
 import logoutUser from './logoutUser.ts'
 
 import savePostInfo from './savePostInfo.ts'
@@ -69,10 +68,9 @@ const logic = {
     users: null,
     registerUser,
     loginUser,
-    getUser,
+    retrieveUser,
     logoutUser,
     getLoggedInUser,
-    retrieveUsers,
     isUserLoggedIn,
     cleanUpLoggedInUser,
 

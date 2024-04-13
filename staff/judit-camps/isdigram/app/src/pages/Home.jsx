@@ -17,7 +17,7 @@ function Home(props) {
 
     useEffect(() => {
         try {
-            logic.getUser((error, user) => {
+            logic.retrieveUser((error, user) => {
                 if (error) {
                     showFeedback(error)
 
@@ -74,9 +74,9 @@ function Home(props) {
 
         {user && <h1>hello, {user.name}!</h1>}
 
-        <PostList
+        {/* <PostList
             stamp={stamp}
-            onEditButtonClicked={handleEditPostClick} />
+onEditButtonClicked={handleEditPostClick} /> */}
 
 
         {view === 'create-post' && <CreatePost

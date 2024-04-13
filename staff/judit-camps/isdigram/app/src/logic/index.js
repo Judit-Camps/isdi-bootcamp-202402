@@ -2,8 +2,7 @@ import { validate, errors } from 'com'
 
 import registerUser from './registerUser'
 import loginUser from './loginUser'
-import getUser from './getUser'
-import retrieveUsers from './retrieveUsers'
+import retrieveUser from './retrieveUser'
 import logoutUser from './logoutUser'
 
 import getLoggedInUser from './getLoggedInUser'
@@ -56,10 +55,9 @@ function retrieveMessagesWith(userId) {
 const logic = {
     registerUser,
     loginUser,
-    getUser,
+    retrieveUser,
     logoutUser,
     getLoggedInUser,
-    retrieveUsers,
     isUserLoggedIn,
     cleanUpLoggedInUser,
 

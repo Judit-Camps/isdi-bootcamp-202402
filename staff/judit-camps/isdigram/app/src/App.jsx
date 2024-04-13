@@ -1,6 +1,6 @@
 import { logger } from './utils'
 
-import logic from './logic.mjs'
+import logic from './logic'
 
 import { useState } from 'react'
 import Landing from './pages/Landing'
