@@ -15,7 +15,8 @@
 		"start": "npx tsx index.ts",
 		"inspect": "npx tsx --inspect-brk index.ts",
 		"test": "mocha",
-		"test-inspect": "npx mocha --inspect-brk"
+		"test-inspect": "npx mocha --inspect-brk",
+		"populate": "tsx data/populate.ts"
 	},
 	"keywords": [],
 	"author": "",

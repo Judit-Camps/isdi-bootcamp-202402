@@ -10,7 +10,7 @@ function loginUser(username, password, callback) {
     xhr.onload = () => {
         const { status, responseText: json } = xhr
 
-        if (status === 200) {
+        if (status == 200) {
             const userId = JSON.parse(json)
 
             sessionStorage.userId = userId

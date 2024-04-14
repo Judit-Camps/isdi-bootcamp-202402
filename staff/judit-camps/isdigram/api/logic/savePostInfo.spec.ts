@@ -65,4 +65,10 @@ describe('savePostInfo', () => {
             })
             .catch(done)
     })
+
+    after(done => {
+        client.close()
+            .then(() => done())
+            .catch(done)
+    })
 })

@@ -1,7 +1,7 @@
-import { ObjectId } from "mongodb"
-import { validate, errors } from "com"
+import { ObjectId } from 'mongodb'
+import { validate, errors } from 'com'
 
-const { DuplicityError, SystemError, NotFoundError } = errors
+const { SystemError, NotFoundError } = errors
 
 function retrievePostsLatestFirst(userId, callback) {
     validate.text(userId, 'userId', true)
@@ -14,7 +14,7 @@ function retrievePostsLatestFirst(userId, callback) {
                 return
             }
 
-            this.posts.find({})
+            this.posts.find({}).toArray()
                 .then(posts => {
                     let count = 0
                     let errorDetected = false
@@ -25,7 +25,7 @@ function retrievePostsLatestFirst(userId, callback) {
                                 if (errorDetected) return
 
                                 if (!user) {
-                                    callback(new Error('post owner not found'))
+                                    callback(new NotFoundError('post owner not found'))
 
                                     errorDetected = true
 
@@ -36,7 +36,7 @@ function retrievePostsLatestFirst(userId, callback) {
                                 delete post._id
 
                                 post.author = {
-                                    id: user.id,
+                                    id: user._id.toString(),
                                     username: user.username
                                 }
 

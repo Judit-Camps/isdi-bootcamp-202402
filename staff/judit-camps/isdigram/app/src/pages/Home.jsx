@@ -74,9 +74,9 @@ function Home(props) {
 
         {user && <h1>hello, {user.name}!</h1>}
 
-        {/* <PostList
+        <PostList
             stamp={stamp}
-onEditButtonClicked={handleEditPostClick} /> */}
+            onEditButtonClicked={handleEditPostClick} />
 
 
         {view === 'create-post' && <CreatePost

@@ -1,9 +1,12 @@
 import { logger, showFeedback } from '../utils'
 
-import logic from "../logic"
+import logic from '../logic'
+
+import { useState } from 'react'
 
 function User(props) {
 
+    // const [user, setUser] = 
     const handleLogoutClick = () => {
         try {
             logic.logoutUser()
@@ -15,9 +18,14 @@ function User(props) {
     }
 
 
-    let user
+
     try {
-        user = logic.getUser()
+
+        logic.retrieveUser((error, user) => {
+            if (error) {
+                logger.error(error)
+            }
+        })
     } catch (error) {
         showFeedback(error)
     }

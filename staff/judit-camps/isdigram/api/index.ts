@@ -114,7 +114,7 @@ client.connect()
         })
 
         // TODO retrieve user -> GET /user
-        api.get('/users/:targetUserId', jsonBodyParser, (req, res) => {
+        api.get('/users/:targetUserId', (req, res) => {
             try {
                 const { authorization: userId } = req.headers
 
@@ -176,7 +176,7 @@ client.connect()
         // })
 
         // TODO retrieve posts -> GET /posts
-        api.get('/posts', jsonBodyParser, (req, res) => {
+        api.get('/posts', (req, res) => {
             try {
                 const { authorization: userId } = req.headers
 
@@ -196,9 +196,20 @@ client.connect()
             }
         })
 
+        // create post
         api.post('/posts', jsonBodyParser, (req, res) => {
             try {
+                const { authorization: userId } = req.headers
 
+                const { image, caption } = req.body
+
+                logic.savePostInfo(userId, image, caption, error => {
+                    if (error) {
+                        res.status(400).json({ error: error.constructor.name, message: error.message })
+
+                        return
+                    }
+                })
             } catch (error) {
                 res.status(400).json({ error: error.constructor.name, message: error.message })
             }
