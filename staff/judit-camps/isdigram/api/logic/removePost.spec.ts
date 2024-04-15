@@ -6,7 +6,7 @@ import { errors } from 'com'
 
 const { CredentialsError, NotFoundError } = errors
 
-describe('savePostInfo', () => {
+describe('removePost', () => {
     let client, users, posts
 
     before(done => {
@@ -34,28 +34,33 @@ describe('savePostInfo', () => {
                     .then(() => {
                         users.insertOne({ name: "Pepe Roni", birthdate: "2000-01-01", email: "pepe@roni.com", username: "peperoni", password: "123qwe123" })
                             .then(result => {
-                                logic.savePostInfo(result.insertedId.toString(), 'http://images.com/lala', 'this is a new post', error => {
-                                    if (error) {
-                                        done(error)
-                                        return
-                                    }
+                                const insertedPost = { author: result.insertedId, image: `http://images.com/post`, text: `hello post`, date: new Date }
 
-                                    posts.findOne({})
-                                        .then(post => {
-                                            try {
-                                                expect(post.author.toString()).to.equal(result.insertedId.toString())
-                                                expect(post.image).to.equal('http://images.com/lala')
-                                                expect(post.text).to.equal('this is a new post')
-                                                expect(post.date).to.be.instanceOf(Date)
-
-                                                done()
-                                            } catch (error) {
+                                posts.insertOne(insertedPost)
+                                    .then(result2 => {
+                                        debugger
+                                        logic.removePost(result.insertedId.toString(), result2.insertedId.toString(), error => {
+                                            if (error) {
                                                 done(error)
+                                                return
                                             }
-                                        })
-                                        .catch(done)
 
-                                })
+                                            posts.findOne({})
+                                                .then(post => {
+                                                    try {
+                                                        expect(post).to.be.null
+
+                                                        done()
+                                                    } catch (error) {
+                                                        done(error)
+                                                    }
+                                                })
+                                                .catch(done)
+                                        })
+
+
+                                    })
+                                    .catch(done)
 
                             })
                             .catch(done)

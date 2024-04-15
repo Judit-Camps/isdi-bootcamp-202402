@@ -1,0 +1,1 @@
+curl -X POST -H "Authorization: 661bc986eb0da97f8cd083ba" -H "Content-Type: application/json" -d '{"image":"https://images.unsplash.com/photo-1710769509812-1b5cf1605362?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMHx8fGVufDB8fHx8fA%3D%3D","caption":"snow"}' http://localhost:8080/posts -v

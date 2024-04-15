@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb'
 
 const { SystemError, NotFoundError } = errors
 
-function savePostInfo(userId, image, text, callback) {
+function createPost(userId, image, text, callback) {
     validate.text(userId, 'userId', true)
     validate.url(image, 'image')
     if (text)
@@ -24,4 +24,4 @@ function savePostInfo(userId, image, text, callback) {
         .catch(error => callback(new SystemError(error.message)))
 }
 
-export default savePostInfo
+export default createPost

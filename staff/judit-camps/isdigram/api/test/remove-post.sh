@@ -1,0 +1,1 @@
+curl -X DELETE -H "Authorization: 661b9ff9e40d2f57564c607b" http://localhost:8080/posts/:661be79bd3b353a0c9092968 -v

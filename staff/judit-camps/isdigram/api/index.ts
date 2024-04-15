@@ -1,5 +1,5 @@
 
-import { MongoClient } from 'mongodb'
+import mongoose from 'mongoose'
 import express from 'express'
 import logic from './logic/index.ts'
 import { errors } from 'com'
@@ -17,11 +17,10 @@ const logger = tracer.colorConsole({
 
 const { ContentError, SystemError, DuplicityError, NotFoundError, CredentialsError } = errors
 
-const client = new MongoClient('mongodb://localhost:27017')
 
-client.connect()
-    .then(connection => {
-        const db = connection.db('isdigram')
+mongoose.connect('mongodb://localhost:27017/isdigram')
+    .then(() => {
+        const db = mongoose.connection.db
 
         const users = db.collection('users')
         const posts = db.collection('posts')
@@ -46,8 +45,9 @@ client.connect()
             try {
                 const { name, birthdate, email, username, password } = req.body
 
-                logic.registerUser(name, birthdate, email, username, password, error => {
-                    if (error) {
+                logic.registerUser(name, birthdate, email, username, password)
+                    .then(() => res.status(201).send())
+                    .catch(error => {
                         if (error instanceof SystemError) {
                             logger.error(error.message)
 
@@ -58,10 +58,8 @@ client.connect()
                             res.status(409).json({ error: error.constructor.name, message: error.message })
                         }
 
-                        return
-                    }
-                    res.status(201).send()
-                })
+                    })
+
             } catch (error) {
                 if (error instanceof TypeError || error instanceof ContentError) {
                     logger.warn(error.message)
@@ -80,25 +78,26 @@ client.connect()
             try {
                 const { username, password } = req.body
 
-                logic.loginUser(username, password, (error, userId) => {
-                    if (error) {
-                        if (error instanceof SystemError) {
-                            logger.error(error.message)
+                logic.authenticateUser(username, password)
+                    .then(userId => res.json(userId))
+                    .catch(error => {
+                        if (error) {
+                            if (error instanceof SystemError) {
+                                logger.error(error.message)
 
-                            res.status(500).json({ error: error.constructor.name, message: error.message })
-                        } else if (error instanceof CredentialsError) {
-                            logger.warn(error.message)
+                                res.status(500).json({ error: error.constructor.name, message: error.message })
+                            } else if (error instanceof CredentialsError) {
+                                logger.warn(error.message)
 
-                            res.status(401).json({ error: error.constructor.name, message: error.message })
-                        } else if (error instanceof NotFoundError) {
-                            logger.warn(error.message)
+                                res.status(401).json({ error: error.constructor.name, message: error.message })
+                            } else if (error instanceof NotFoundError) {
+                                logger.warn(error.message)
 
-                            res.status(404).json({ error: error.constructor.name, message: error.message })
+                                res.status(404).json({ error: error.constructor.name, message: error.message })
+                            }
                         }
-                        return
-                    }
-                    res.json(userId)
-                })
+
+                    })
 
             } catch (error) {
                 if (error instanceof TypeError || error instanceof ContentError) {
@@ -201,15 +200,37 @@ client.connect()
             try {
                 const { authorization: userId } = req.headers
 
+
                 const { image, caption } = req.body
 
-                logic.savePostInfo(userId, image, caption, error => {
+                logic.createPost(userId, image, caption, error => {
                     if (error) {
                         res.status(400).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
+                    res.status(201).send()
                 })
+            } catch (error) {
+                res.status(400).json({ error: error.constructor.name, message: error.message })
+            }
+        })
+
+        // delete post
+        api.delete('/posts/:idPostDelete', (req, res) => {
+            try {
+                const { authorization: userId } = req.headers
+
+                const idPostDelete = req.params
+
+                logic.removePost(userId, idPostDelete, error => {
+                    if (error) {
+                        res.status(400).json({ error: error.constructor.name, message: error.message })
+                        return
+                    }
+                    res.status(200).send()
+                })
+
             } catch (error) {
                 res.status(400).json({ error: error.constructor.name, message: error.message })
             }

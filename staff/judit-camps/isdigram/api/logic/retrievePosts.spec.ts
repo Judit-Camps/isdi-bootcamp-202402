@@ -57,7 +57,6 @@ describe('retrievePosts', () => {
                                                     .then(() => {
                                                         insertedPosts.push(insertedPost3)
 
-                                                        debugger
                                                         logic.retrievePostsLatestFirst(result.insertedId.toString(), (error, posts) => {
                                                             if (error) {
                                                                 done(error)

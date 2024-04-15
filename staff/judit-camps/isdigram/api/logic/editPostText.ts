@@ -1,11 +1,20 @@
-import { ObjectId } from "mongodb"
-import { validate, errors } from "com"
+import { ObjectId } from 'mongodb'
+import { validate, errors } from 'com'
 
-const { DuplicityError, SystemError } = errors
+const { NotFoundError, SystemError } = errors
 
-function editPostText(postId, newCaption) {
-    // // console.log("Received postId:", postId);
-    // const post = db.posts.findOne(post => post.id === postId)
+function editPostText(postId, newCaption, callback) {
+    validate.text(postId, 'postId', true)
+    validate.text(newCaption, 'new caption')
+    validate.callback(callback)
+
+    this.posts.findOne({ _id: new ObjectId(postId) })
+    //     .then(post => {
+    //         if (!post) {
+    //             callback(error => new NotFoundError)
+    //         }
+    //     })
+    //     .catch(error => callback(new SystemError(error.message)))
     // // console.log('Post found: ', post)
     // if (!post) throw new Error('post not found')
 
