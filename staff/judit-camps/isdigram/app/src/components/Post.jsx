@@ -26,7 +26,7 @@ function Post(props) {
         <h3 className='post-author'>{post.author.username}</h3>
         <img className='post-image' src={post.image} alt="" />
         <div className='post-caption'>
-            <p className='post-text' >{post.caption}</p>
+            <p className='post-text' >{post.text}</p>
 
             {post.author.id === logic.getLoggedInUser() &&
                 <div>

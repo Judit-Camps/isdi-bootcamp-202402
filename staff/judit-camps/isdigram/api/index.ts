@@ -5,6 +5,7 @@ import logic from './logic/index.ts'
 import { errors } from 'com'
 import tracer from 'tracer'
 import colors from 'colors'
+import jwt from 'jsonwebtoken'
 
 const logger = tracer.colorConsole({
     filters: {
@@ -79,26 +80,26 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
                 const { username, password } = req.body
 
                 logic.authenticateUser(username, password)
-                    .then(userId => res.json(userId))
-                    .catch(error => {
-                        if (error) {
-                            if (error instanceof SystemError) {
-                                logger.error(error.message)
+                    .then(userId => {
+                        const token = jwt.sign({ sub: userId }, 'secret')
 
-                                res.status(500).json({ error: error.constructor.name, message: error.message })
-                            } else if (error instanceof CredentialsError) {
-                                logger.warn(error.message)
-
-                                res.status(401).json({ error: error.constructor.name, message: error.message })
-                            } else if (error instanceof NotFoundError) {
-                                logger.warn(error.message)
-
-                                res.status(404).json({ error: error.constructor.name, message: error.message })
-                            }
-                        }
-
+                        res.json(token)
                     })
+                    .catch(error => {
+                        if (error instanceof SystemError) {
+                            logger.error(error.message)
 
+                            res.status(500).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof CredentialsError) {
+                            logger.warn(error.message)
+
+                            res.status(401).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof NotFoundError) {
+                            logger.warn(error.message)
+
+                            res.status(404).json({ error: error.constructor.name, message: error.message })
+                        }
+                    })
             } catch (error) {
                 if (error instanceof TypeError || error instanceof ContentError) {
                     logger.warn(error.message)
@@ -115,12 +116,17 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
         // TODO retrieve user -> GET /user
         api.get('/users/:targetUserId', (req, res) => {
             try {
-                const { authorization: userId } = req.headers
+                const { authorization } = req.headers
+
+                const token = authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'secret')
 
                 const { targetUserId } = req.params
 
-                logic.retrieveUser(userId, targetUserId, (error, user) => {
-                    if (error) {
+                logic.retrieveUser(userId as string, targetUserId)
+                    .then(user => res.join(user))
+                    .catch(error => {
                         if (error instanceof SystemError) {
                             logger.error(error.message)
 
@@ -130,12 +136,7 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
 
                             res.status(404).json({ error: error.constructor.name, message: error.message })
                         }
-
-                        return
-                    }
-
-                    res.json(user)
-                })
+                    })
             } catch (error) {
                 if (error instanceof TypeError || error instanceof ContentError) {
                     logger.warn(error.message)
@@ -174,12 +175,16 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
         //     logic.logoutUser(req.params.userId)
         // })
 
+
         // TODO retrieve posts -> GET /posts
         api.get('/posts', (req, res) => {
             try {
-                const { authorization: userId } = req.headers
+                const { authorization } = req.headers
 
-                logic.retrievePostsLatestFirst(userId, (error, posts) => {
+                const token = authorization.slice(7)
+                const { sub: userId } = jwt.verify(token, 'secret')
+
+                logic.retrievePostsLatestFirst(userId as string, (error, posts) => {
                     if (error) {
                         res.status(400).json({ error: error.constructor.name, message: error.message })
 
@@ -198,21 +203,40 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
         // create post
         api.post('/posts', jsonBodyParser, (req, res) => {
             try {
-                const { authorization: userId } = req.headers
+                const { authorization } = req.headers
 
+                const token = authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'secret')
 
                 const { image, caption } = req.body
 
-                logic.createPost(userId, image, caption, error => {
-                    if (error) {
-                        res.status(400).json({ error: error.constructor.name, message: error.message })
+                logic.createPost(userId as string, image, caption)
+                    .then(() => res.status(201).send())
+                    .catch(error => {
+                        if (error instanceof SystemError) {
+                            logger.error(error.message)
 
-                        return
-                    }
-                    res.status(201).send()
-                })
+                            res.status(500).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof NotFoundError) {
+                            logger.warn(error.message)
+
+                            res.status(404).json({ error: error.constructor.name, message: error.message })
+                        }
+
+
+                    })
+
             } catch (error) {
-                res.status(400).json({ error: error.constructor.name, message: error.message })
+                if (error instanceof TypeError || error instanceof ContentError) {
+                    logger.warn(error.message)
+
+                    res.status(406).json({ error: error.constructor.name, message: error.message })
+                } else {
+                    logger.warn(error.message)
+
+                    res.status(500).json({ error: error.constructor.name, message: error.message })
+                }
             }
         })
 

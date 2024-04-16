@@ -14,13 +14,9 @@ function PostList(props) {
         logger.debug('PostList -> loadPosts')
 
         try {
-            logic.retrievePostsLatestFirst((error, posts) => {
-                if (error) {
-                    showFeedback(error)
-                    return
-                }
-                setPosts(posts)
-            })
+            logic.retrievePostsLatestFirst()
+                .then(setPosts)
+                .catch(showFeedback)
         } catch (error) {
             showFeedback(error)
         }

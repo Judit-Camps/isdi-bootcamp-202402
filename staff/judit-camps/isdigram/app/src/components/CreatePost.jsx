@@ -1,6 +1,6 @@
-import { logger, showFeedback } from "../utils";
+import { logger, showFeedback } from '../utils';
 
-import logic from "../logic";
+import logic from '../logic';
 
 import './CreatePost.sass'
 
@@ -14,11 +14,14 @@ function CreatePost(props) {
         const text = form.text.value
 
         try {
-            logic.savePostInfo(image, text)
+            logic.createPost(image, text)
+                .then(() => {
 
-            form.reset()
+                    form.reset()
 
-            props.onPostCreated()
+                    props.onPostCreated()
+                })
+                .catch(showFeedback)
         } catch (error) {
             showFeedback(error)
         }

@@ -1,23 +1,19 @@
 import { validate, errors } from 'com'
 
+function createPost(image, caption) {
+    validate.url(image, 'image url')
+    if (caption) {
+        validate.text(caption, 'image text')
+    }
 
-// logic
-function registerUser(name, birthdate, email, username, password) {
-    validate.text(name, 'name')
-    validate.date(birthdate, 'birthdate')
-    validate.email(email)
-    validate.text(username, 'username', true)
-    validate.password(password)
+    const post = { image, caption }
 
+    const json = JSON.stringify(post)
 
-    const user = { name, birthdate, email, username, password }
-
-    const json = JSON.stringify(user)
-
-    return fetch('http://localhost:8080/users', {
+    return fetch('http://localhost:8080/posts', {
         method: 'POST',
         headers: {
-
+            Authorization: `Bearer ${sessionStorage.token}`,
             'Content-Type': 'application/json'
         },
         body: json
@@ -37,4 +33,4 @@ function registerUser(name, birthdate, email, username, password) {
 }
 
 
-export default registerUser
+export default createPost

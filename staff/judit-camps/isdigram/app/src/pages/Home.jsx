@@ -17,15 +17,10 @@ function Home(props) {
 
     useEffect(() => {
         try {
-            logic.retrieveUser((error, user) => {
-                if (error) {
-                    showFeedback(error)
+            logic.retrieveUser()
+                .then(setUser(user))
+                .catch(showFeedback)
 
-                    return
-                }
-
-                setUser(user)
-            })
         } catch (error) {
             showFeedback(error)
         }
