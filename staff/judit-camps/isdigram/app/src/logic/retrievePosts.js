@@ -1,6 +1,6 @@
 import { errors } from 'com'
 
-function retrievePostsLatestFirst() {
+function retrievePosts() {
 
     return fetch('http://localhost:8080/posts', {
         headers: {
@@ -23,4 +23,4 @@ function retrievePostsLatestFirst() {
         })
 }
 
-export default retrievePostsLatestFirst
+export default retrievePosts

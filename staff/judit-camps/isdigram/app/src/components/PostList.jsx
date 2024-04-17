@@ -14,23 +14,13 @@ function PostList(props) {
         logger.debug('PostList -> loadPosts')
 
         try {
-            logic.retrievePostsLatestFirst()
+            logic.retrievePosts()
                 .then(setPosts)
                 .catch(showFeedback)
         } catch (error) {
             showFeedback(error)
         }
     }
-
-    // componentWillReceiveProps(newProps) {
-    //     logger.debug('PostList -> componentWillReceiveProps', JSON.stringify(props), JSON.stringify(newProps))
-    //     newProps.stamp !== props.stamp && loadPosts()
-    // }
-
-    // componentDidMount() {
-    //     logger.debug('PostList -> componentDidMount')
-    //     loadPosts()
-    // }
 
     useEffect(() => {
         loadPosts()

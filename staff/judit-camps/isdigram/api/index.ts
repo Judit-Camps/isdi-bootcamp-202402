@@ -21,15 +21,6 @@ const { ContentError, SystemError, DuplicityError, NotFoundError, CredentialsErr
 
 mongoose.connect('mongodb://localhost:27017/isdigram')
     .then(() => {
-        const db = mongoose.connection.db
-
-        const users = db.collection('users')
-        const posts = db.collection('posts')
-
-        logic.users = users
-        // @ts-ignore
-        logic.posts = posts
-
         const api = express()
 
         const jsonBodyParser = express.json()
@@ -125,7 +116,7 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
                 const { targetUserId } = req.params
 
                 logic.retrieveUser(userId as string, targetUserId)
-                    .then(user => res.join(user))
+                    .then(user => res.json(user))
                     .catch(error => {
                         if (error instanceof SystemError) {
                             logger.error(error.message)
@@ -184,19 +175,30 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
                 const token = authorization.slice(7)
                 const { sub: userId } = jwt.verify(token, 'secret')
 
-                logic.retrievePostsLatestFirst(userId as string, (error, posts) => {
-                    if (error) {
-                        res.status(400).json({ error: error.constructor.name, message: error.message })
+                logic.retrievePosts(userId as string)
+                    .then(posts => res.json(posts))
+                    .catch(error => {
+                        if (error instanceof SystemError) {
+                            logger.error(error.message)
 
-                        return
-                    }
+                            res.status(500).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof NotFoundError) {
+                            logger.warn(error.message)
 
-                    res.json(posts)
-
-                })
-
+                            res.status(404).json({ error: error.constructor.name, message: error.message })
+                        }
+                    })
             } catch (error) {
-                res.status(400).json({ error: error.constructor.name, message: error.message })
+                if (error instanceof TypeError || error instanceof ContentError) {
+                    logger.warn(error.message)
+
+                    res.status(406).json({ error: error.constructor.name, message: error.message })
+
+                } else {
+                    logger.error(error.message)
+
+                    res.status(500).json({ error: error.constructor.name, message: error.message })
+                }
             }
         })
 
@@ -209,9 +211,9 @@ mongoose.connect('mongodb://localhost:27017/isdigram')
 
                 const { sub: userId } = jwt.verify(token, 'secret')
 
-                const { image, caption } = req.body
+                const { image, text } = req.body
 
-                logic.createPost(userId as string, image, caption)
+                logic.createPost(userId as string, image, text)
                     .then(() => res.status(201).send())
                     .catch(error => {
                         if (error instanceof SystemError) {

@@ -5,7 +5,7 @@ import retrieveUser from './retrieveUser.ts'
 
 import createPost from './createPost.ts'
 import editPostText from './editPostText.ts'
-import retrievePostsLatestFirst from './retrievePosts.ts'
+import retrievePosts from './retrievePosts.ts'
 import removePost from './removePost.ts'
 
 const logic = {
@@ -17,7 +17,7 @@ const logic = {
     retrieveUser,
 
     createPost,
-    retrievePostsLatestFirst,
+    retrievePosts,
     removePost,
     editPostText,
 }

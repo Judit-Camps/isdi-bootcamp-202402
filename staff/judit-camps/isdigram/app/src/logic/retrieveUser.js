@@ -11,7 +11,7 @@ function retrieveUser() {
     const { sub: userId } = payload
 
 
-    return fetch(`http://localhost:8080/${userId}`, {
+    return fetch(`http://localhost:8080/users/${userId}`, {
         headers: {
             Authorization: `Bearer ${sessionStorage.token}`
         }

@@ -14,6 +14,7 @@ function Login(props) {
         logger.debug('Login -> handleSubmit', username, password)
 
         try {
+            debugger
             logic.loginUser(username, password)
                 .then(() => {
                     form.reset()

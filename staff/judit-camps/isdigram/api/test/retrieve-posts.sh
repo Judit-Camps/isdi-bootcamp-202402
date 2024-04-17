@@ -1,1 +1,1 @@
-curl -H "Authorization: 661b9ff9e40d2f57564c607b" http://localhost:8080/posts -v
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjFmZDQyMDUxMzhjYzhlNjBkYmUxZTgiLCJpYXQiOjE3MTMzNjIwMDB9.izGIXhQvXU-1vKXhqAnPYt3s4OcFLTt_BJhF1mD77w0" http://localhost:8080/posts -v
