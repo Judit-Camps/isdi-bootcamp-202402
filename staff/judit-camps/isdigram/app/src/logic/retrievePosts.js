@@ -4,10 +4,9 @@ function retrievePosts() {
 
     return fetch('http://localhost:8080/posts', {
         headers: {
-            'Authorization': `Bearer ${sessionStorage.token}`
+            Authorization: `Bearer ${sessionStorage.token}`
         }
     })
-
         .then(res => {
             if (res.status === 200)
                 return res.json()

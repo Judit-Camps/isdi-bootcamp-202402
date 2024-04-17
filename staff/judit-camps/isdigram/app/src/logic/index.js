@@ -10,7 +10,7 @@ import isUserLoggedIn from './isUserLoggedIn'
 import cleanUpLoggedInUser from './cleanUppLoggedInUser'
 
 import createPost from './createPost'
-import retrievePostsLatestFirst from './retrievePosts'
+import retrievePosts from './retrievePosts'
 import removePost from './removePost'
 import editPostText from './editPostText'
 
@@ -62,7 +62,7 @@ const logic = {
     cleanUpLoggedInUser,
 
     createPost,
-    retrievePostsLatestFirst,
+    retrievePosts,
     removePost,
     editPostText,
 

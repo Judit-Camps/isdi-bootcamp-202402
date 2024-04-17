@@ -18,7 +18,7 @@ function Home(props) {
     useEffect(() => {
         try {
             logic.retrieveUser()
-                .then(setUser(user))
+                .then(setUser)
                 .catch(showFeedback)
 
         } catch (error) {
