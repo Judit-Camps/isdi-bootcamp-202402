@@ -1,5 +1,7 @@
 import { logger, showFeedback } from "../utils";
 
+import { Link } from "react-router-dom";
+
 import logic from "../logic";
 
 function Post(props) {
@@ -23,7 +25,7 @@ function Post(props) {
     logger.debug('Post -> Render')
 
     return <article className='post'>
-        <h3 className='post-author'>{post.author.username}</h3>
+        <h3 className='post-author'> <Link to={`/profiles/${post.author.username}`} >{post.author.username} </Link> </h3>
         <img className='post-image' src={post.image} alt="" />
         <div className='post-caption'>
             <p className='post-text' >{post.text}</p>

@@ -2,9 +2,13 @@ import { logger, showFeedback } from '../utils'
 
 import logic from '../logic'
 
-import { useState } from 'react'
+import { Link } from 'react-router-dom'
+
+import { useState, useEffect } from 'react'
 
 function User(props) {
+
+    const [user, setUser] = useState(null)
 
     // const [user, setUser] = 
     const handleLogoutClick = () => {
@@ -19,16 +23,16 @@ function User(props) {
 
 
 
-    try {
+    useEffect(() => {
+        try {
+            logic.retrieveUser()
+                .then(setUser)
+                .catch(showFeedback)
 
-        logic.retrieveUser((error, user) => {
-            if (error) {
-                logger.error(error)
-            }
-        })
-    } catch (error) {
-        showFeedback(error)
-    }
+        } catch (error) {
+            showFeedback(error)
+        }
+    }, [])
 
     logger.debug('User -> Render')
     return <main id="user-page">
@@ -42,11 +46,7 @@ function User(props) {
         <button onClick={handleLogoutClick}>Log out</button>
 
         <footer className="footer">
-            <button onClick={event => {
-                event.preventDefault()
-
-                props.onHomeClick()
-            }}>home</button>
+            <Link to="/" ><button>home</button></Link>
             <button>+</button>
             <button>user</button>
 

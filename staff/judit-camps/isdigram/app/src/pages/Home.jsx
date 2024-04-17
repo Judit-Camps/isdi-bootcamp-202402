@@ -6,6 +6,11 @@ import { useState, useEffect } from "react"
 import PostList from '../components/PostList'
 import CreatePost from '../components/CreatePost'
 import EditPost from '../components/EditPost'
+import User from '../components/User'
+import Profile from '../components/Profile'
+
+import { Routes, Route, Link } from 'react-router-dom'
+
 
 function Home(props) {
 
@@ -61,35 +66,45 @@ function Home(props) {
     logger.debug('Home -> render')
 
     return <main className='main'>
-        <header id='header'>
-            <h3>Isdigram</h3>
+        <Routes>
+            <Route path="/" element={<>
+                <header id='header'>
+                    <h3>Isdigram</h3>
 
-            <button onClick={handleChatClick}>Chat</button>
-        </header>
+                    <button onClick={handleChatClick}>Chat</button>
+                </header>
 
-        {user && <h1>hello, {user.name}!</h1>}
+                {user && <h1>hello, {user.name}!</h1>}
 
-        <PostList
-            stamp={stamp}
-            onEditButtonClicked={handleEditPostClick} />
-
-
-        {view === 'create-post' && <CreatePost
-            onCancelClick={handleCreatePostCancelClick}
-            onPostCreated={handlePostCreated} />}
-
-        {view === 'edit-post' && <EditPost
-            post={post}
-            onPostEdited={handlePostEdited}
-            onCancelClick={handleEditPostCancelClick} />}
+                <PostList
+                    stamp={stamp}
+                    onEditButtonClicked={handleEditPostClick} />
 
 
-        <footer className="footer">
-            <button>home</button>
-            <button onClick={handleCreatePostClick}>+</button>
-            <button onClick={handleUserClick} >user</button>
+                {view === 'create-post' && <CreatePost
+                    onCancelClick={handleCreatePostCancelClick}
+                    onPostCreated={handlePostCreated} />}
 
-        </footer>
+                {view === 'edit-post' && <EditPost
+                    post={post}
+                    onPostEdited={handlePostEdited}
+                    onCancelClick={handleEditPostCancelClick} />}
+
+
+                <footer className="footer">
+                    <button>home</button>
+                    <button onClick={handleCreatePostClick}>+</button>
+                    <Link to={"/my-profile"} element={<User />} ><button > user </button></Link>
+
+                </footer>
+            </>} />
+
+
+            <Route path="/my-profile" element={<User />} />
+            <Route path="/profiles/:username" element={<Profile />} />
+
+        </Routes>
+
 
 
     </main>
