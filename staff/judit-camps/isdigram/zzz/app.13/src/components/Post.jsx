@@ -1,29 +1,26 @@
-import { logger } from '../utils';
+import { logger, showFeedback } from "../utils";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import logic from '../logic';
+import logic from "../logic";
 
-import { useContext } from '../context';
-
-function Post({ item: post, onDeleted, onEditClick }) {
-    const { showFeedback } = useContext()
+function Post(props) {
 
     const handleDeleteClick = postId => {
         if (confirm('Do you want to delete this post?')) {
             try {
                 logic.removePost(postId)
-                    .then(() => onDeleted())
-                    .catch(error => showFeedback(error.message, 'error'))
 
-
+                props.onDeleted()
             } catch (error) {
-                showFeedback(error.message)
+                showFeedback(error)
             }
         }
     }
 
-    const handleEditClick = post => onEditClick(post)
+    const handleEditClick = post => props.onEditClick(post)
+
+    const { item: post } = props
 
     logger.debug('Post -> Render')
 

@@ -1,4 +1,4 @@
-import { logger } from '../utils'
+import { logger, showFeedback } from '../utils'
 
 import logic from '../logic'
 
@@ -6,11 +6,8 @@ import { Link } from 'react-router-dom'
 
 import { useState, useEffect } from 'react'
 
-import { useContext } from '../context'
+function User(props) {
 
-function User({ onLogoutClick }) {
-
-    const { showFeedback } = useContext()
     const [user, setUser] = useState(null)
 
     // const [user, setUser] = 
@@ -20,7 +17,7 @@ function User({ onLogoutClick }) {
         } catch (error) {
             logic.cleanUpLoggedInUser()
         } finally {
-            onLogoutClick()
+            props.onLogoutClick()
         }
     }
 
@@ -30,10 +27,10 @@ function User({ onLogoutClick }) {
         try {
             logic.retrieveUser()
                 .then(setUser)
-                .catch(error => showFeedback(error.message, 'error'))
+                .catch(showFeedback)
 
         } catch (error) {
-            showFeedback(error.message)
+            showFeedback(error)
         }
     }, [])
 

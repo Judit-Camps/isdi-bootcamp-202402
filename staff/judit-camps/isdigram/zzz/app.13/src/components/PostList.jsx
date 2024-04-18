@@ -1,15 +1,12 @@
-import { logger } from '../utils/index.mjs';
+import { logger, showFeedback } from "../utils/index.mjs";
 
-import logic from '../logic';
+import logic from "../logic";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import Post from './Post';
+import Post from "./Post";
 
-import { useContext } from '../context';
-
-function PostList({ stamp, onEditButtonClicked }) {
-    const { showFeedback } = useContext()
+function PostList(props) {
 
     const [posts, setPosts] = useState([])
 
@@ -19,19 +16,19 @@ function PostList({ stamp, onEditButtonClicked }) {
         try {
             logic.retrievePosts()
                 .then(setPosts)
-                .catch(error => showFeedback(error.message, 'error'))
+                .catch(showFeedback)
         } catch (error) {
-            showFeedback(error.message)
+            showFeedback(error)
         }
     }
 
     useEffect(() => {
         loadPosts()
-    }, [stamp])
+    }, [props.stamp])
 
     const handlePostDeleted = () => loadPosts()
 
-    const handleEditPost = post => onEditButtonClicked(post)
+    const handleEditPost = post => props.onEditButtonClicked(post)
 
     logger.debug('PostList -> render')
 

@@ -1,4 +1,4 @@
-import { logger } from '../utils/index.mjs'
+import { logger, showFeedback } from '../utils/index.mjs'
 
 import logic from '../logic'
 
@@ -11,25 +11,23 @@ import Profile from '../components/Profile'
 
 import { Routes, Route, Link } from 'react-router-dom'
 
-import { useContext } from '../context'
 
-function Home({ onUserLoggedOut }) {
+function Home(props) {
 
     const [view, setView] = useState(null)
     const [user, setUser] = useState(null)
     const [stamp, setStamp] = useState(null)
     const [post, setPost] = useState(null)
 
-    const { showFeedback } = useContext()
 
     useEffect(() => {
         try {
             logic.retrieveUser()
                 .then(setUser)
-                .catch(showFeedback(error.message, 'error'))
+                .catch(showFeedback)
 
         } catch (error) {
-            showFeedback(showFeedback(error.message))
+            showFeedback(error)
         }
     }, [])
 

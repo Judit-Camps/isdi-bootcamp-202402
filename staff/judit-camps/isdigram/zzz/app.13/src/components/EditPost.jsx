@@ -1,13 +1,10 @@
-import { logger } from '../utils';
-import logic from '../logic';
+import { logger, showFeedback } from "../utils";
+import logic from "../logic";
 
 import './EditPost.sass'
 
-import { useContext } from '../context';
-
 function EditPost(props) {
 
-    const { showFeedback } = useContext()
     const handleSubmit = event => {
         event.preventDefault()
 
