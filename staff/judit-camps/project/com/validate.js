@@ -4,7 +4,7 @@ const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[A-Za-z])[A-Za-z0-9]+$/;
 const validate = {
     text(text, explain, checkEmptySpaces) {
         if (typeof text !== "string")
-            throw new TypeError(`${explain}: ${text} is not a stirng`);
+            throw new TypeError(`${explain}: ${text} is not a string`);
         if (!text.trim().length)
             throw new ContentError(`${explain}: >${text}< is empty or blank`);
         if (checkEmptySpaces) {
