@@ -25,8 +25,8 @@ describe("registerUser", () => {
     )
 
     it("should fail to register a user that already exists", () =>
-        User.deleteMany()
-            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123" }))
+        User.deleteMany({ role: "regular" })
+            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123", status: "active", role: "regular" }))
             .then(() =>
                 logic.registerUser("Pepe Roni", "peperoni", "pepe@roni.com", "123qwe123"))
             .catch(error => {
@@ -36,7 +36,7 @@ describe("registerUser", () => {
     )
 
     it("should fail to register on empty name", () =>
-        User.deleteMany()
+        User.deleteMany({ role: "regular" })
             // @ts-ignore
             .then(() => logic.registerUser("", "peperoni", "pepe@roni.com", "123qwe123"))
             .catch(error => {
@@ -46,7 +46,7 @@ describe("registerUser", () => {
     )
 
     it("should fail to register on non-string name", () =>
-        User.deleteMany()
+        User.deleteMany({ role: "regular" })
             // @ts-ignore
             .then(() => logic.registerUser(123, "peperoni", "pepe@roni.com", "123qwe123"))
             .catch(error => {
@@ -56,7 +56,7 @@ describe("registerUser", () => {
     )
 
     it("should fail to register on non-string username", () =>
-        User.deleteMany()
+        User.deleteMany({ role: "regular" })
             // @ts-ignore
             .then(() => logic.registerUser("Pepito Grillo", 123, "pepe@roni.com", "123qwe123"))
             .catch(error => {
@@ -66,7 +66,7 @@ describe("registerUser", () => {
     )
 
     it("should fail to register on non-string email", () =>
-        User.deleteMany()
+        User.deleteMany({ role: "regular" })
             // @ts-ignore
             .then(() => logic.registerUser("Pepe Roni", "peperoni", 123, "123qwe123"))
             .catch(error => {
@@ -76,7 +76,7 @@ describe("registerUser", () => {
     )
 
     it("should fail to register on non-string password", () =>
-        User.deleteMany()
+        User.deleteMany({ role: "regular" })
             // @ts-ignore
             .then(() => logic.registerUser("Pepe Roni", "peperoni", "pepe@roni.com", 123))
             .catch(error => {

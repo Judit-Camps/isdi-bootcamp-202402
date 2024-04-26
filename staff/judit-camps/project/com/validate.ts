@@ -1,6 +1,7 @@
 import { ContentError, UnauthorizedError } from "./errors"
 import util from "./util"
 
+const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[A-Za-z])[A-Za-z0-9]+$/
 
@@ -20,15 +21,19 @@ const validate = {
 
     email(email, explain = "email") {
         if (!EMAIL_REGEX.test(email)) throw new ContentError(`${explain} is not valid`)
+    },
+
+    date(date, explain = "date") {
+        if (!EMAIL_REGEX.test(date)) throw new ContentError(`${explain} is not valid`)
+    },
+
+    token(token, explain = "token") {
+        if (typeof token !== "string") throw new TypeError(`${explain} is not a string`)
+
+        const { exp } = util.extractJwtPayload(token)
+
+        if (exp * 1000 < Date.now()) throw new UnauthorizedError("session expired")
     }
-
-    // token(token, explain = "token") {
-    //     if (typeof token !== "string") throw new TypeError(`${explain} is not a string`)
-
-    //     const { exp } = util.extractJwtPayload(token)
-
-    //     if (exp * 1000 < Date.now()) throw new UnauthorizedError("session expired")
-    // }
 
 }
 

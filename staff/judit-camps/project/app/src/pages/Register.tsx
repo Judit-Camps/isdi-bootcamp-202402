@@ -45,8 +45,15 @@ function Register() {
             <label htmlFor="password">Contrassenya</label>
             <input type="password" id="password" />
 
+            <label htmlFor="">
+                <input type="checkbox" />
+                Registrar-se com a organització
+            </label>
+
             <button type="submit">Registra't</button>
         </form>
+
+
     </>
 }
 

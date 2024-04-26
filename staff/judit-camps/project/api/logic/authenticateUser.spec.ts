@@ -11,7 +11,7 @@ describe("authenticateUser", () => {
 
     it("should login an existing user", () =>
         User.deleteMany()
-            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123" }))
+            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123", status: "active", role: "regular" }))
             .then(user =>
                 logic.authenticateUser("peperoni", "123qwe123")
                     .then(userId => {
@@ -23,7 +23,7 @@ describe("authenticateUser", () => {
 
     it("fails on existing user but incorrect username", () =>
         User.deleteMany()
-            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123" }))
+            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123", status: "active", role: "regular" }))
             .then(() => logic.authenticateUser("peperoni2", "123qwe123"))
             .catch(error => {
                 expect(error).to.be.instanceOf(NotFoundError)
@@ -33,7 +33,7 @@ describe("authenticateUser", () => {
 
     it("fails on existing user but incorrect username", () =>
         User.deleteMany()
-            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123" }))
+            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123", status: "active", role: "regular" }))
             .then(() => logic.authenticateUser("peperoni", "123qwe123qwe"))
             .catch(error => {
                 expect(error).to.be.instanceOf(CredentialsError)

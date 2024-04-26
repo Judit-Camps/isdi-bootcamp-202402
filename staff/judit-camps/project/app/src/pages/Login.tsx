@@ -12,6 +12,20 @@ function Login() {
 
         const username = form.username.value
         const password = form.password.value
+
+        logger.debug("Login -> handleSubmit", username, password)
+        try {
+            logic.loginUser(username, password)
+                .then(() => {
+                    form.reset()
+
+                    onUserLoggedIn()
+                })
+                .catch(error => console.error(error))
+
+        } catch (error) {
+            console.error(error)
+        }
     }
 
     return <>

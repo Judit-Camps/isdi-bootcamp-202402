@@ -12,10 +12,10 @@ function authenticateUser(username: string, password: string): Promise<string> {
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
             if (!user)
-                throw new NotFoundError('user not found')
+                throw new NotFoundError("user not found")
 
             if (user.password !== password)
-                throw new CredentialsError('wrong password')
+                throw new CredentialsError("wrong credentials")
 
             return user.id
         })

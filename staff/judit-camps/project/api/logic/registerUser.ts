@@ -20,7 +20,9 @@ function registerUser(name: string, username: string, email: string, password: s
                 name: name.trim(),
                 username: username,
                 email: email,
-                password: password
+                password: password,
+                status: "active",
+                role: "regular"
             }
 
             return User.create(user)

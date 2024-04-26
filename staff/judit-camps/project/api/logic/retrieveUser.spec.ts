@@ -17,9 +17,9 @@ describe("retrieveUser", () => {
 
     it("should retrive an existing user", () =>
         User.deleteMany()
-            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123" }))
+            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123", status: "active", role: "regular" }))
             .then(user1 =>
-                User.create({ name: "Pepito Grillo", username: "pepitogrillo", email: "pepito@grillo.com", password: "123qwe123" })
+                User.create({ name: "Pepito Grillo", username: "pepitogrillo", email: "pepito@grillo.com", password: "123qwe123", status: "active", role: "regular" })
                     .then(user2 => logic.retrieveUser(user1.id, user2.id))
                     .then(user => {
                         expect(user.name).to.equal("Pepito Grillo")
@@ -30,7 +30,7 @@ describe("retrieveUser", () => {
 
     it("fails to retrive target by a non-existing user", () =>
         User.deleteMany()
-            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123" }))
+            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123", status: "active", role: "regular" }))
             .then(user2 => logic.retrieveUser(new ObjectId().toString(), user2.id))
             .catch(error => {
                 expect(error).to.be.instanceOf(NotFoundError)
@@ -40,7 +40,7 @@ describe("retrieveUser", () => {
 
     it("fails to retrive a non-existing target user", () =>
         User.deleteMany()
-            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123" }))
+            .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123", status: "active", role: "regular" }))
             .then(user1 => logic.retrieveUser(user1.id, new ObjectId().toString()))
             .catch(error => {
                 expect(error).to.be.instanceOf(NotFoundError)
