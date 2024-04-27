@@ -1,17 +1,22 @@
 // @ts-nocheck
 import { validate, errors } from "../com/index.js"
 
-function registerUser(name: string, username: string, email: string, password: string) {
+const { SystemError, DuplicityError } = errors
+
+function registerOrg(name: string, username: string, email: string, password: string, location: string, address: string, description: string) {
     validate.text(name, "name")
     validate.text(username, "username", true)
     validate.email(email)
     validate.password(password)
+    validate.text(location, "location")
+    validate.text(address, "address")
+    validate.text(description, "description")
 
-    const user = { name, username, email, password }
+    const org = { name, username, email, password, location, address, description }
 
-    const json = JSON.stringify(user)
+    const json = JSON.stringify(org)
 
-    return fetch("http://192.168.1.82:9000/users", {
+    return fetch("http://192.168.1.82:9000/organizations", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -30,4 +35,4 @@ function registerUser(name: string, username: string, email: string, password: s
         })
 }
 
-export default registerUser
+export default registerOrg

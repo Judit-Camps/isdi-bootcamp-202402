@@ -1,12 +1,12 @@
 // @ts-nocheck
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import HomeStack from './HomeStack'
 import UserScreen from '../screens/UserScreen'
 import { Ionicons, AntDesign } from '@expo/vector-icons';
+import HomeScreen from '../screens/HomeScreen';
 
 const Tab = createBottomTabNavigator()
 
-export default function Tabs() {
+export default function MainTabs() {
     return (
         <Tab.Navigator
             screenOptions={{
@@ -28,7 +28,7 @@ export default function Tabs() {
                 },
             }}
         >
-            <Tab.Screen name="Home" component={HomeStack} options={{
+            <Tab.Screen name="Home" component={HomeScreen} options={{
                 tabBarIcon: () => (<AntDesign name='home' color="#000000" size={30} />)
             }} />
             <Tab.Screen name="User" component={UserScreen} options={{

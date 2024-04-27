@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mongoose from "mongoose"
 import dotenv from "dotenv"
 import express from "express"
@@ -70,13 +71,14 @@ mongoose.connect(MONGODB_URL)
             try {
                 const { username, password } = req.body
 
-                logic.authenticateUser(username, password)
-                    .then(userId => {
-                        const token = jwt.sign({ sub: userId }, JWT_SECRET, { expiresIn: JWT_EXP })
+                logic.authenticate(username, password)
+                    .then(({ userId, role, status }) => {
+                        const token = jwt.sign({ sub: userId, role: role, status: status }, JWT_SECRET, { expiresIn: JWT_EXP })
 
                         res.json(token)
                     })
                     .catch(error => {
+                        console.log(error)
                         if (error instanceof SystemError) {
                             logger.error(error.message)
 
@@ -89,6 +91,10 @@ mongoose.connect(MONGODB_URL)
                             logger.warn(error.message)
 
                             res.status(404).json({ error: error.constructor.name, message: error.message })
+                        } else if (error instanceof UnauthorizedError) {
+                            logger.warn(error.message)
+
+                            res.status(401).json({ error: error.constructor.name, message: error.message })
                         }
                     })
 
@@ -97,6 +103,7 @@ mongoose.connect(MONGODB_URL)
                     logger.warn(error.message)
 
                     res.status(406).json({ error: error.constructor.name, message: error.message })
+
                 } else {
                     logger.warn(error.message)
 

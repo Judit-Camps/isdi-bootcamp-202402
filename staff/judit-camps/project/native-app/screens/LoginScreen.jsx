@@ -1,8 +1,9 @@
+// @ts-nocheck
 import React, { useState } from "react"
 import logic from "../logic"
 
-import { View, Text, Button, TextInput, StyleSheet } from "react-native"
-export default function LoginScreen({ navigation }) {
+import { View, Text, Button, TextInput, StyleSheet, Alert } from "react-native"
+export default function LoginScreen({ navigation, HomeScreen }) {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -11,16 +12,19 @@ export default function LoginScreen({ navigation }) {
         console.log("Username:", username)
         console.log("Password:", password)
 
-
         try {
             logic.loginUser(username, password)
                 .then(() => {
                     setUsername('')
                     setPassword('')
+                    navigation.navigate("Home")
                 })
-                .catch(error => console.error(error.message))
+                .catch(error => {
+                    Alert.alert(error.message)
+                })
+
         } catch (error) {
-            console.error(error)
+            console.error(error.message)
         }
     }
 
@@ -39,6 +43,8 @@ export default function LoginScreen({ navigation }) {
 
             <Button title="Entrar" onPress={handleLogin} />
             <Button title="Registra't" onPress={() => navigation.navigate("RegisterReg")} />
+
+            <Button title="Cancel" onPress={() => navigation.navigate("Home")} />
         </View>
     )
 }
@@ -56,12 +62,13 @@ const styles = StyleSheet.create({
 
     },
     input: {
-        width: '100%',
-        height: 40,
+        width: '90%',
+        height: 48,
         borderColor: 'gray',
         borderWidth: 1,
-        marginBottom: 20,
-        padding: 12,
-        borderRadius: 12
+        margin: 16,
+        padding: 8,
+        borderRadius: 16,
+        fontSize: 16
     },
 })

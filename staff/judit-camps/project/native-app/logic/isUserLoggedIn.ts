@@ -1,10 +1,11 @@
-import { validate } from "com"
+import { validate } from "../com/index.js"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 function isUserLoggedIn() {
-
+    const token = AsyncStorage.getItem('token')
     try {
-        validate.token(sessionStorage.token)
-        return !!sessionStorage.token
+        validate.token(token)
+        return !!token
 
     } catch (error) {
         return false

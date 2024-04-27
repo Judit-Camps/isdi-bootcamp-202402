@@ -1,21 +1,22 @@
 // @ts-nocheck
-import { validate, errors } from "com"
+import { validate, errors } from "../com/index.js"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { decode } from 'base-64'
 
 function retrieveUser() {
     return AsyncStorage.getItem('token')
         .then(token => {
             validate.token(token)
 
-            const [, payloadB64] = sessionStorage.token.split(".")
+            const [, payloadB64] = token.split(".")
 
-            const payloadJSON = atob(payloadB64)
+            const payloadJSON = decode(payloadB64)
 
             const payload = JSON.parse(payloadJSON)
 
             const { sub: userId } = payload
 
-            return fetch(`http://localhost:9000/users/${userId}`, {
+            return fetch(`http://192.168.1.82:9000/users/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -32,8 +33,6 @@ function retrieveUser() {
                         })
                 })
         })
-
-
 
 }
 

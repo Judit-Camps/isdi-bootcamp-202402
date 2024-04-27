@@ -4,6 +4,7 @@ import retrieveUser from "./retrieveUser.ts"
 
 import registerOrg from "./registerOrg.ts"
 import authenticateOrg from "./authenticateOrg.ts"
+import authenticate from "./authenticate.ts"
 
 import createEvent from "./createEvent.ts"
 
@@ -14,6 +15,7 @@ const logic = {
 
     registerOrg,
     authenticateOrg,
+    authenticate,
 
     createEvent
 }

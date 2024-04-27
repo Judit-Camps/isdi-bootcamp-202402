@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { validate, errors } from "com"
+import { validate, errors } from "../com/index.js"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 function loginUser(username: string, password: string) {
     validate.text(username, "username", true)
@@ -8,7 +9,7 @@ function loginUser(username: string, password: string) {
     const user = { username, password }
     const json = JSON.stringify(user)
 
-    return fetch("http://localhost:9000/users/auth", {
+    return fetch("http://192.168.1.82:9000/users/auth", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -18,7 +19,11 @@ function loginUser(username: string, password: string) {
         .then(res => {
             if (res.status === 200)
                 return res.json()
-                    .then(token => { sessionStorage.token = token })
+                    .then(token => {
+
+                        console.log(token)
+                        AsyncStorage.setItem("token", token)
+                    })
 
             return res.json()
                 .then(body => {
@@ -28,6 +33,9 @@ function loginUser(username: string, password: string) {
 
                     throw new constructor(message)
                 })
+        })
+        .catch(error => {
+            throw error
         })
 }
 

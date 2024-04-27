@@ -1,29 +1,79 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import logic from "../logic";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Stack = createNativeStackNavigator()
 
 export default function HomeScreen({ navigation }) {
+    const [isLogged, setIsLogged] = useState(false)
     const [user, setUser] = useState('')
-    return (
-        <View style={styles.container} >
-            <Text style={styles.text} >Hola!</Text>
+    const [role, setRole] = useState('')
 
-            <Button style={styles.button} title="Entrar" onPress={() => navigation.navigate("Login")} />
-        </View>
+
+    useEffect(() => {
+        try {
+            logic.retrieveUser()
+                .then(setUser)
+                .catch(error => console.error("->>", error))
+        } catch (error) {
+            console.error(error)
+        }
+    }, [])
+
+    // useEffect(() => {
+    //     try {
+    // logic.isUserLoggedIn
+    //         logic.retrieveUser()
+    //             .then(setUser)
+    //             .catch(error => console.error(error))
+
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+
+    // })
+
+    return (
+        <View style={styles.main}>
+            <View style={styles.header} >
+
+                {user ? <Text style={styles.headerText} >Hola {user.name}!</Text> : <Text style={styles.headerText} >Hola!</Text>}
+
+                {!user && <Button style={styles.headerButton} title="Entrar" onPress={() => navigation.navigate("Login")} />}
+            </View>
+            <ScrollView >
+                <View style={styles.act} >
+                    <Text style={styles.text} >Org 1</Text>
+                    <Button style={styles.button} title="Info" />
+                    <Text style={styles.text} >Org 1</Text>
+                </View>
+                <Text style={styles.h1}
+                >Hsdlfashdghialisejrglakjerl.gkna.ksjfnbhv.kjashbkjandkjbnadjkfhvkjadfljasjifklahskjhasuhviashefihskdhkjahskdjhausdhvhskdjvnljanslkdvas</Text>
+            </ScrollView>
+
+        </View >
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
+    header: {
         alignItems: 'center',
         justifyContent: 'space-between',
         top: 0,
         display: 'flex',
         flexDirection: 'row',
         padding: 12,
-        marginTop: 40
+        backgroundColor: '#fff086'
+    },
+    headerText: {
+        marginTop: 40,
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    headerButton: {
+        marginTop: 90,
     },
     text: {
         fontSize: 24,
@@ -32,4 +82,15 @@ const styles = StyleSheet.create({
     button: {
 
     },
+    h1: {
+        fontSize: 160,
+        marginBottom: 30
+    },
+    act: {
+        backgroundColor: '#a99f00',
+        borderRadius: 12,
+        margin: 12,
+        height: 120,
+        padding: 12
+    }
 })

@@ -13,5 +13,8 @@
   "license": "ISC",
   "devDependencies": {
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "base-64": "^1.0.0"
   }
 }

@@ -1,16 +1,16 @@
 // @ts-nocheck
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
-import Tabs from './navigation/Tabs';
-
+import MainTabs from './navigation/MainTabs';
+import MainStack from './navigation/MainStack';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   return (
     <NavigationContainer >
-      <Tabs />
 
+      <MainStack />
     </NavigationContainer>
 
   );

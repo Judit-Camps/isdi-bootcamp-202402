@@ -14,9 +14,11 @@ describe("authenticateUser", () => {
             .then(() => User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123", status: "active", role: "regular" }))
             .then(user =>
                 logic.authenticateUser("peperoni", "123qwe123")
-                    .then(userId => {
-                        expect(userId).to.be.a("string")
-                        expect(userId).to.equal(user.id)
+                    .then(result => {
+                        expect(result.userId).to.be.a("string")
+                        expect(result.userId).to.equal(user.id)
+                        expect(result.role).to.equal("regular")
+                        expect(result.status).to.equal("active")
                     })
             )
     )

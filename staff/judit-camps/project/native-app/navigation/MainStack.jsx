@@ -4,6 +4,7 @@ import RegisterRegScreen from "../screens/RegisterRegScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterOrgScreen from "../screens/RegisterOrgScreen";
 import HomeScreen from "../screens/HomeScreen";
+import MainTabs from "./MainTabs";
 
 const Stack = createNativeStackNavigator()
 
@@ -12,8 +13,8 @@ export default function HomeStack() {
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="RegisterOrg" component={RegisterOrgScreen} />
+            <Stack.Screen name="Home" component={MainTabs} />
+            <Stack.Screen name="RegisterOrg" component={RegisterOrgScreen} options={{ tabBarVisible: false }} />
             <Stack.Screen name="RegisterReg" component={RegisterRegScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
         </Stack.Navigator>

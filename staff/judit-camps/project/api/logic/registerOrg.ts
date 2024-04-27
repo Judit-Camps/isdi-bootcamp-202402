@@ -12,6 +12,7 @@ function registerOrg(name: string, username: string, email: string, password: st
     validate.password(password)
     validate.text(location, "location")
     validate.text(address, "address")
+    validate.text(description, "description")
 
     return User.findOne({ $or: [{ email }, { username }] })
         .catch(error => { throw new SystemError(error.message) })
