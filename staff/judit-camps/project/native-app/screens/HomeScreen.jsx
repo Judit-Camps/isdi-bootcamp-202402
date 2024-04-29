@@ -9,17 +9,24 @@ const Stack = createNativeStackNavigator()
 
 export default function HomeScreen({ navigation }) {
     const { user, setUser } = useContext()
-    const [isLogged, setIsLogged] = useState(false)
-    const [role, setRole] = useState('')
+    const { role, setRole } = useContext()
 
 
     useEffect(() => {
         try {
             logic.retrieveUser()
-                .then(setUser)
+                .then(userInfo => {
+                    setUser(userInfo)
+                })
                 .catch(error => console.error("->>", error))
+            logic.getUserRole()
+                .then(role => {
+                    setRole(role)
+                })
+                .catch(error => console.error("-->>", error))
+
         } catch (error) {
-            console.error(error)
+            console.error("------", error)
         }
     }, [])
 

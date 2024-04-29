@@ -4,6 +4,7 @@ import { useContext } from "../context"
 
 export default function UserScreen({ navigation }) {
     const { user, setUser } = useContext()
+    const { role } = useContext()
     const handleLogOutClick = () => {
         try {
             logic.logOutUser()

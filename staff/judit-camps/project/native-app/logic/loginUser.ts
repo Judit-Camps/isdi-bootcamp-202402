@@ -20,8 +20,6 @@ function loginUser(username: string, password: string) {
             if (res.status === 200)
                 return res.json()
                     .then(token => {
-
-                        console.log(token)
                         AsyncStorage.setItem("token", token)
                     })
 
