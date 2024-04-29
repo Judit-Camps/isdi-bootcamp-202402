@@ -16,7 +16,7 @@ function retrieveUser() {
 
             const { sub: userId } = payload
 
-            return fetch(`http://192.168.1.82:9000/users/${userId}`, {
+            return fetch(`http://192.168.1.128:9000/users/${userId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

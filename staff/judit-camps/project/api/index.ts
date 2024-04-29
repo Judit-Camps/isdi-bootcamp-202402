@@ -73,7 +73,7 @@ mongoose.connect(MONGODB_URL)
 
                 logic.authenticate(username, password)
                     .then(({ userId, role, status }) => {
-                        const token = jwt.sign({ sub: userId, role: role, status: status }, JWT_SECRET, { expiresIn: JWT_EXP })
+                        const token = jwt.sign({ sub: userId, role: role, status: status }, JWT_SECRET)
 
                         res.json(token)
                     })

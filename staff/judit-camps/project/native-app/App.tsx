@@ -3,16 +3,20 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import MainTabs from './navigation/MainTabs';
 import MainStack from './navigation/MainStack';
-import * as React from 'react';
+import { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { Context } from './context';
 
 export default function App() {
+  const [user, setUser] = useState(null)
   return (
-    <NavigationContainer >
+    <Context.Provider value={{ user, setUser }}>
 
-      <MainStack />
-    </NavigationContainer>
+      <NavigationContainer >
+        <MainStack />
+      </NavigationContainer>
 
+    </Context.Provider>
   );
 }
 

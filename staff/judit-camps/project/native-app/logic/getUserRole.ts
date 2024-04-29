@@ -1,15 +1,15 @@
-// import { util, validate } from "com"
-// import AsyncStorage from "@react-native-async-storage/async-storage"
+import { util, validate } from "../com/index.js"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
-// function getUserRole() {
-//     const token = AsyncStorage.getItem("token")
+function getUserRole() {
+    const token = AsyncStorage.getItem("token")
 
-//     validate.token(token)
+    validate.token(token)
 
-//     const { role: role } = util.extractJwtPayload(token)
+    const { role: role } = util.extractJwtPayload(token)
 
-//     return { role: role }
+    return { role: role }
 
-// }
+}
 
-// export default getUserRole()
+export default getUserRole()

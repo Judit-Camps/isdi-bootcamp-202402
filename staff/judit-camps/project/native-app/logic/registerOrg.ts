@@ -16,7 +16,7 @@ function registerOrg(name: string, username: string, email: string, password: st
 
     const json = JSON.stringify(org)
 
-    return fetch("http://192.168.1.82:9000/organizations", {
+    return fetch("http://192.168.1.128:9000/organizations", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

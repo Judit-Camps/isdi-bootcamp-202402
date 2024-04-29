@@ -9,7 +9,7 @@ function loginUser(username: string, password: string) {
     const user = { username, password }
     const json = JSON.stringify(user)
 
-    return fetch("http://192.168.1.82:9000/users/auth", {
+    return fetch("http://192.168.1.128:9000/users/auth", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

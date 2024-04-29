@@ -3,12 +3,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useState, useEffect } from "react";
 import logic from "../logic";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useContext } from "../context";
 
 const Stack = createNativeStackNavigator()
 
 export default function HomeScreen({ navigation }) {
+    const { user, setUser } = useContext()
     const [isLogged, setIsLogged] = useState(false)
-    const [user, setUser] = useState('')
     const [role, setRole] = useState('')
 
 
@@ -21,19 +22,6 @@ export default function HomeScreen({ navigation }) {
             console.error(error)
         }
     }, [])
-
-    // useEffect(() => {
-    //     try {
-    // logic.isUserLoggedIn
-    //         logic.retrieveUser()
-    //             .then(setUser)
-    //             .catch(error => console.error(error))
-
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-
-    // })
 
     return (
         <View style={styles.main}>

@@ -30,9 +30,9 @@ const validate = {
     token(token, explain = "token") {
         if (typeof token !== "string") throw new TypeError(`${explain} is not a string`)
 
-        // const { exp } = util.extractJwtPayload(token)
+        const { exp } = util.extractJwtPayload(token)
 
-        // if (exp * 1000 < Date.now()) throw new UnauthorizedError("session expired")
+        if (exp * 1000 < Date.now()) throw new UnauthorizedError("session expired")
     }
 
 }

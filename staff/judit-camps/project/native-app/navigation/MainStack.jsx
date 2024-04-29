@@ -13,7 +13,7 @@ export default function HomeStack() {
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
         >
-            <Stack.Screen name="Home" component={MainTabs} />
+            <Stack.Screen name="Main" component={MainTabs} />
             <Stack.Screen name="RegisterOrg" component={RegisterOrgScreen} options={{ tabBarVisible: false }} />
             <Stack.Screen name="RegisterReg" component={RegisterRegScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
