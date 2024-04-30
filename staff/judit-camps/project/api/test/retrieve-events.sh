@@ -1,0 +1,1 @@
+curl -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjJmZDAzZWZiZTU0MzBlYjI2MmMzNzciLCJyb2xlIjoicmVndWxhciIsInN0YXR1cyI6ImFjdGl2ZSIsImlhdCI6MTcxNDQxMjUwMn0.xt9nT8gsASeON5Ueiwli-T4SxRIKl_T1NKyMnI2ab4k" http://localhost:9000/events -v

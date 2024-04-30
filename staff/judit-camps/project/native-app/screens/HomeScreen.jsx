@@ -4,18 +4,24 @@ import { useState, useEffect } from "react";
 import logic from "../logic";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext } from "../context";
+import CreateEventForm from "../components/CreateEventForm"
+import EventList from "../components/EventList";
 
 const Stack = createNativeStackNavigator()
 
 export default function HomeScreen({ navigation }) {
     const { user, setUser } = useContext()
-    const { role, setRole } = useContext()
+    const { setRole } = useContext()
+    const [stamp, setStamp] = useState('')
 
+    const token = AsyncStorage.getItem('token')
 
     useEffect(() => {
         try {
+
             logic.retrieveUser()
                 .then(userInfo => {
+                    // console.log(userInfo)
                     setUser(userInfo)
                 })
                 .catch(error => console.error("->>", error))
@@ -28,7 +34,9 @@ export default function HomeScreen({ navigation }) {
         } catch (error) {
             console.error("------", error)
         }
+
     }, [])
+
 
     return (
         <View style={styles.main}>
@@ -36,7 +44,12 @@ export default function HomeScreen({ navigation }) {
 
                 {user ? <Text style={styles.headerText} >Hola {user.name}!</Text> : <Text style={styles.headerText} >Hola!</Text>}
 
-                {!user && <Button style={styles.headerButton} title="Entrar" onPress={() => navigation.navigate("Login")} />}
+                {!user && (
+                    <>
+                        < Button style={styles.headerButton} title="Entrar" onPress={() => navigation.navigate("Login")} />
+                        <Text>Entra i guarda't el que t'agrada</Text>
+                    </>
+                )}
             </View>
             <ScrollView >
                 <View style={styles.act} >
@@ -44,6 +57,7 @@ export default function HomeScreen({ navigation }) {
                     <Button style={styles.button} title="Info" />
                     <Text style={styles.text} >Org 1</Text>
                 </View>
+                <EventList stamp={stamp} />
                 <Text style={styles.h1}
                 >Hsdlfashdghialisejrglakjerl.gkna.ksjfnbhv.kjashbkjandkjbnadjkfhvkjadfljasjifklahskjhasuhviashefihskdhkjahskdjhausdhvhskdjvnljanslkdvas</Text>
             </ScrollView>

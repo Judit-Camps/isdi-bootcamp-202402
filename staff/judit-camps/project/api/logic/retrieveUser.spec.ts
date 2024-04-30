@@ -24,6 +24,7 @@ describe("retrieveUser", () => {
                     .then(user => {
                         expect(user.name).to.equal("Pepito Grillo")
                         expect(user.username).to.equal("pepitogrillo")
+                        expect(user.email).to.equal("pepito@grillo.com")
                     })
             )
     )

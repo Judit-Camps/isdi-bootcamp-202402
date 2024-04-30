@@ -24,7 +24,7 @@ const validate = {
     },
 
     date(date, explain = "date") {
-        if (!EMAIL_REGEX.test(date)) throw new ContentError(`${explain} is not valid`)
+        if (!DATE_REGEX.test(date)) throw new ContentError(`${explain} is not valid`)
     },
 
     token(token, explain = "token") {

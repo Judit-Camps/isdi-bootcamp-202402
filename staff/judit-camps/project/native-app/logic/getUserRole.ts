@@ -3,7 +3,7 @@ import { util, validate } from "../com/index.js"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { decode } from 'base-64'
 
-function getUserRole() {
+function getUserRole(): Promis<{ role: string }> {
     return AsyncStorage.getItem("token")
         .then(token => {
             // if (!token || typeof token !== "string") {

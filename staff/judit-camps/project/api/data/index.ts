@@ -28,7 +28,7 @@ type EventType = {
     city: string,
     address: string
     date: Date,
-    time: Date,
+    time: string,
     description: string,
     price: number
 }
@@ -98,7 +98,7 @@ const event = new Schema({
     },
     author: {
         type: ObjectId,
-        ref: "Organization",
+        ref: "User",
         required: true
     },
     city: {
@@ -114,7 +114,8 @@ const event = new Schema({
         required: true
     },
     time: {
-        type: Date
+        type: String,
+        required: true
     },
 
     description: {

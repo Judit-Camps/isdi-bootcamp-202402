@@ -1,23 +1,30 @@
 // @ts-nocheck
 import React, { useState } from "react"
 import logic from "../logic"
+import { useContext } from "../context"
 
 import { View, Text, Button, TextInput, StyleSheet, Alert } from "react-native"
 export default function LoginScreen({ navigation, HomeScreen }) {
 
+    const { setUser, setRole } = useContext()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
     const handleLogin = () => {
-        console.log("Username:", username)
-        console.log("Password:", password)
 
         try {
             logic.loginUser(username, password)
                 .then(() => {
                     setUsername('')
                     setPassword('')
-                    navigation.navigate("Home")
+                    logic.retrieveUser()
+                        .then(user => {
+                            setUser(user)
+                            logic.getUserRole()
+                                .then(setRole)
+                        })
+                        .then(navigation.navigate("Home"))
+
                 })
                 .catch(error => {
                     Alert.alert(error.message)

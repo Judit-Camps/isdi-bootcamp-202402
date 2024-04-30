@@ -3,12 +3,12 @@ import logic from "../logic";
 import { useContext } from "../context"
 
 export default function UserScreen({ navigation }) {
-    const { user, setUser } = useContext()
-    const { role } = useContext()
+    const { user, setUser, role, setRole } = useContext()
     const handleLogOutClick = () => {
         try {
             logic.logOutUser()
             setUser(null)
+            setRole(null)
             navigation.navigate("Home")
 
         } catch (error) {
