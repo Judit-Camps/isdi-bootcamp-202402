@@ -37,6 +37,9 @@ export default function HomeScreen({ navigation }) {
 
     }, [])
 
+    const refreshEventsList = () => {
+        setStamp(Date.now())
+    }
 
     return (
         <View style={styles.main}>
@@ -52,14 +55,7 @@ export default function HomeScreen({ navigation }) {
                 )}
             </View>
             <ScrollView >
-                <View style={styles.act} >
-                    <Text style={styles.text} >Org 1</Text>
-                    <Button style={styles.button} title="Info" />
-                    <Text style={styles.text} >Org 1</Text>
-                </View>
                 <EventList stamp={stamp} />
-                <Text style={styles.h1}
-                >Hsdlfashdghialisejrglakjerl.gkna.ksjfnbhv.kjashbkjandkjbnadjkfhvkjadfljasjifklahskjhasuhviashefihskdhkjahskdjhausdhvhskdjvnljanslkdvas</Text>
             </ScrollView>
 
         </View >

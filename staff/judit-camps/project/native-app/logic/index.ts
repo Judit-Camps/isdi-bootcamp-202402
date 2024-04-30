@@ -6,6 +6,7 @@ import retrieveUser from "./retrieveUser"
 import logOutUser from "./logOutUser"
 import getUserRole from "./getUserRole"
 import retrieveEvents from "./retrieveEvents"
+import createEvent from "./createEvent"
 
 const logic = {
     registerUser,
@@ -15,7 +16,8 @@ const logic = {
     retrieveUser,
     logOutUser,
     getUserRole,
-    retrieveEvents
+    retrieveEvents,
+    createEvent
 }
 
 export default logic

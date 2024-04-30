@@ -3,10 +3,11 @@ import React, { useState } from "react";
 import { ScrollView, Text, TextInput, Button, StyleSheet } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Picker from "@react-native-picker/picker"
+import logic from "../logic";
 
 import { useContext } from "../context";
 
-export default function CreateEventForm() {
+export default function CreateEventForm({ onEventCreated }) {
     const { user } = useContext()
     const [title, setTitle] = useState("");
     const [organization, setOrganization] = useState("");
@@ -32,11 +33,11 @@ export default function CreateEventForm() {
     };
 
     const handleSubmit = () => {
+
         // Handle form submission here
         console.log("Form submitted");
         console.log({
             title,
-            organization,
             city,
             address,
             description,
@@ -44,6 +45,16 @@ export default function CreateEventForm() {
             price,
             date
         });
+        try {
+            logic.createEvent(title, city, address, description, time, price, date)
+                .then(() => {
+                    onEventCreated()
+
+                })
+
+        } catch (error) {
+            console.error(error)
+        }
     };
 
     return (
@@ -54,12 +65,6 @@ export default function CreateEventForm() {
                 placeholder="Nom de l'activitat"
                 value={title}
                 onChangeText={setTitle}
-            />
-            <Text>Organització</Text>
-            <TextInput
-                style={styles.input}
-                value={organization}
-                onChangeText={setOrganization}
             />
             <Text>Poble/Ciutat</Text>
             <TextInput
@@ -85,7 +90,6 @@ export default function CreateEventForm() {
             />
 
             <Text>Dia</Text>
-
             <DateTimePicker
                 value={date}
                 mode="date"
@@ -95,7 +99,6 @@ export default function CreateEventForm() {
             />
 
             <Text>Hora</Text>
-
             <DateTimePicker style={{ alignSelf: "center" }}
                 value={date}
                 mode="time"
