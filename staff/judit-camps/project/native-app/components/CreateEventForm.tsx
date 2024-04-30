@@ -1,61 +1,74 @@
 // @ts-nocheck
-import React, { useState } from "react";
-import { ScrollView, Text, TextInput, Button, StyleSheet } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import React, { useState } from "react"
+import { ScrollView, Text, TextInput, Button, StyleSheet, Alert } from "react-native"
+import DateTimePicker from "@react-native-community/datetimepicker"
 import Picker from "@react-native-picker/picker"
-import logic from "../logic";
+import logic from "../logic"
+import format from "date-fns"
 
-import { useContext } from "../context";
+import { useContext } from "../context"
 
 export default function CreateEventForm({ onEventCreated }) {
-    const { user } = useContext()
-    const [title, setTitle] = useState("");
-    const [organization, setOrganization] = useState("");
-    const [city, setCity] = useState("");
-    const [address, setAddress] = useState("");
-    const [description, setDescription] = useState("");
-    const [time, setTime] = useState(new Date().setHours(0, 0, 0, 0));
-    const [price, setPrice] = useState("");
-    const [date, setDate] = useState(new Date()); // Initialize with current date
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const [showTimePicker, setShowTimePicker] = useState(false);
+    const { user, setStamp } = useContext()
+    const [title, setTitle] = useState("")
+    const [city, setCity] = useState("")
+    const [address, setAddress] = useState("")
+    const [description, setDescription] = useState("")
+    const [time, setTime] = useState(new Date())
+    const [price, setPrice] = useState("")
+    const [date, setDate] = useState(new Date())
+    const [showDatePicker, setShowDatePicker] = useState(false)
+    const [showTimePicker, setShowTimePicker] = useState(false)
 
     const handleDateChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setShowDatePicker(false);
-        setDate(currentDate);
-    };
+        const currentDate = selectedDate || date
+        setShowDatePicker(false)
+        setDate(currentDate)
+    }
 
     const handleTimeChange = (event, selectedTime) => {
-        const currentTime = selectedTime || new Date();
-        setShowTimePicker(false);
-        setTime(currentTime.toLocaleTimeString());
-    };
+        const currentTime = selectedTime || new Date()
+        setShowTimePicker(false)
+        setTime(currentTime.toLocaleTimeString())
+    }
 
     const handleSubmit = () => {
+        console.log("Form submitted")
 
-        // Handle form submission here
-        console.log("Form submitted");
-        console.log({
-            title,
-            city,
-            address,
-            description,
-            time,
-            price,
-            date
-        });
+
+        let eventCity
+        if (!city) {
+            eventCity = user.city
+        } else eventCity = city
+
+        let eventAddress
+        if (!address) {
+            eventAddress = user.address
+        } else eventAddress = address
+
+
+
         try {
-            logic.createEvent(title, city, address, description, time, price, date)
+            logic.createEvent(title, eventCity, eventAddress, description, date.toLocaleTimeString(), 0, date.toLocaleDateString("en-CA").split(',')[0].trim())
                 .then(() => {
+                    setStamp(Date.now())
+                    setTitle("")
+                    setCity("")
+                    setAddress("")
+                    setDescription("")
+                    setTime(new Date())
+                    setDate(new Date())
+                    Alert.alert("Event creat")
+
                     onEventCreated()
 
                 })
+                .catch(error => console.error(error))
 
         } catch (error) {
             console.error(error)
         }
-    };
+    }
 
     return (
         <ScrollView style={styles.container}>
@@ -84,7 +97,8 @@ export default function CreateEventForm({ onEventCreated }) {
             />
             <Text>Descripció</Text>
             <TextInput
-                style={styles.input}
+                style={styles.inputArea}
+                multiline={true}
                 value={description}
                 onChangeText={setDescription}
             />
@@ -99,7 +113,7 @@ export default function CreateEventForm({ onEventCreated }) {
             />
 
             <Text>Hora</Text>
-            <DateTimePicker style={{ alignSelf: "center" }}
+            <DateTimePicker
                 value={date}
                 mode="time"
                 is24Hour={true}
@@ -118,8 +132,8 @@ export default function CreateEventForm({ onEventCreated }) {
             </Picker> */}
             <Button title="Submit" onPress={handleSubmit} style={styles.button} />
         </ScrollView>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -139,6 +153,16 @@ const styles = StyleSheet.create({
         width: "90%",
         height: 48,
         borderColor: "gray",
+        borderWidth: 1,
+        margin: 16,
+        padding: 8,
+        borderRadius: 16,
+        fontSize: 16
+    },
+    inputArea: {
+        width: '90%',
+        height: 90,
+        borderColor: 'gray',
         borderWidth: 1,
         margin: 16,
         padding: 8,

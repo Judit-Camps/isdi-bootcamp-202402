@@ -270,6 +270,9 @@ mongoose.connect(MONGODB_URL)
             try {
                 const { authorization } = req.headers
 
+                if (!authorization) {
+                    return res.status(401).json({ error: 'Unauthorized', message: 'Authorization header missing' });
+                }
                 const token = authorization.slice(7)
 
                 const { sub: userId } = jwt.verify(token, JWT_SECRET)

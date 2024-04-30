@@ -12,14 +12,26 @@ function createEvent(title: string, city: string, address: string, description: 
         .then(token => {
             validate.token(token)
 
-            const ev = { title, date, time, description, price, city, address }
+            console.log(token)
 
-            const json = JSON.parse(ev)
+            const ev = {
+                title,
+                date,
+                time,
+                description,
+                price,
+                city,
+                address
+            }
+
+            console.log("-->", ev)
+
+            const json = JSON.stringify(ev)
 
             return fetch("http://192.168.1.128:9000/events", {
                 method: "POST",
                 headers: {
-                    "Athorization": `Bearer ${token}`,
+                    Authorization: `Bearer ${token}`,
                     "content-type": "application/json"
                 },
                 body: json
@@ -32,8 +44,9 @@ function createEvent(title: string, city: string, address: string, description: 
                             const { error, message } = body
 
                             const constructor = errors[error]
+                            console.log(message)
 
-                            throw new constructor(error)
+                            throw new constructor(message)
                         })
                 })
         })

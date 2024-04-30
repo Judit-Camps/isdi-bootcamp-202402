@@ -4,10 +4,15 @@ import { FontAwesome } from '@expo/vector-icons'
 import { useState } from "react"
 import { useContext } from "../context"
 
-export default function Event({ item: ev }) {
+export default function Event({ item: ev, onAuthorClicked }) {
     const [pressedBookmark, setPressedBookmark] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const { user } = useContext()
+
+
+    const handleEventAuthorPress = (author) => {
+        onAuthorClicked(author)
+    }
 
     const toggleExpanded = () => {
         setExpanded(!expanded)
@@ -38,7 +43,9 @@ export default function Event({ item: ev }) {
                             onPress={() => setPressedBookmark(!pressedBookmark)}
                         />
                     ))}
-                <Text style={styles.eventOrganization}>{ev.author.name}</Text>
+                <TouchableOpacity onPress={() => handleEventAuthorPress(ev.author)}>
+                    <Text style={styles.eventOrganization}>{ev.author.name}</Text>
+                </TouchableOpacity>
                 <Text style={styles.eventLocation}>{ev.city}</Text>
                 <Text style={[styles.description, { maxHeight: expanded ? '100%' : 40 }]} numberOfLines={expanded ? null : 1}>
                     {ev.description}

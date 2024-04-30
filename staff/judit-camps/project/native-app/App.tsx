@@ -10,8 +10,10 @@ import { Context } from './context';
 export default function App() {
   const [user, setUser] = useState(null)
   const [role, setRole] = useState(null)
+  const [stamp, setStamp] = useState(null)
+
   return (
-    <Context.Provider value={{ user, setUser, role, setRole }}>
+    <Context.Provider value={{ user, setUser, role, setRole, stamp, setStamp }}>
 
       <NavigationContainer >
         <MainStack />

@@ -4,7 +4,7 @@ import logic from "../logic"
 import { useContext } from "../context"
 
 import { View, Text, Button, TextInput, StyleSheet, Alert } from "react-native"
-export default function LoginScreen({ navigation, HomeScreen }) {
+export default function LoginScreen({ navigation }) {
 
     const { setUser, setRole } = useContext()
     const [username, setUsername] = useState('')

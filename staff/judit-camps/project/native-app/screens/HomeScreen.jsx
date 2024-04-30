@@ -1,5 +1,4 @@
-import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { View, Text, StyleSheet, Button, ScrollView, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import logic from "../logic";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -7,12 +6,8 @@ import { useContext } from "../context";
 import CreateEventForm from "../components/CreateEventForm"
 import EventList from "../components/EventList";
 
-const Stack = createNativeStackNavigator()
-
 export default function HomeScreen({ navigation }) {
-    const { user, setUser } = useContext()
-    const { setRole } = useContext()
-    const [stamp, setStamp] = useState('')
+    const { user, setUser, stamp, setRole } = useContext()
 
     const token = AsyncStorage.getItem('token')
 
@@ -37,8 +32,9 @@ export default function HomeScreen({ navigation }) {
 
     }, [])
 
-    const refreshEventsList = () => {
-        setStamp(Date.now())
+    const handleOnEventAuthorClicked = (author) => {
+        console.log(author)
+        navigation.navigate("OrganizationProfile", { author })
     }
 
     return (
@@ -55,7 +51,7 @@ export default function HomeScreen({ navigation }) {
                 )}
             </View>
             <ScrollView >
-                <EventList stamp={stamp} />
+                <EventList stamp={stamp} onEventAuthorClick={handleOnEventAuthorClicked} />
             </ScrollView>
 
         </View >

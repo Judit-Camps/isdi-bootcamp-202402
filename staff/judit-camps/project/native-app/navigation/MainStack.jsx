@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native"
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import RegisterRegScreen from "../screens/RegisterRegScreen";
-import LoginScreen from "../screens/LoginScreen";
-import RegisterOrgScreen from "../screens/RegisterOrgScreen";
-import HomeScreen from "../screens/HomeScreen";
-import MainTabs from "./MainTabs";
+import RegisterRegScreen from "../screens/RegisterRegScreen"
+import LoginScreen from "../screens/LoginScreen"
+import RegisterOrgScreen from "../screens/RegisterOrgScreen"
+import HomeScreen from "../screens/HomeScreen"
+import MainTabs from "./MainTabs"
+import OrganizationProfileScreen from "../screens/OrganizationProfileScreen"
 
 const Stack = createNativeStackNavigator()
 
@@ -17,6 +18,8 @@ export default function HomeStack() {
             <Stack.Screen name="RegisterOrg" component={RegisterOrgScreen} options={{ tabBarVisible: false }} />
             <Stack.Screen name="RegisterReg" component={RegisterRegScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="OrganizationProfile" component={OrganizationProfileScreen} />
+
         </Stack.Navigator>
     )
 }

@@ -1,10 +1,10 @@
 // @ts-nocheck
 import logic from "../logic"
 import { useState, useEffect } from "react"
-import { View, Text } from "react-native"
+import { View, Text, StyleSheet } from "react-native"
 import Event from "./Event"
 
-export default function EventList({ stamp }) {
+export default function EventList({ stamp, onEventAuthorClick }) {
     const [events, setEvents] = useState(null)
 
     const loadEvents = () => {
@@ -12,7 +12,6 @@ export default function EventList({ stamp }) {
             logic.retrieveEvents()
                 .then(events => {
                     setEvents(events)
-                    console.log("--->", events)
                 })
                 .catch(error => console.error(error))
         } catch (error) {
@@ -24,17 +23,29 @@ export default function EventList({ stamp }) {
         loadEvents()
     }, [stamp])
 
+
+    const handleEventAuthorClicked = (author) => {
+        onEventAuthorClick(author)
+    }
+
     return (
 
         <View>
             {events && events.length > 0 ? (
                 events.map(ev =>
-                    <Event key={ev.id} item={ev} />
+                    <Event key={ev.id} item={ev} onAuthorClicked={handleEventAuthorClicked} />
                 )
             ) : (
                 <Text>No events available</Text>
             )}
-
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    eventListContainer: {
+        backgroundColor: 'red',
+        marginBottom: 100,
+
+    }
+})
