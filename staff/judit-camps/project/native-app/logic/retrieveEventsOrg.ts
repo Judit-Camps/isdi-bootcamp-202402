@@ -3,8 +3,7 @@ import { validate, errors } from "../com/index.js"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { decode } from 'base-64'
 
-
-function retrieveUser() {
+function retrieveEventsOrg(targetAuthorId) {
     return AsyncStorage.getItem('token')
         .then(token => {
             validate.token(token)
@@ -15,18 +14,15 @@ function retrieveUser() {
 
             const payload = JSON.parse(payloadJSON)
 
-            const { sub: userId } = payload
-
-            return fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/${userId}`, {
+            return fetch(`${process.env.EXPO_PUBLIC_API_URL}/events/org/${targetAuthorId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
-                }
+                },
+
             })
                 .then(res => {
                     if (res.status === 200)
                         return res.json()
-
-
 
                     return res.json()
                         .then(body => {
@@ -39,4 +35,4 @@ function retrieveUser() {
 
 }
 
-export default retrieveUser
+export default retrieveEventsOrg

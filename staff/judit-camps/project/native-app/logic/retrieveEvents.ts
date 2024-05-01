@@ -3,6 +3,7 @@ import { validate, errors } from "../com/index.js"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { decode } from 'base-64'
 
+
 function retrieveEvents() {
     return AsyncStorage.getItem('token')
         .then(token => {
@@ -14,7 +15,7 @@ function retrieveEvents() {
 
             const payload = JSON.parse(payloadJSON)
 
-            return fetch(`http://192.168.1.128:9000/events`, {
+            return fetch(`${process.env.EXPO_PUBLIC_API_URL}/events`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }

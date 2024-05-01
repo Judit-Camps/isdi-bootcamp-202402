@@ -1,19 +1,25 @@
 // @ts-nocheck
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
+import EventListOrg from "../components/EventListOrg";
 
 export default function OrganizationProfileScreen({ navigation }) {
 
     const route = useRoute()
     const { author } = route.params
-    console.log(author.name)
-    return (
 
-        <View style={styles.header}>
-            < Button style={styles.headerButton} title="<" onPress={() => navigation.navigate("Home")} />
-            <View >
-                <Text style={styles.headerText}>{author.name}</Text>
+    return (
+        <View>
+            <View style={styles.header}>
+                < Button style={styles.headerButton} title="<" onPress={() => navigation.navigate("Home")} />
+                <View >
+                    <Text style={styles.headerText}>{author.name}</Text>
+                </View>
+
             </View>
+            <ScrollView>
+                <EventListOrg authorId={author.id} />
+            </ScrollView>
 
         </View >
     )

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { validate, errors } from "../com/index.js"
 
+
 function registerUser(name: string, username: string, email: string, password: string) {
     validate.text(name, "name")
     validate.text(username, "username", true)
@@ -11,7 +12,7 @@ function registerUser(name: string, username: string, email: string, password: s
 
     const json = JSON.stringify(user)
 
-    return fetch("http://192.168.1.128:9000/users", {
+    return fetch(`${process.env.EXPO_PUBLIC_API_URL}/users`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

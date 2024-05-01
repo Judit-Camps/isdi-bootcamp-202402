@@ -8,6 +8,7 @@ import authenticate from "./authenticate.ts"
 
 import createEvent from "./createEvent.ts"
 import retrieveEvents from "./retrieveEvents.ts"
+import retrieveEventsByAuthor from "./retrieveEventsByAuthor.ts"
 
 const logic = {
     registerUser,
@@ -19,7 +20,8 @@ const logic = {
     authenticate,
 
     createEvent,
-    retrieveEvents
+    retrieveEvents,
+    retrieveEventsByAuthor
 }
 
 export default logic

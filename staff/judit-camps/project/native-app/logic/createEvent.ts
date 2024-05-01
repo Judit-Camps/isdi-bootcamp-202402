@@ -1,6 +1,7 @@
 // @ts-nocheck
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { validate, errors } from "../com/index.js"
+
 function createEvent(title: string, city: string, address: string, description: string, time: string, price: number, date: string) {
     validate.text(title, "title")
     validate.text(city, "city")
@@ -28,7 +29,7 @@ function createEvent(title: string, city: string, address: string, description: 
 
             const json = JSON.stringify(ev)
 
-            return fetch("http://192.168.1.128:9000/events", {
+            return fetch(`${process.env.EXPO_PUBLIC_API_URL}/events`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,

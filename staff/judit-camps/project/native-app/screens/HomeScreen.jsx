@@ -33,7 +33,6 @@ export default function HomeScreen({ navigation }) {
     }, [])
 
     const handleOnEventAuthorClicked = (author) => {
-        console.log(author)
         navigation.navigate("OrganizationProfile", { author })
     }
 
@@ -50,7 +49,7 @@ export default function HomeScreen({ navigation }) {
                     </>
                 )}
             </View>
-            <ScrollView >
+            <ScrollView style={{ marginBottom: 200 }}>
                 <EventList stamp={stamp} onEventAuthorClick={handleOnEventAuthorClicked} />
             </ScrollView>
 
