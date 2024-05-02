@@ -30,7 +30,9 @@ type EventType = {
     date: Date,
     time: string,
     description: string,
-    price: number
+    price: number,
+    categories?: [string],
+    attendees?: [ObjectId]
 }
 
 const user = new Schema({
@@ -80,14 +82,14 @@ const user = new Schema({
     },
     affinities: {
         type: [String],
-        enum: ["music", "art", "sport", "politics", "feminism"]
+        enum: ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers"]
     },
     savedEvents: {
         type: [ObjectId]
     },
     followings: {
         type: [ObjectId]
-    },
+    }
 
 })
 
@@ -125,6 +127,13 @@ const event = new Schema({
     price: {
         type: Number,
         required: true
+    },
+    categories: {
+        type: [String],
+        enum: ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers"]
+    },
+    attendees?: {
+        type: [ObjectId]
     }
 
 })

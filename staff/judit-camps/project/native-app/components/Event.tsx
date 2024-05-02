@@ -6,6 +6,7 @@ import { useContext } from "../context"
 
 export default function Event({ item: ev, onAuthorClicked }) {
     const [pressedBookmark, setPressedBookmark] = useState(false)
+    const [pressedMoreInfo, setPressedMoreInfo] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const { user } = useContext()
 
@@ -32,14 +33,14 @@ export default function Event({ item: ev, onAuthorClicked }) {
                 <Text style={styles.eventTitle}>{ev.title}</Text>
                 {!user ? null : (
                     pressedBookmark ? (
-                        <FontAwesome style={styles.bookmarkIcon} name="bookmark" size={28} color="black" onPress={() => setPressedBookmark(!pressedBookmark)}
+                        <FontAwesome style={styles.bookmarkIcon} name="bookmark" size={32} color="#0A6847" onPress={() => setPressedBookmark(!pressedBookmark)}
                         />
                     ) : (
                         <FontAwesome
                             style={styles.bookmarkIcon}
                             name="bookmark-o"
-                            size={28}
-                            color="black"
+                            size={32}
+                            color="#0A6847"
                             onPress={() => setPressedBookmark(!pressedBookmark)}
                         />
                     ))}
@@ -63,7 +64,7 @@ export default function Event({ item: ev, onAuthorClicked }) {
 
 const styles = StyleSheet.create({
     eventContainer: {
-        backgroundColor: 'grey',
+        backgroundColor: "#F6E9B2",
         borderRadius: 16,
         padding: 16,
         margin: 16,
@@ -81,9 +82,11 @@ const styles = StyleSheet.create({
     eventOrganization: {
         fontSize: 20,
         fontWeight: 'bold',
+        padding: 6
     },
     eventLocation: {
         fontSize: 16,
+        padding: 6
     },
     description: {
         fontSize: 16,

@@ -135,41 +135,71 @@ export default function CreateEventForm({ onEventCreated }) {
     )
 }
 
+// const styles = StyleSheet.create({
+//     container: {
+//         paddingRight: 12,
+//         paddingTop: 10,
+//         marginTop: 20,
+//         marginBottom: 40,
+//         height: "80%",
+//         paddingBottom: 75
+//     },
+//     text: {
+//         fontSize: 24,
+//         fontWeight: "bold",
+
+//     },
+//     input: {
+//         width: "90%",
+//         height: 48,
+//         borderColor: "gray",
+//         borderWidth: 1,
+//         margin: 16,
+//         padding: 8,
+//         borderRadius: 16,
+//         fontSize: 16
+//     },
+//     inputArea: {
+//         width: '90%',
+//         height: 90,
+//         borderColor: 'gray',
+//         borderWidth: 1,
+//         margin: 16,
+//         padding: 8,
+//         borderRadius: 16,
+//         fontSize: 16
+//     },
+//     button: {
+//         margin: 30
+//     }
+// })
+
 const styles = StyleSheet.create({
     container: {
-        paddingRight: 12,
+        paddingHorizontal: 20,
         paddingTop: 10,
         marginTop: 20,
         marginBottom: 40,
-        height: "80%",
-        paddingBottom: 75
     },
-    text: {
-        fontSize: 24,
+    label: {
+        fontSize: 16,
         fontWeight: "bold",
-
+        marginBottom: 5,
     },
     input: {
-        width: "90%",
         height: 48,
         borderColor: "gray",
         borderWidth: 1,
-        margin: 16,
-        padding: 8,
-        borderRadius: 16,
-        fontSize: 16
+        marginBottom: 20,
+        padding: 10,
+        borderRadius: 8,
     },
     inputArea: {
-        width: '90%',
         height: 90,
-        borderColor: 'gray',
+        borderColor: "gray",
         borderWidth: 1,
-        margin: 16,
-        padding: 8,
-        borderRadius: 16,
-        fontSize: 16
+        marginBottom: 20,
+        padding: 10,
+        borderRadius: 8,
     },
-    button: {
-        margin: 30
-    }
-})
+});

@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import logic from "../logic"
 import { useContext } from "../context"
 
-import { View, Text, Button, TextInput, StyleSheet, Alert } from "react-native"
+import { ScrollView, Text, Pressable, TextInput, StyleSheet, Alert, View } from "react-native"
 export default function LoginScreen({ navigation }) {
 
     const { setUser, setRole } = useContext()
@@ -36,46 +36,73 @@ export default function LoginScreen({ navigation }) {
     }
 
     return (
-        <View style={styles.container} >
-            <Text>Login here</Text>
+        <ScrollView style={{ backgroundColor: "#F6E9B2" }} contentContainerStyle={{ flexGrow: 1 }}
+            keyboardShouldPersistTaps='handled'
+        >
+            <View style={styles.container}>
+                <Text style={styles.title}>Inicia sessió</Text>
 
-            <TextInput style={styles.input} placeholder="Nom d'usuari"
-                value={username}
-                onChangeText={setUsername}
-            />
-            <TextInput secureTextEntry={true} style={styles.input} placeholder="Contrassenya"
-                value={password}
-                onChangeText={setPassword}
-            />
+                <TextInput style={styles.input} placeholder="Nom d'usuari"
+                    value={username}
+                    autoCapitalize="none"
+                    onChangeText={setUsername}
+                />
+                <TextInput secureTextEntry={true} style={styles.input} placeholder="Contrassenya"
+                    value={password}
+                    onChangeText={setPassword}
+                />
 
-            <Button title="Entrar" onPress={handleLogin} />
-            <Button title="Registra't" onPress={() => navigation.navigate("RegisterReg")} />
-
-            <Button title="Cancel" onPress={() => navigation.navigate("Home")} />
-        </View>
+                <Pressable style={styles.button} onPress={handleLogin}>
+                    <Text style={styles.buttonText}>Entrar</Text>
+                </Pressable>
+                <Pressable style={styles.button} onPress={() => navigation.navigate("RegisterReg")}>
+                    <Text style={styles.buttonText}>Registra't</Text>
+                </Pressable>
+                <Pressable style={styles.button} onPress={() => navigation.navigate("Home")}>
+                    <Text style={styles.buttonText}>Cancel</Text>
+                </Pressable>
+            </View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 16,
-        marginTop: 40
+        flex: 1,
+        backgroundColor: "#ffffff",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: 20,
+        backgroundColor: "#F6E9B2"
     },
-    text: {
-        fontSize: 24,
-        fontWeight: 'bold',
-
+    title: {
+        fontSize: 36,
+        fontWeight: "bold",
+        marginBottom: 36,
+        color: "#0A6847",
     },
     input: {
-        width: '90%',
+        width: "100%",
         height: 48,
-        borderColor: 'gray',
-        borderWidth: 1,
-        margin: 16,
-        padding: 8,
-        borderRadius: 16,
-        fontSize: 16
+        borderRadius: 24,
+        paddingHorizontal: 20,
+        marginBottom: 20,
+        backgroundColor: "#ffffff",
+    },
+
+    button: {
+        width: "80%",
+        height: 48,
+        backgroundColor: "#7ABA78",
+        borderRadius: 24,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20,
+    },
+
+    buttonText: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#ffffff", // White color
     },
 })

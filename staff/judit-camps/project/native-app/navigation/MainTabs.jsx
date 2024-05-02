@@ -12,7 +12,7 @@ const tabScreenOptions = {
     headerShown: false,
     tabBarShowLabel: false,
     tabBarStyle: {
-        backgroundColor: '#ff9999',
+        backgroundColor: '#7ABA78',
         borderRadius: 20,
         height: 90,
         bottom: 20,

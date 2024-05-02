@@ -33,10 +33,11 @@ export default function RegisterOrgScreen({ navigation }) {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}
+            style={{ backgroundColor: "#F6E9B2" }}
             keyboardShouldPersistTaps='handled'>
 
             <View style={styles.container} >
-                <Text>Registra't com a organització</Text>
+                <Text style={styles.title}>Registra't com a organització</Text>
 
                 <TextInput style={styles.input} placeholder="Nom"
                     value={name}
@@ -44,6 +45,7 @@ export default function RegisterOrgScreen({ navigation }) {
                 />
                 <TextInput style={styles.input} placeholder="Nom d'usuari"
                     value={username}
+                    autoCapitalize="none"
                     onChangeText={setUsername}
                 />
                 <TextInput style={styles.input} placeholder="Email"
@@ -83,41 +85,53 @@ export default function RegisterOrgScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 16,
-        marginTop: 40
+        flex: 1,
+        backgroundColor: "#ffffff",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: 20,
+        backgroundColor: "#F6E9B2"
     },
-    text: {
-        fontSize: 24,
-        fontWeight: 'bold',
-
+    title: {
+        fontSize: 36,
+        fontWeight: "bold",
+        marginBottom: 36,
+        color: "#0A6847",
+        textAlign: 'center',
     },
     input: {
-        width: '90%',
+        width: "100%",
         height: 48,
-        borderColor: 'gray',
-        borderWidth: 1,
-        margin: 16,
-        padding: 8,
-        borderRadius: 16,
-        fontSize: 16
-    },
-
-    inputArea: {
-        width: '90%',
-        height: 90,
-        borderColor: 'gray',
-        borderWidth: 1,
-        margin: 16,
-        padding: 8,
-        borderRadius: 16,
-        fontSize: 16
+        borderRadius: 24,
+        paddingHorizontal: 20,
+        marginBottom: 20,
+        backgroundColor: "#ffffff",
     },
 
     button: {
-        padding: 16,
-        borderRadius: 8,
-        backgroundColor: '#f09890'
+        width: "80%",
+        height: 48,
+        backgroundColor: "#7ABA78",
+        borderRadius: 24,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20,
+    },
+
+    buttonText: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#ffffff", // White color
+    },
+    inputArea: {
+        width: "100%",
+        height: 100,
+        borderRadius: 24,
+        paddingHorizontal: 20,
+        marginBottom: 20,
+        backgroundColor: "#ffffff",
+        fontSize: 16
     },
 })
+
+

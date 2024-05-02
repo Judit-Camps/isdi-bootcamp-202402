@@ -1,6 +1,8 @@
-import { View, ScrollView, Text, StyleSheet, Button } from "react-native";
+import { View, ScrollView, Text, StyleSheet, Button, Pressable, Alert } from "react-native";
 import logic from "../logic";
 import { useContext } from "../context"
+import { Ionicons, AntDesign } from '@expo/vector-icons';
+import EventListOrg from "../components/EventListOrg";
 
 export default function UserScreen({ navigation }) {
     const { user, setUser, role, setRole } = useContext()
@@ -18,19 +20,29 @@ export default function UserScreen({ navigation }) {
     return (
         <View>
             {user !== null ? (
-                <View style={styles.container} >
+                <View>
                     <View >
-                        <Text style={styles.text} >{user.name}</Text>
-                        <Text style={styles.text} >{user.username}</Text>
-                        <Button title="Edit" onPress={() => navigation.navigate("Home")} />
-                        <Button title="Sortir" onPress={handleLogOutClick} />
+                        <View style={styles.header} >
+                            <Text style={styles.title} >{user.name}</Text>
+                            <Text style={styles.title} >{user.username}</Text>
+
+                            <Pressable style={styles.button} onPress={handleLogOutClick}>
+                                <Text style={styles.buttonText}>Tancar sessió</Text>
+                            </Pressable>
+
+                            <Pressable style={styles.button} onPress={() => Alert.alert("Function yet to come")}>
+                                <Text style={styles.buttonText}>Editar perfil</Text>
+                            </Pressable>
+                        </View>
+
                     </View>
                     <ScrollView>
                         <Text style={styles.text}>Hello hello hello</Text>
                     </ScrollView>
+
                     {role === "regular" ? (
                         <View>
-                            <Text>Hello regular</Text>
+                            <Text>Esdeveniments guardats</Text>
                         </View>
                     ) : (
                         <View>
@@ -41,8 +53,15 @@ export default function UserScreen({ navigation }) {
 
             ) : (
                 <View>
-                    <Text style={styles.text} >User Screen</Text>
-                    <Button title="Login" onPress={() => navigation.navigate("Login")} />
+                    <Text style={styles.text} >Inicia sessió per poder veure les teves activitats guardades!</Text>
+                    <Button title="Iniciar sessió" onPress={() => navigation.navigate("Login")} />
+
+                    <Text style={styles.text}>Encara no tens un compte?</Text>
+                    <Button title="Registrar-se" onPress={() => navigation.navigate("RegisterReg")} />
+
+                    <Text style={styles.text}>Sou una organització o associació i voleu ensenyar tot el que feu?</Text>
+                    <Button title="Registra-se com a organització" onPress={() => navigation.navigate("RegisterOrg")} />
+
                 </View>
             )
             }
@@ -53,19 +72,43 @@ export default function UserScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 60
-    },
-    header: {
+        flex: 1,
         backgroundColor: "#ffffff",
-        width: "100%",
-        height: "15%",
-        padding: 16,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingHorizontal: 20,
+        backgroundColor: "#F6E9B2"
     },
-    text: {
-        fontSize: 24,
-        fontWeight: 'bold'
-    }
+    title: {
+        fontSize: 26,
+        fontWeight: "bold",
+        margin: 16,
+        color: "#0A6847",
+    },
+    input: {
+        width: "100%",
+        height: 48,
+        borderRadius: 24,
+        paddingHorizontal: 20,
+        marginBottom: 20,
+        backgroundColor: "#ffffff",
+    },
+
+    button: {
+        width: "20%",
+        height: 48,
+        backgroundColor: "#7ABA78",
+        borderRadius: 24,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20,
+    },
+
+    buttonText: {
+        fontSize: 14,
+        fontWeight: "bold",
+        color: "#ffffff",
+        textAlign: "center",
+        padding: 6
+    },
 })

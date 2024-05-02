@@ -39,6 +39,7 @@ export default function RegisterRegScreen({ navigation }) {
                 />
                 <TextInput style={styles.input} placeholder="Nom d'usuari"
                     value={username}
+                    autoCapitalize="none"
                     onChangeText={setUsername}
                 />
                 <TextInput style={styles.input} placeholder="Email"

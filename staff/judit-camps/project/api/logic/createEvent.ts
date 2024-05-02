@@ -4,7 +4,7 @@ import { User, UserType, Event, EventType } from "../data/index.ts"
 
 const { UnauthorizedError, SystemError, NotFoundError } = errors
 
-function createEvent(organizationId: string, title: string, date: string, time: string, description: string, price: number, city?: string, address?: string,): Promise<void> {
+function createEvent(organizationId: string, title: string, date: string, time: string, description: string, price: number, city?: string, address?: string, categories?: string[]): Promise<void> {
     debugger
     validate.text(organizationId, "organizationId", true)
     validate.text(title, "title")

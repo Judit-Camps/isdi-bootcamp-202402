@@ -107,4 +107,4 @@ Event
 - description (string, required)
 - price (number, required)
 - categories ([string], required, enum:music|art|sport|...)
-- assistants ([User.id], optional)
+- attendees ([User.id], optional)
