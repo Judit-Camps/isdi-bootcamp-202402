@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext } from "../context";
 import CreateEventForm from "../components/CreateEventForm"
 import EventList from "../components/EventList";
+import FilterDiv from "../components/FilterDiv";
 
 export default function HomeScreen({ navigation }) {
     const { user, setUser, stamp, setRole } = useContext()
@@ -48,8 +49,11 @@ export default function HomeScreen({ navigation }) {
                         <Text>Entra i guarda't el que t'agrada</Text>
                     </>
                 )}
+
+
             </View>
             <ScrollView style={{ marginBottom: 200 }}>
+                <FilterDiv />
                 <EventList stamp={stamp} onEventAuthorClick={handleOnEventAuthorClicked} />
             </ScrollView>
 

@@ -132,7 +132,7 @@ const event = new Schema({
         type: [String],
         enum: ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers"]
     },
-    attendees?: {
+    attendees: {
         type: [ObjectId]
     }
 

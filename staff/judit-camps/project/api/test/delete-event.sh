@@ -1,0 +1,1 @@
+curl -X DELETE -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjJmZDAzZWZiZTU0MzBlYjI2MmMzN2QiLCJyb2xlIjoib3JnYW5pemF0aW9uIiwic3RhdHVzIjoiYWN0aXZlIiwiaWF0IjoxNzE0NzIzNjU5fQ.fl5m9QEwbEINyEijbjwk-giRS-8DRzPO9pm12fFtQBs" -H "Content-Type: application/json" http://localhost:9000/events/6630e0dfeab96084ef29fcda -v

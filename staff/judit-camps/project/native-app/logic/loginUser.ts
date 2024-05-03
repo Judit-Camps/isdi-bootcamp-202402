@@ -2,7 +2,6 @@
 import { validate, errors } from "../com/index.js"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
-
 function loginUser(username: string, password: string) {
     validate.text(username, "username", true)
     validate.password(password)

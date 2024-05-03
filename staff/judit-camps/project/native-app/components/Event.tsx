@@ -1,15 +1,14 @@
 // @ts-nocheck
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
-import { FontAwesome } from '@expo/vector-icons'
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native"
+import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import { useState } from "react"
 import { useContext } from "../context"
 
 export default function Event({ item: ev, onAuthorClicked }) {
     const [pressedBookmark, setPressedBookmark] = useState(false)
-    const [pressedMoreInfo, setPressedMoreInfo] = useState(false)
+    // const [pressedMoreInfo, setPressedMoreInfo] = useState(false)
     const [expanded, setExpanded] = useState(false)
-    const { user } = useContext()
-
+    const { user, role } = useContext()
 
     const handleEventAuthorPress = (author) => {
         onAuthorClicked(author)
@@ -17,6 +16,21 @@ export default function Event({ item: ev, onAuthorClicked }) {
 
     const toggleExpanded = () => {
         setExpanded(!expanded)
+    }
+
+    const handleEditPress = () => {
+        Alert.alert("functionality yet to come")
+    }
+
+    const handleEventSave = () => {
+        setPressedBookmark(!pressedBookmark)
+        Alert.alert("this event will be saved")
+    }
+
+    const handleEventRemove = () => {
+        setPressedBookmark(!pressedBookmark)
+        Alert.alert("this event will be removed from saved")
+
     }
 
     let price = "Entrada lliure"
@@ -31,19 +45,27 @@ export default function Event({ item: ev, onAuthorClicked }) {
         <TouchableOpacity onPress={toggleExpanded} activeOpacity={1}>
             <View style={styles.eventContainer}>
                 <Text style={styles.eventTitle}>{ev.title}</Text>
-                {!user ? null : (
-                    pressedBookmark ? (
-                        <FontAwesome style={styles.bookmarkIcon} name="bookmark" size={32} color="#0A6847" onPress={() => setPressedBookmark(!pressedBookmark)}
+                {!user ? null :
+                    ((role === "organization" && ev.author.name === user.name) ? (
+                        <AntDesign style={styles.bookmarkIcon} name="edit" size={32} color="#0A6847"
+                            onPress={handleEditPress}
                         />
                     ) : (
-                        <FontAwesome
-                            style={styles.bookmarkIcon}
-                            name="bookmark-o"
-                            size={32}
-                            color="#0A6847"
-                            onPress={() => setPressedBookmark(!pressedBookmark)}
-                        />
-                    ))}
+                        pressedBookmark ? (
+                            <FontAwesome style={styles.bookmarkIcon} name="bookmark" size={32} color="#0A6847" onPress={handleEventRemove}
+                            />
+                        ) : (
+                            <FontAwesome
+                                style={styles.bookmarkIcon}
+                                name="bookmark-o"
+                                size={32}
+                                color="#0A6847"
+                                onPress={handleEventSave}
+                            />
+                        )
+                    ))
+                }
+
                 <TouchableOpacity onPress={() => handleEventAuthorPress(ev.author)}>
                     <Text style={styles.eventOrganization}>{ev.author.name}</Text>
                 </TouchableOpacity>
