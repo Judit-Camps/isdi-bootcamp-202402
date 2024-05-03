@@ -17,19 +17,19 @@ export default function LoginScreen({ navigation }) {
                 .then(() => {
                     setUsername('')
                     setPassword('')
-                    logic.retrieveUser()
-                        .then(user => {
-                            setUser(user)
-                            logic.getUserRole()
-                                .then(setRole)
-                        })
-                        .then(navigation.navigate("Home"))
-
+                    return Promise.all([
+                        logic.retrieveUser(),
+                        logic.getUserRole()
+                    ])
                 })
+                .then(([user, role]) => {
+                    setUser(user)
+                    setRole(role)
+                })
+                .then(() => navigation.navigate("Home"))
                 .catch(error => {
                     Alert.alert(error.message)
                 })
-
         } catch (error) {
             console.error(error.message)
         }

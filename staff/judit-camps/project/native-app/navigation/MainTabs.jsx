@@ -13,17 +13,11 @@ const tabScreenOptions = {
     tabBarShowLabel: false,
     tabBarStyle: {
         backgroundColor: '#7ABA78',
-        borderRadius: 20,
-        height: 90,
-        bottom: 20,
-        left: 20,
-        right: 20,
         position: 'absolute',
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: 10,
-        paddingBottom: 10
-
+        height: 80
     },
 }
 

@@ -30,7 +30,7 @@ export default function EventList({ stamp, onEventAuthorClick }) {
 
     return (
 
-        <View>
+        <View style={styles.eventListContainer}>
             {events && events.length > 0 ? (
                 events.map(ev =>
                     <Event key={ev.id} item={ev} onAuthorClicked={handleEventAuthorClicked} />
@@ -44,8 +44,6 @@ export default function EventList({ stamp, onEventAuthorClick }) {
 
 const styles = StyleSheet.create({
     eventListContainer: {
-        backgroundColor: 'red',
-        marginBottom: 100,
-
+        marginBottom: 80
     }
 })

@@ -3,9 +3,11 @@ import logic from "../logic";
 import { useContext } from "../context"
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import EventListOrg from "../components/EventListOrg";
+import { useEffect } from "react";
 
 export default function UserScreen({ navigation }) {
     const { user, setUser, role, setRole } = useContext()
+
     const handleLogOutClick = () => {
         try {
             logic.logOutUser()
@@ -17,8 +19,14 @@ export default function UserScreen({ navigation }) {
             console.error(error)
         }
     }
+
+    // useEffect(() => {
+    //     try {
+    //     } catch (error)
+    // }, [])
+
     return (
-        <View>
+        <View style={styles.main}>
             {user !== null ? (
                 <View>
                     <View >
@@ -71,6 +79,10 @@ export default function UserScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
+    main: {
+        backgroundColor: "#E4F1E4",
+        height: "100%"
+    },
     container: {
         flex: 1,
         backgroundColor: "#ffffff",
