@@ -231,7 +231,6 @@ mongoose.connect(MONGODB_URL)
             try {
                 const { organizationId, location, price, date, categories } = req.query
 
-                logger.debug(price)
                 logic.findEvents({ organizationId, location, price, date, categories })
                     .then(events => res.json(events))
                     .catch(error => {

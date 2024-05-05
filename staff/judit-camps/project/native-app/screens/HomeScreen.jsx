@@ -12,6 +12,13 @@ import EditEventForm from "../components/EditEventForm";
 export default function HomeScreen({ navigation }) {
     const { user, setUser, stamp, setRole } = useContext()
 
+    const [selectedFilters, setFilters] = useState({
+        organization: null,
+        location: null,
+        price: null,
+        categories: []
+    })
+
     const [ev, setEvent] = useState(null)
 
     const [view, setView] = useState(null)
@@ -33,6 +40,10 @@ export default function HomeScreen({ navigation }) {
 
     const handleEventEdited = () => {
 
+    }
+
+    const handleFilters = (filter) => {
+        Alert.alert(filter)
     }
 
 
@@ -62,9 +73,9 @@ export default function HomeScreen({ navigation }) {
                 </View>
             </View>
 
-            <FilterDiv />
+            <FilterDiv onFilter={handleFilters} />
             <ScrollView style={{ marginBottom: 180 }}>
-                <EventList stamp={stamp} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} />
+                <EventList stamp={stamp} filter={selectedFilters} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} />
 
             </ScrollView>
 

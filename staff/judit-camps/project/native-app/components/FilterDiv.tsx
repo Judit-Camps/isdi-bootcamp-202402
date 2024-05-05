@@ -1,15 +1,36 @@
 // @ts-nocheck
-import { Text, View, FlatList, SectionList, SafeAreaView, StyleSheet } from "react-native"
+import { useState } from "react"
+import { Text, View, FlatList, SectionList, SafeAreaView, StyleSheet, TouchableOpacity } from "react-native"
 
-const ItemList = ({ item }) => {
+const ItemList = ({ item, onFilterPressed }) => {
+
+    const [pressed, setPressed] = useState(false)
+
+    const handlePress = (item) => {
+        setPressed(!pressed)
+
+        if (!pressed) onFilterPressed(item)
+    }
+
     return (
-        <View style={styles.itemDiv}>
-            <Text style={styles.itemText} >{item.text}</Text>
-        </View>
+        pressed ? (
+            <TouchableOpacity style={styles.pressedItemDiv} onPress={() => handlePress(item.text)}>
+                <Text style={styles.itemText} >{item.text}</Text>
+            </TouchableOpacity >
+        ) : (
+            <TouchableOpacity style={styles.itemDiv} onPress={() => handlePress(item.text)}>
+                <Text style={styles.itemText} >{item.text}</Text>
+            </TouchableOpacity>
+        )
+
     )
+
 }
 
-export default function FilterDiv() {
+export default function FilterDiv({ onFilter }) {
+    const handleFilterPress = (filter) => {
+        onFilter(filter)
+    }
     return (
         <View style={styles.container}>
             <SafeAreaView>
@@ -23,7 +44,7 @@ export default function FilterDiv() {
                                 data={section.data}
                                 horizontal
                                 renderItem={({ item }) => {
-                                    return <ItemList item={item} />
+                                    return <ItemList item={item} onFilterPressed={handleFilterPress} />
                                 }}
                             />
                         </>
@@ -86,6 +107,14 @@ const styles = StyleSheet.create({
         padding: 4
     },
     itemDiv: {
+        backgroundColor: "pink",
+        padding: 16,
+        margin: 8,
+        height: "auto",
+        width: 100,
+        borderRadius: 16
+    },
+    pressedItemDiv: {
         backgroundColor: "red",
         padding: 16,
         margin: 8,

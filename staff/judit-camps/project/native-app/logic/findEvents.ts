@@ -1,7 +1,10 @@
 // @ts-nocheck
 import { validate, errors } from "../com/index.js";
 
-function findEvents(organizationId?: string, location?: string, price?: number, date?: string, categories?: string[]) {
+// function findEvents(organizationId?: string, location?: string, price?: number, date?: string, categories?: string[]) {
+function findEvents(options = {}) {
+
+    const { organizationId, location, price, date, categories } = options
 
     const params = new URLSearchParams()
     if (organizationId) {

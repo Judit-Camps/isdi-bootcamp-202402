@@ -5,7 +5,7 @@ import { useState } from "react"
 import { useContext } from "../context"
 import logic from "../logic"
 
-export default function Event({ item: ev, onAuthorClicked, navigation }) {
+export default function Event({ item: ev, onAuthorClicked, navigation, onDeleted }) {
     const [pressedBookmark, setPressedBookmark] = useState(false)
     // const [pressedMoreInfo, setPressedMoreInfo] = useState(false)
     const [expanded, setExpanded] = useState(false)
@@ -36,6 +36,17 @@ export default function Event({ item: ev, onAuthorClicked, navigation }) {
 
     }
 
+    const handleDeletePress = (eventId) => {
+        console.log(eventId)
+        try {
+            logic.deleteEvent(eventId)
+                .then(() => onDeleted())
+                .catch(error => console.error(error))
+        } catch (error) {
+            console.error("-->", error)
+        }
+    }
+
     let price = "Entrada lliure"
 
     if (ev.price === -1) {
@@ -48,18 +59,18 @@ export default function Event({ item: ev, onAuthorClicked, navigation }) {
         <TouchableOpacity onPress={toggleExpanded} activeOpacity={1}>
             <View style={styles.eventContainer}>
                 <Text style={styles.eventTitle}>{ev.title}</Text>
-                {!user ? null :
+                {(!user || (role === "organization" && ev.author.name !== user.name)) ? null :
                     ((role === "organization" && ev.author.name === user.name) ? (
-                        <AntDesign style={styles.bookmarkIcon} name="edit" size={32} color="#0A6847"
+                        <AntDesign style={styles.topIcon} name="edit" size={32} color="#0A6847"
                             onPress={handleEditPress}
                         />
                     ) : (
                         pressedBookmark ? (
-                            <FontAwesome style={styles.bookmarkIcon} name="bookmark" size={32} color="#0A6847" onPress={handleEventRemove}
+                            <FontAwesome style={styles.topIcon} name="bookmark" size={32} color="#0A6847" onPress={handleEventRemove}
                             />
                         ) : (
                             <FontAwesome
-                                style={styles.bookmarkIcon}
+                                style={styles.topIcon}
                                 name="bookmark-o"
                                 size={32}
                                 color="#0A6847"
@@ -82,6 +93,12 @@ export default function Event({ item: ev, onAuthorClicked, navigation }) {
                         <Text style={styles.moreInfo}>Preu: {price}</Text>
                     </>
                 )}
+
+                {(user && role === "organization" && ev.author.name === user.name) &&
+                    <AntDesign style={styles.deleteIcon} name="delete" size={30} color="#0A6847"
+                        onPress={() => handleDeletePress(ev.id)}
+                    />
+                }
             </View>
         </TouchableOpacity>
     )
@@ -99,10 +116,15 @@ const styles = StyleSheet.create({
         fontSize: 28,
         color: 'black',
     },
-    bookmarkIcon: {
+    topIcon: {
         position: 'absolute',
         right: 12,
         top: 12,
+    },
+    deleteIcon: {
+        position: 'absolute',
+        right: 12,
+        bottom: 12,
     },
     eventOrganization: {
         fontSize: 20,

@@ -83,11 +83,11 @@ export default function CreateEventForm({ onEventCreated }) {
 
     return (
         <ScrollView style={styles.container}>
-            <MultipleSelectList
+            {/* <MultipleSelectList
                 setSelected={(val) => setSelectedCategories(val)}
                 data={data}
                 placeholder="Categories i/o temàtiques"
-            />
+            /> */}
             <Text>Nom de l'activitat</Text>
             <TextInput
                 style={styles.input}

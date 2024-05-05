@@ -4,12 +4,14 @@ import { useState, useEffect } from "react"
 import { View, Text, StyleSheet } from "react-native"
 import Event from "./Event"
 
-export default function EventList({ stamp, onEventAuthorClick, onEditEventClick }) {
+export default function EventList({ stamp, filter, onEventAuthorClick, onEditEventClick }) {
     const [events, setEvents] = useState(null)
+
+
 
     const loadEvents = () => {
         try {
-            logic.findEvents()
+            logic.findEvents(filter)
                 .then(events => {
                     setEvents(events)
                 })

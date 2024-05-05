@@ -1,15 +1,21 @@
 import registerUser from "./registerUser"
 import registerOrg from "./registerOrg"
+
 import loginUser from "./loginUser"
 import isUserLoggedIn from "./isUserLoggedIn"
-import retrieveUser from "./retrieveUser"
 import logOutUser from "./logOutUser"
-import getUserRole from "./getUserRole"
-import retrieveEvents from "./retrieveEvents"
-import createEvent from "./createEvent"
-import retrieveEventsOrg from "./retrieveEventsOrg"
-import findEvents from "./findEvents"
+
 import getLoggedInUserId from "./getLoggedInUserId"
+import retrieveUser from "./retrieveUser"
+import getUserRole from "./getUserRole"
+
+import createEvent from "./createEvent"
+import findEvents from "./findEvents"
+import deleteEvent from "./deleteEvent"
+
+// ?
+import retrieveEventsOrg from "./retrieveEventsOrg"
+
 
 const logic = {
     registerUser,
@@ -19,11 +25,11 @@ const logic = {
     retrieveUser,
     logOutUser,
     getUserRole,
-    retrieveEvents,
     createEvent,
     retrieveEventsOrg,
     findEvents,
-    getLoggedInUserId
+    getLoggedInUserId,
+    deleteEvent
 }
 
 export default logic
