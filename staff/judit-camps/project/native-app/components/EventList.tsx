@@ -4,12 +4,12 @@ import { useState, useEffect } from "react"
 import { View, Text, StyleSheet } from "react-native"
 import Event from "./Event"
 
-export default function EventList({ stamp, onEventAuthorClick }) {
+export default function EventList({ stamp, onEventAuthorClick, onEditEventClick }) {
     const [events, setEvents] = useState(null)
 
     const loadEvents = () => {
         try {
-            logic.retrieveEvents()
+            logic.findEvents()
                 .then(events => {
                     setEvents(events)
                 })
@@ -24,8 +24,15 @@ export default function EventList({ stamp, onEventAuthorClick }) {
     }, [stamp])
 
 
+    const handleEventDeleted = () => loadEvents()
+
+
     const handleEventAuthorClicked = (author) => {
         onEventAuthorClick(author)
+    }
+
+    const handleEditClick = post => {
+        onEditEventClick(post)
     }
 
     return (
@@ -33,7 +40,7 @@ export default function EventList({ stamp, onEventAuthorClick }) {
         <View style={styles.eventListContainer}>
             {events && events.length > 0 ? (
                 events.map(ev =>
-                    <Event key={ev.id} item={ev} onAuthorClicked={handleEventAuthorClicked} />
+                    <Event key={ev.id} item={ev} onAuthorClicked={handleEventAuthorClicked} onEditClick={handleEditClick} onDeleted={handleEventDeleted} />
                 )
             ) : (
                 <Text>No events available</Text>
@@ -44,6 +51,6 @@ export default function EventList({ stamp, onEventAuthorClick }) {
 
 const styles = StyleSheet.create({
     eventListContainer: {
-        marginBottom: 80
+        marginBottom: 100
     }
 })

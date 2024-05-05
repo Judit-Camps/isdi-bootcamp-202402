@@ -2,7 +2,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { validate, errors } from "../com/index.js"
 
-function createEvent(title: string, city: string, address: string, description: string, time: string, price: number, date: string) {
+function createEvent(title: string, city: string, address: string, description: string, time: string, price: number, date: string, categories?: string[]) {
     validate.text(title, "title")
     validate.text(city, "city")
     validate.text(address, "address")
@@ -22,7 +22,8 @@ function createEvent(title: string, city: string, address: string, description: 
                 description,
                 price,
                 city,
-                address
+                address,
+                categories
             }
 
             console.log("-->", ev)

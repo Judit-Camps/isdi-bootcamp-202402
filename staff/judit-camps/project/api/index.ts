@@ -191,56 +191,48 @@ mongoose.connect(MONGODB_URL)
         })
 
 
-        api.post("/organizations/auth", jsonBodyParser, (req, res) => {
+
+        // api.get("/events", (req, res) => {
+        //     try {
+        //         const { authorization } = req.headers
+
+        //         const token = authorization.slice(7)
+
+        //         const { sub: userId } = jwt.verify(token, JWT_SECRET)
+
+        //         logic.retrieveEvents(userId as string)
+        //             .then(events => res.json(events))
+        //             .catch(error => {
+        //                 if (error instanceof SystemError) {
+        //                     logger.error(error.message)
+
+        //                     res.status(500).json({ error: error.constructor.name, message: error.message })
+        //                 } else if (error instanceof NotFoundError) {
+        //                     logger.warn(error.message)
+
+        //                     res.status(404).json({ error: error.constructor.name, message: error.message })
+        //                 }
+        //             })
+
+        //     } catch (error) {
+        //         if (error instanceof TypeError || error instanceof ContentError) {
+        //             logger.warn(error.message)
+
+        //             res.status(406).json({ error: error.constructor.name, message: error.message })
+        //         } else {
+        //             logger.warn(error.message)
+
+        //             res.status(500).json({ error: SystemError.name, message: error.message })
+        //         }
+        //     }
+        // })
+
+        api.get("/events/*", (req, res) => {
             try {
-                const { email, password } = req.body
-                logic.authenticateOrg(email, password)
-                    .then(orgId => {
-                        const token = jwt.sign({ sub: orgId }, JWT_SECRET, { expiresIn: JWT_EXP })
+                const { organizationId, location, price, date, categories } = req.query
 
-                        res.json(token)
-                    })
-                    .catch(error => {
-                        if (error instanceof SystemError) {
-                            logger.error(error.message)
-
-                            res.status(500).json({ error: error.constructor.name, message: error.message })
-                        } else if (error instanceof CredentialsError) {
-                            logger.warn(error.message)
-
-                            res.status(401).json({ error: error.constructor.name, message: error.message })
-                        } else if (error instanceof NotFoundError) {
-                            logger.warn(error.message)
-
-                            res.status(404).json({ error: error.constructor.name, message: error.message })
-                        } else if (error instanceof UnauthorizedError) {
-                            logger.warn(error.message)
-
-                            res.status(401).json({ error: error.constructor.name, message: error.message })
-                        }
-                    })
-            } catch (error) {
-                if (error instanceof TypeError || error instanceof ContentError) {
-                    logger.warn(error.message)
-
-                    res.status(406).json({ error: error.constructor.name, message: error.message })
-                } else {
-                    logger.warn(error.message)
-
-                    res.status(500).json({ error: SystemError.name, message: error.message })
-                }
-            }
-        })
-
-        api.get("/events", (req, res) => {
-            try {
-                const { authorization } = req.headers
-
-                const token = authorization.slice(7)
-
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
-
-                logic.retrieveEvents(userId as string)
+                logger.debug(price)
+                logic.findEvents({ organizationId, location, price, date, categories })
                     .then(events => res.json(events))
                     .catch(error => {
                         if (error instanceof SystemError) {
@@ -267,42 +259,42 @@ mongoose.connect(MONGODB_URL)
             }
         })
 
-        api.get("/events/org/:targetAuthorId", (req, res) => {
-            try {
-                const { authorization } = req.headers
+        // api.get("/events/org/:targetAuthorId", (req, res) => {
+        //     try {
+        //         const { authorization } = req.headers
 
-                const token = authorization.slice(7)
+        //         const token = authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, JWT_SECRET)
+        //         const { sub: userId } = jwt.verify(token, JWT_SECRET)
 
-                const { targetAuthorId } = req.params
+        //         const { targetAuthorId } = req.params
 
-                logic.retrieveEventsByAuthor(userId as string, targetAuthorId)
-                    .then(events => res.json(events))
-                    .catch(error => {
-                        if (error instanceof SystemError) {
-                            logger.error(error.message)
+        //         logic.retrieveEventsByAuthor(userId as string, targetAuthorId)
+        //             .then(events => res.json(events))
+        //             .catch(error => {
+        //                 if (error instanceof SystemError) {
+        //                     logger.error(error.message)
 
-                            res.status(500).json({ error: error.constructor.name, message: error.message })
-                        } else if (error instanceof NotFoundError) {
-                            logger.warn(error.message)
+        //                     res.status(500).json({ error: error.constructor.name, message: error.message })
+        //                 } else if (error instanceof NotFoundError) {
+        //                     logger.warn(error.message)
 
-                            res.status(404).json({ error: error.constructor.name, message: error.message })
-                        }
-                    })
+        //                     res.status(404).json({ error: error.constructor.name, message: error.message })
+        //                 }
+        //             })
 
-            } catch (error) {
-                if (error instanceof TypeError || error instanceof ContentError) {
-                    logger.warn(error.message)
+        //     } catch (error) {
+        //         if (error instanceof TypeError || error instanceof ContentError) {
+        //             logger.warn(error.message)
 
-                    res.status(406).json({ error: error.constructor.name, message: error.message })
-                } else {
-                    logger.warn(error.message)
+        //             res.status(406).json({ error: error.constructor.name, message: error.message })
+        //         } else {
+        //             logger.warn(error.message)
 
-                    res.status(500).json({ error: SystemError.name, message: error.message })
-                }
-            }
-        })
+        //             res.status(500).json({ error: SystemError.name, message: error.message })
+        //         }
+        //     }
+        // })
 
         api.post("/events", jsonBodyParser, (req, res) => {
             try {

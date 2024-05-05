@@ -18,7 +18,7 @@ describe("createEvent", () => {
                         User.create({ name: "Casal 1", username: "casal1", email: "casal@gmail.com", password: "123qwe123", location: "Manresa", address: "Carrer 1", status: "active", role: "organization" })
                             .then(org => {
 
-                                logic.createEvent(org.id, "taller de pintura", "2024-05-10", "16:00:00", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 0, org.city, org.address)
+                                logic.createEvent(org.id, "taller de pintura", "2024-05-10", "16:00:00", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 0, org.city, org.address, ["Tallers", "Art"])
                                     .then(() =>
                                         Event.findOne({})
                                             .then(act => {
@@ -27,6 +27,7 @@ describe("createEvent", () => {
                                                 expect(act.date).to.equal("2024-05-10")
                                                 expect(act.time).to.equal("16:00")
                                                 expect(act.description).to.equal("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                                                expect(act.categories).to.deep.equal(["Tallers", "Art"])
                                             })
                                     )
                             })

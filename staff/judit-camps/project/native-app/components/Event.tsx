@@ -3,15 +3,18 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native"
 import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import { useState } from "react"
 import { useContext } from "../context"
+import logic from "../logic"
 
-export default function Event({ item: ev, onAuthorClicked }) {
+export default function Event({ item: ev, onAuthorClicked, navigation }) {
     const [pressedBookmark, setPressedBookmark] = useState(false)
     // const [pressedMoreInfo, setPressedMoreInfo] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const { user, role } = useContext()
 
     const handleEventAuthorPress = (author) => {
-        onAuthorClicked(author)
+        if (user) {
+            onAuthorClicked(author)
+        } else Alert.alert("log in to...")
     }
 
     const toggleExpanded = () => {

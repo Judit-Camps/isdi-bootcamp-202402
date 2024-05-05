@@ -8,6 +8,8 @@ import getUserRole from "./getUserRole"
 import retrieveEvents from "./retrieveEvents"
 import createEvent from "./createEvent"
 import retrieveEventsOrg from "./retrieveEventsOrg"
+import findEvents from "./findEvents"
+import getLoggedInUserId from "./getLoggedInUserId"
 
 const logic = {
     registerUser,
@@ -19,7 +21,9 @@ const logic = {
     getUserRole,
     retrieveEvents,
     createEvent,
-    retrieveEventsOrg
+    retrieveEventsOrg,
+    findEvents,
+    getLoggedInUserId
 }
 
 export default logic

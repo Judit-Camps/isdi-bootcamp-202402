@@ -11,7 +11,6 @@ export default function LoginScreen({ navigation }) {
     const [password, setPassword] = useState('')
 
     const handleLogin = () => {
-
         try {
             logic.loginUser(username, password)
                 .then(() => {
@@ -28,7 +27,7 @@ export default function LoginScreen({ navigation }) {
                 })
                 .then(() => navigation.navigate("Home"))
                 .catch(error => {
-                    Alert.alert(error.message)
+                    console.log(error.message)
                 })
         } catch (error) {
             console.error(error.message)

@@ -47,23 +47,31 @@ const SECTIONS = [
         data: [
             {
                 key: "0",
-                text: "add more filters",
+                text: "+ Filtres",
             },
             {
                 key: "1",
-                text: "item 1",
+                text: "Tallers",
             },
             {
                 key: "2",
-                text: "item 2",
+                text: "Art",
             },
             {
                 key: "3",
-                text: "item 3",
+                text: "Música",
             },
             {
                 key: "4",
-                text: "item 4",
+                text: "Concerts",
+            },
+            {
+                key: "5",
+                text: "Xerrades",
+            },
+            {
+                key: "6",
+                text: "Llibres",
             }
         ]
     }
@@ -71,16 +79,17 @@ const SECTIONS = [
 
 const styles = StyleSheet.create({
     container: {
-        padding: 16
+        width: "100%",
     },
     title: {
-        fontSize: 24
+        fontSize: 20,
+        padding: 4
     },
     itemDiv: {
         backgroundColor: "red",
         padding: 16,
-        margin: 16,
-        height: 120,
+        margin: 8,
+        height: "auto",
         width: 100,
         borderRadius: 16
     },

@@ -1,15 +1,23 @@
-// import { util, validate } from "com"
-// import AsyncStorage from "@react-native-async-storage/async-storage"
+// @ts-nocheck
+import { util, validate, errors } from "../com/index.js"
+const { SystemError } = errors
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { decode } from 'base-64'
 
-// function getLoggedInUserId() {
-//     const token = AsyncStorage.getItem("token")
 
-//     validate.token(token)
+function getLoggedInUserId(): Promise<string> {
+    return AsyncStorage.getItem("token")
+        .catch(error => { throw new SystemError(error.message) })
+        .then(token => {
+            const [, payloadB64] = token.split(".")
+            const payloadJSON = decode(payloadB64)
+            const payload = JSON.parse(payloadJSON)
 
-//     const { sub: userId } = util.extractJwtPayload(token)
+            const { sub: userId } = payload
 
-//     return userId
+            return userId
+        })
 
-// }
+}
 
-// export default getLoggedInUserId()
+export default getLoggedInUserId()

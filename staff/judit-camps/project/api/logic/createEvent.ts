@@ -12,6 +12,7 @@ function createEvent(organizationId: string, title: string, date: string, time: 
     // validate.time
     validate.text(description, "description")
 
+
     return User.findById(organizationId)
         .catch(error => { throw new SystemError(error.message) })
         .then((org: UserType) => {
@@ -26,7 +27,8 @@ function createEvent(organizationId: string, title: string, date: string, time: 
                 description: description,
                 city: org.city,
                 address: org.address,
-                price: price
+                price: price,
+                categories: categories
             })
                 .catch(error => { throw new SystemError(error.message) })
         })

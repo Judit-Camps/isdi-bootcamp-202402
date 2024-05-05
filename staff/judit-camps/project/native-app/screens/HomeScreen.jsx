@@ -7,25 +7,37 @@ import CreateEventForm from "../components/CreateEventForm"
 import EventList from "../components/EventList";
 import FilterDiv from "../components/FilterDiv";
 import { FontAwesome } from "@expo/vector-icons";
+import EditEventForm from "../components/EditEventForm";
 
 export default function HomeScreen({ navigation }) {
     const { user, setUser, stamp, setRole } = useContext()
 
-    useEffect(() => {
-        try {
+    const [ev, setEvent] = useState(null)
 
-        } catch (error) {
-            console.error("------", error)
-        }
+    const [view, setView] = useState(null)
 
-    }, [])
+    const clearView = () => setView(null)
 
     const handleOnEventAuthorClicked = (author) => {
         navigation.navigate("OrganizationProfile", { author })
     }
 
+    const handleEditEvent = ev => {
+        setEvent(ev)
+        setView("edit-event")
+    }
+
+    const handleEditEventCancelClick = () => {
+        clearView()
+    }
+
+    const handleEventEdited = () => {
+
+    }
+
+
     return (
-        <View style={styles.main}>
+        <View style={{ marginBottom: 120 }}>
             <View style={styles.header} >
 
                 <View>
@@ -50,10 +62,14 @@ export default function HomeScreen({ navigation }) {
                 </View>
             </View>
 
-            <ScrollView style={{ marginBottom: 90, backgroundColor: "#E4F1E4" }}>
-                <FilterDiv />
-                <EventList stamp={stamp} onEventAuthorClick={handleOnEventAuthorClicked} />
+            <FilterDiv />
+            <ScrollView style={{ marginBottom: 180 }}>
+                <EventList stamp={stamp} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} />
+
             </ScrollView>
+
+            {view === "edit-event" && <EditEventForm ev={ev} onCancelClick={handleEditEventCancelClick} onEventEdited={handleEventEdited} />}
+
 
         </View >
     )

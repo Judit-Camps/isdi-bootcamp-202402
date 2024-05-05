@@ -2,11 +2,21 @@
 import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import EventListOrg from "../components/EventListOrg";
+import { useEffect } from "react";
+import logic from "../logic";
 
 export default function OrganizationProfileScreen({ navigation }) {
 
     const route = useRoute()
     const { author } = route.params
+
+    useEffect(() => {
+        try {
+            logic.findEvents({ organizationId: author.id })
+        } catch (error) {
+            console.error(error)
+        }
+    }, [])
 
     return (
         <View>

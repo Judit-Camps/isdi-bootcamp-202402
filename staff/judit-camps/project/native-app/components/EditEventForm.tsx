@@ -3,25 +3,23 @@ import React, { useState } from "react"
 import { ScrollView, Text, TextInput, Button, StyleSheet, Alert } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { MultipleSelectList } from "react-native-dropdown-select-list"
-import Picker from "@react-native-picker/picker"
 import logic from "../logic"
-import format from "date-fns"
 
 import { useContext } from "../context"
 
-export default function CreateEventForm({ onEventCreated }) {
+export default function EditEventForm({ onEventEdited, onCancelClick, ev }) {
     const { user, setStamp } = useContext()
     const [title, setTitle] = useState("")
     const [city, setCity] = useState("")
     const [address, setAddress] = useState("")
     const [description, setDescription] = useState("")
-    const [time, setTime] = useState(new Date())
+    const [time, setTime] = useState(new Date(ev.time))
     const [price, setPrice] = useState("")
-    const [date, setDate] = useState(new Date())
+    const [date, setDate] = useState(new Date(ev.date))
     const [showDatePicker, setShowDatePicker] = useState(false)
     const [showTimePicker, setShowTimePicker] = useState(false)
 
-    const [selectedCategories, setSelectedCategories] = useState([])
+    const [selectedCategories, setSelectedCategories] = useState(ev.categories)
     console.log("Selected category: ", selectedCategories)
 
     const handleDateChange = (event, selectedDate) => {
@@ -91,15 +89,16 @@ export default function CreateEventForm({ onEventCreated }) {
             <Text>Nom de l'activitat</Text>
             <TextInput
                 style={styles.input}
-                placeholder="Nom de l'activitat"
+                defaultValue={ev.title}
+                placeholder={ev.title}
                 value={title}
                 onChangeText={setTitle}
             />
             <Text>Poble/Ciutat</Text>
             <TextInput
                 style={styles.input}
-                defaultValue={user.city}
-                placeholder={user.city}
+                defaultValue={ev.city}
+                placeholder={ev.city}
                 value={city}
                 onChangeText={setCity}
             />
@@ -114,6 +113,8 @@ export default function CreateEventForm({ onEventCreated }) {
             <Text>Descripció</Text>
             <TextInput
                 style={styles.inputArea}
+                defaultValue={ev.description}
+                placeholder={ev.description}
                 multiline={true}
                 value={description}
                 onChangeText={setDescription}
@@ -152,44 +153,6 @@ export default function CreateEventForm({ onEventCreated }) {
     )
 }
 
-// const styles = StyleSheet.create({
-//     container: {
-//         paddingRight: 12,
-//         paddingTop: 10,
-//         marginTop: 20,
-//         marginBottom: 40,
-//         height: "80%",
-//         paddingBottom: 75
-//     },
-//     text: {
-//         fontSize: 24,
-//         fontWeight: "bold",
-
-//     },
-//     input: {
-//         width: "90%",
-//         height: 48,
-//         borderColor: "gray",
-//         borderWidth: 1,
-//         margin: 16,
-//         padding: 8,
-//         borderRadius: 16,
-//         fontSize: 16
-//     },
-//     inputArea: {
-//         width: '90%',
-//         height: 90,
-//         borderColor: 'gray',
-//         borderWidth: 1,
-//         margin: 16,
-//         padding: 8,
-//         borderRadius: 16,
-//         fontSize: 16
-//     },
-//     button: {
-//         margin: 30
-//     }
-// })
 
 const styles = StyleSheet.create({
     container: {
