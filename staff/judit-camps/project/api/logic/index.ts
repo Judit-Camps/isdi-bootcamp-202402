@@ -13,6 +13,9 @@ import retrieveEventsByAuthor from "./retrieveEventsByAuthor.ts"
 import findEvents from "./findEvents.ts"
 import deleteEvent from "./deleteEvent.ts"
 
+import saveEvent from "./saveEvent.ts"
+// import removeEvent from "./removeEvent.ts"
+
 const logic = {
     registerUser,
     authenticateUser,
@@ -27,7 +30,10 @@ const logic = {
     retrieveEventsByAuthor,
 
     findEvents,
-    deleteEvent
+    deleteEvent,
+
+    saveEvent,
+    // removeEvent
 }
 
 export default logic
