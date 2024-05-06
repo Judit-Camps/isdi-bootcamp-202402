@@ -20,4 +20,4 @@ function getLoggedInUserId(): Promise<string> {
 
 }
 
-export default getLoggedInUserId()
+export default getLoggedInUserId

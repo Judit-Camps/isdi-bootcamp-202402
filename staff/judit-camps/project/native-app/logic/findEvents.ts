@@ -4,12 +4,13 @@ import { validate, errors } from "../com/index.js";
 // function findEvents(organizationId?: string, location?: string, price?: number, date?: string, categories?: string[]) {
 function findEvents(options = {}) {
 
-    const { organizationId, location, price, date, categories } = options
+    console.log("logic - options: ", options)
+    const { organization, location, price, date, categories } = options
 
     const params = new URLSearchParams()
-    if (organizationId) {
-        validate.text(organizationId, "organizationId", true)
-        params.append("organizationId", organizationId)
+    if (organization) {
+        validate.text(organization, "organizationId", true)
+        params.append("organizationId", organization)
     }
     if (location) {
         validate.text(location, "location")
@@ -26,8 +27,10 @@ function findEvents(options = {}) {
         params.append("categories", categories.map(category => encodeURIComponent(category)).join(","))
     }
 
-    const queryString = params.toString()
-    const url = `${process.env.EXPO_PUBLIC_API_URL}/events/${queryString ? `?q=${queryString}` : ''}`;
+    const queryString = params.toString();
+    const url = `${process.env.EXPO_PUBLIC_API_URL}/events/${queryString ? `?${queryString}` : ''}`;
+
+    console.log("logic - findEvents - url: ", url)
 
     return fetch(url, {})
         .then(res => {

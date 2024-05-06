@@ -4,6 +4,7 @@ import { useRoute } from "@react-navigation/native";
 import EventListOrg from "../components/EventListOrg";
 import { useEffect } from "react";
 import logic from "../logic";
+import EventList from "../components/EventList";
 
 export default function OrganizationProfileScreen({ navigation }) {
 
@@ -12,6 +13,7 @@ export default function OrganizationProfileScreen({ navigation }) {
 
     useEffect(() => {
         try {
+            console.log(author.id)
             logic.findEvents({ organizationId: author.id })
         } catch (error) {
             console.error(error)
@@ -28,7 +30,7 @@ export default function OrganizationProfileScreen({ navigation }) {
 
             </View>
             <ScrollView>
-                <EventListOrg authorId={author.id} />
+                <EventList filter={organizationId = author.id} />
             </ScrollView>
 
         </View >

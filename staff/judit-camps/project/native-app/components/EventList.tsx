@@ -7,8 +7,7 @@ import Event from "./Event"
 export default function EventList({ stamp, filter, onEventAuthorClick, onEditEventClick }) {
     const [events, setEvents] = useState(null)
 
-
-
+    console.log("EventList - filter: ", filter)
     const loadEvents = () => {
         try {
             logic.findEvents(filter)

@@ -43,7 +43,12 @@ export default function HomeScreen({ navigation }) {
     }
 
     const handleFilters = (filter) => {
-        Alert.alert(filter)
+        console.log(filter)
+        if (filter === "+ Filtres") {
+            Alert.alert("show more filters")
+        } else {
+            setFilters(selectedFilters.categories.push(filter))
+        }
     }
 
 
