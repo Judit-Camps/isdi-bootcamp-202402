@@ -23,7 +23,6 @@ function saveEvent(userId: string, eventId: string): Promise<any> {
                         .then(() => {
                             return User.updateOne({ _id: userId }, { $push: { savedEvents: eventId } })
                         })
-                    // ]
                 })
         })
 

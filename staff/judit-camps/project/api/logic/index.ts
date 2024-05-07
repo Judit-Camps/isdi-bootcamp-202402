@@ -14,7 +14,7 @@ import findEvents from "./findEvents.ts"
 import deleteEvent from "./deleteEvent.ts"
 
 import saveEvent from "./saveEvent.ts"
-// import removeEvent from "./removeEvent.ts"
+import removeEvent from "./removeEvent.ts"
 
 const logic = {
     registerUser,
@@ -33,7 +33,7 @@ const logic = {
     deleteEvent,
 
     saveEvent,
-    // removeEvent
+    removeEvent
 }
 
 export default logic
