@@ -1,0 +1,1 @@
+curl -H "Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NjM0ZWViNDE0YmI1NzBiODRlNzk1ZWMiLCJyb2xlIjoicmVndWxhciIsInN0YXR1cyI6ImFjdGl2ZSIsImlhdCI6MTcxNTA2ODI3MX0.cgNCXMDF0sxUe1OYFWZ6MIiZzg82zNNqc3vd9pBXW8k" http://localhost:9000/users/6634eeb414bb570b84e795ec/savedEvents -v

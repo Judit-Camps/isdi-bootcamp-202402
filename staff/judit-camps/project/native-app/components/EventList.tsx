@@ -3,29 +3,12 @@ import logic from "../logic"
 import { useState, useEffect } from "react"
 import { View, Text, StyleSheet } from "react-native"
 import Event from "./Event"
+import { useContext } from "../context"
 
-export default function EventList({ stamp, filter, onEventAuthorClick, onEditEventClick }) {
-    const [events, setEvents] = useState(null)
+export default function EventList({ events, onEventAuthorClick, onEditEventClick }) {
+    const { setStamp } = useContext()
 
-    console.log("EventList - filter: ", filter)
-    const loadEvents = () => {
-        try {
-            logic.findEvents(filter)
-                .then(events => {
-                    setEvents(events)
-                })
-                .catch(error => console.error(error))
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    useEffect(() => {
-        loadEvents()
-    }, [stamp])
-
-
-    const handleEventDeleted = () => loadEvents()
+    const handleEventDeleted = () => setStamp(Date.now())
 
 
     const handleEventAuthorClicked = (author) => {
@@ -37,7 +20,6 @@ export default function EventList({ stamp, filter, onEventAuthorClick, onEditEve
     }
 
     return (
-
         <View style={styles.eventListContainer}>
             {events && events.length > 0 ? (
                 events.map(ev =>

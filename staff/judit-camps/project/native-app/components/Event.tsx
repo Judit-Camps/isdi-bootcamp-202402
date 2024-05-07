@@ -6,13 +6,13 @@ import { useContext } from "../context"
 import logic from "../logic"
 import eventStyles from "./EventStyles"
 
-export default function Event({ item: ev, onAuthorClicked, navigation, onDeleted }) {
+export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
     const [pressedBookmark, setPressedBookmark] = useState(false)
     // const [pressedMoreInfo, setPressedMoreInfo] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const [saved, setSaved] = useState(false)
 
-    const { user, role } = useContext()
+    const { user, role, setStamp } = useContext()
 
     const handleEventAuthorPress = (author) => {
         if (user) {
@@ -39,6 +39,7 @@ export default function Event({ item: ev, onAuthorClicked, navigation, onDeleted
                 .then(() => {
                     Alert.alert("esdeveniment guardat a preferits")
                     setSaved(true)
+                    setStamp(Date.now())
                 })
 
 
@@ -57,6 +58,7 @@ export default function Event({ item: ev, onAuthorClicked, navigation, onDeleted
                 .then(() => {
                     Alert.alert("esdeveniment borrat de preferits")
                     setSaved(false)
+                    setStamp(Date.now())
                 })
 
         } catch (error) {

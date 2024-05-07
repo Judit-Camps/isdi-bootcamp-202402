@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { decode } from 'base-64'
 
 
-function retrieveEvents() {
+function retrieveSavedEvents() {
     return AsyncStorage.getItem('token')
         .then(token => {
             validate.token(token)
@@ -15,7 +15,9 @@ function retrieveEvents() {
 
             const payload = JSON.parse(payloadJSON)
 
-            return fetch(`${process.env.EXPO_PUBLIC_API_URL}/events`, {
+            const { sub: userId } = payload
+
+            return fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/${userId}/savedEvents`, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
@@ -35,4 +37,4 @@ function retrieveEvents() {
 
 }
 
-export default retrieveEvents
+export default retrieveSavedEvents

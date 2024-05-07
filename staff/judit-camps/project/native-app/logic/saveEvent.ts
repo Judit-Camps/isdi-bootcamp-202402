@@ -11,7 +11,7 @@ function saveEvent(eventId: string) {
 
             validate.token(token)
 
-            return fetch(`${process.env.EXPO_PUBLIC_API_URL}/user/savedEvents/${eventId}`, {
+            return fetch(`${process.env.EXPO_PUBLIC_API_URL}/users/savedEvents/${eventId}`, {
                 method: "PATCH",
                 headers: {
                     authorization: `Bearer ${token}`

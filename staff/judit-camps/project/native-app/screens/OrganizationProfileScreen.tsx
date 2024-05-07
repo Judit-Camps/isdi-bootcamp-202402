@@ -2,23 +2,31 @@
 import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import EventListOrg from "../components/EventListOrg";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import logic from "../logic";
 import EventList from "../components/EventList";
 
 export default function OrganizationProfileScreen({ navigation }) {
 
+    const [events, setEvents] = useState(null)
+
     const route = useRoute()
     const { author } = route.params
 
-    useEffect(() => {
+    const loadEvents = () => {
         try {
-            console.log(author.id)
-            logic.findEvents({ organizationId: author.id })
+            logic.findEvents({ organization: author.id })
+                .then(events => {
+                    setEvents(events)
+                })
+                .catch(error => console.error(error))
         } catch (error) {
             console.error(error)
         }
-    }, [])
+    }
+    useEffect(() => {
+        loadEvents()
+    }, [stamp])
 
     return (
         <View>
@@ -30,7 +38,7 @@ export default function OrganizationProfileScreen({ navigation }) {
 
             </View>
             <ScrollView>
-                <EventList filter={organizationId = author.id} />
+                <EventList events={events} />
             </ScrollView>
 
         </View >

@@ -16,9 +16,7 @@ import deleteEvent from "./deleteEvent"
 import saveEvent from "./saveEvent"
 import removeEvent from "./removeEvent"
 
-// ?
-import retrieveEventsOrg from "./retrieveEventsOrg"
-
+import retrieveSavedEvents from "./retrieveSavedEvents"
 
 const logic = {
     registerUser,
@@ -29,7 +27,7 @@ const logic = {
     logOutUser,
     getUserRole,
     createEvent,
-    retrieveEventsOrg,
+    retrieveSavedEvents,
     findEvents,
     getLoggedInUserId,
     deleteEvent,

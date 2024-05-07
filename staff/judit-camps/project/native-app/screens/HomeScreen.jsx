@@ -11,6 +11,8 @@ import EditEventForm from "../components/EditEventForm";
 import MoreFilters from "../components/MoreFilters";
 
 export default function HomeScreen({ navigation }) {
+    const [events, setEvents] = useState(null)
+
     const { user, setUser, stamp, setRole } = useContext()
 
     const [selectedFilters, setFilters] = useState({
@@ -19,6 +21,22 @@ export default function HomeScreen({ navigation }) {
         price: null,
         categories: []
     })
+
+    const loadEvents = () => {
+        try {
+            logic.findEvents(selectedFilters)
+                .then(events => {
+                    setEvents(events)
+                })
+                .catch(error => console.error(error))
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    useEffect(() => {
+        loadEvents()
+    }, [stamp])
 
     const [ev, setEvent] = useState(null)
 
@@ -84,7 +102,7 @@ export default function HomeScreen({ navigation }) {
             <FilterDiv onFilter={handleFilters} />
             {view === "more-filters" && <MoreFilters />}
             <ScrollView style={{ marginBottom: 180 }}>
-                <EventList stamp={stamp} filter={selectedFilters} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} />
+                <EventList events={events} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} />
 
             </ScrollView>
 

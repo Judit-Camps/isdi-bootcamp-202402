@@ -4,13 +4,14 @@ import { useState, useEffect } from "react"
 import { View, Text, StyleSheet } from "react-native"
 import Event from "./Event"
 
-export default function EventListOrg({ stamp, authorId }) {
+export default function EventListSaved({ stamp, userId }) {
     const [events, setEvents] = useState(null)
 
     const loadEvents = () => {
         try {
-            logic.retrieveEventsOrg(authorId)
+            logic.retrieveSavedEvents(userId)
                 .then(events => {
+                    console.log("->", events)
                     setEvents(events)
                 })
                 .catch(error => console.error(error))

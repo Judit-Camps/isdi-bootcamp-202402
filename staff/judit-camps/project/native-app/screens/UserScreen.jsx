@@ -5,11 +5,29 @@ import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { useEffect } from "react";
 import EventList from "../components/EventList";
 import { useState } from "react";
+import EventList from "../components/EventList";
 
 export default function UserScreen({ navigation }) {
     const { user, setUser, role, setRole, stamp, setStamp } = useContext()
 
-    const [userId, setUserId] = useState(null)
+    const [events, setEvents] = useState(null)
+
+    const loadEvents = () => {
+        try {
+            logic.retrieveSavedEvents()
+                .then(events => {
+                    setEvents(events)
+                })
+                .catch(error => console.error(error))
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    useEffect(() => {
+        loadEvents()
+    }, [stamp])
+
     const [selectedFilters, setFilters] = useState({
         organization: null,
         location: null,
@@ -20,8 +38,6 @@ export default function UserScreen({ navigation }) {
     console.log(selectedFilters)
 
     console.log(userId)
-
-    const [ev, setEvent] = useState(null)
 
     const [view, setView] = useState(null)
 
@@ -91,12 +107,13 @@ export default function UserScreen({ navigation }) {
                         <View>
                             <Text>Esdeveniments guardats</Text>
 
+                            <ScrollView style={{ marginBottom: 240 }}>
+                                <EventList events={events} />
+                            </ScrollView>
                         </View>
                     ) : (
 
-                        <ScrollView style={{ marginBottom: 240 }}>
-                            <EventList stamp={stamp} filter={selectedFilters} onEditEventClick={handleEditEvent} />
-                        </ScrollView>
+                        <Text>Esdeveniments by org</Text>
                     )}
                 </View>
 
