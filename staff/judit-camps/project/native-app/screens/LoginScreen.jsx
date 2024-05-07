@@ -28,9 +28,11 @@ export default function LoginScreen({ navigation }) {
                 .then(() => navigation.navigate("Home"))
                 .catch(error => {
                     console.log(error.message)
+                    Alert.alert(error.message)
                 })
         } catch (error) {
             console.error(error.message)
+            Alert.alert(error.message)
         }
     }
 
@@ -51,14 +53,14 @@ export default function LoginScreen({ navigation }) {
                     onChangeText={setPassword}
                 />
 
-                <Pressable style={styles.button} onPress={handleLogin}>
-                    <Text style={styles.buttonText}>Entrar</Text>
+                <Pressable style={styles.buttonPrimary} onPress={handleLogin}>
+                    <Text style={styles.buttonTextPrimary}>Entrar</Text>
                 </Pressable>
-                <Pressable style={styles.button} onPress={() => navigation.navigate("RegisterReg")}>
-                    <Text style={styles.buttonText}>Registra't</Text>
+                <Pressable style={styles.buttonSecondary} onPress={() => navigation.navigate("RegisterReg")}>
+                    <Text style={styles.buttonTextSecondary}>Registra't</Text>
                 </Pressable>
-                <Pressable style={styles.button} onPress={() => navigation.navigate("Home")}>
-                    <Text style={styles.buttonText}>Cancel</Text>
+                <Pressable style={styles.buttonSecondary} onPress={() => navigation.navigate("Home")}>
+                    <Text style={styles.buttonTextSecondary}>Cancel</Text>
                 </Pressable>
             </View>
         </ScrollView>
@@ -89,7 +91,16 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff",
     },
 
-    button: {
+    buttonPrimary: {
+        width: "80%",
+        height: 48,
+        backgroundColor: "#0A6847",
+        borderRadius: 24,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    buttonSecondary: {
         width: "80%",
         height: 48,
         backgroundColor: "#7ABA78",
@@ -99,9 +110,14 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
 
-    buttonText: {
+    buttonTextPrimary: {
         fontSize: 16,
         fontWeight: "bold",
-        color: "#ffffff", // White color
+        color: "#ffffff",
+    },
+    buttonTextSecondary: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#ffffff",
     },
 })

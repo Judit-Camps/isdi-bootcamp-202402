@@ -86,9 +86,6 @@ export default function UserScreen({ navigation }) {
                         </View>
 
                     </View>
-                    <ScrollView>
-                        <Text style={styles.text}>Hello hello hello</Text>
-                    </ScrollView>
 
                     {role === "regular" ? (
                         <View>
@@ -96,12 +93,10 @@ export default function UserScreen({ navigation }) {
 
                         </View>
                     ) : (
-                        <View>
-                            <Text>Hello org</Text>
-                            <ScrollView style={{ marginBottom: 120 }}>
-                                <EventList stamp={stamp} filter={selectedFilters} onEditEventClick={handleEditEvent} />
-                            </ScrollView>
-                        </View>
+
+                        <ScrollView style={{ marginBottom: 240 }}>
+                            <EventList stamp={stamp} filter={selectedFilters} onEditEventClick={handleEditEvent} />
+                        </ScrollView>
                     )}
                 </View>
 

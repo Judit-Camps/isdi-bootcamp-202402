@@ -381,10 +381,12 @@ mongoose.connect(MONGODB_URL)
         api.patch("/user/savedEvents/:eventId", (req, res) => {
             try {
                 const { authorization } = req.headers
+                console.log(authorization)
 
                 const token = authorization.slice(7)
 
                 const { sub: userId } = jwt.verify(token, JWT_SECRET)
+                console.log("userID: ", userId)
 
                 const { eventId } = req.params
 

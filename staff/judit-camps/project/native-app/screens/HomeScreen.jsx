@@ -8,6 +8,7 @@ import EventList from "../components/EventList";
 import FilterDiv from "../components/FilterDiv";
 import { FontAwesome } from "@expo/vector-icons";
 import EditEventForm from "../components/EditEventForm";
+import MoreFilters from "../components/MoreFilters";
 
 export default function HomeScreen({ navigation }) {
     const { user, setUser, stamp, setRole } = useContext()
@@ -43,11 +44,12 @@ export default function HomeScreen({ navigation }) {
     }
 
     const handleFilters = (filter) => {
-        console.log(filter)
         if (filter === "+ Filtres") {
             Alert.alert("show more filters")
+            setView("more-filters")
         } else {
-            setFilters(selectedFilters.categories.push(filter))
+            console.log(filter)
+            // setFilters(selectedFilters.categories.push(filter))
         }
     }
 
@@ -68,6 +70,7 @@ export default function HomeScreen({ navigation }) {
 
                 </View>
 
+
                 <View style={{ display: "flex", flexDirection: "row" }}>
 
                     <TextInput style={styles.input} placeholder="Buscar" />
@@ -79,12 +82,14 @@ export default function HomeScreen({ navigation }) {
             </View>
 
             <FilterDiv onFilter={handleFilters} />
+            {view === "more-filters" && <MoreFilters />}
             <ScrollView style={{ marginBottom: 180 }}>
                 <EventList stamp={stamp} filter={selectedFilters} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} />
 
             </ScrollView>
 
             {view === "edit-event" && <EditEventForm ev={ev} onCancelClick={handleEditEventCancelClick} onEventEdited={handleEventEdited} />}
+
 
 
         </View >

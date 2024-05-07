@@ -13,6 +13,9 @@ import createEvent from "./createEvent"
 import findEvents from "./findEvents"
 import deleteEvent from "./deleteEvent"
 
+import saveEvent from "./saveEvent"
+import removeEvent from "./removeEvent"
+
 // ?
 import retrieveEventsOrg from "./retrieveEventsOrg"
 
@@ -29,7 +32,9 @@ const logic = {
     retrieveEventsOrg,
     findEvents,
     getLoggedInUserId,
-    deleteEvent
+    deleteEvent,
+    saveEvent,
+    removeEvent
 }
 
 export default logic
