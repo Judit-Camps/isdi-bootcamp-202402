@@ -22,9 +22,7 @@ const ItemList = ({ item, onFilterPressed }) => {
                 <Text style={styles.itemText} >{item.text}</Text>
             </TouchableOpacity>
         )
-
     )
-
 }
 
 export default function FilterDiv({ onFilter }) {

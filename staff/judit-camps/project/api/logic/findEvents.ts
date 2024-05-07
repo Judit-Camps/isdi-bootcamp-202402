@@ -6,7 +6,7 @@ import { User, Event } from "../data/index.ts"
 
 function findEvents({ organizationId, location, price, date, categories }: { organizationId?: string, location?: string, price?: number, date?: string, categories?: string[] } = {}): Promise<any> {
 
-    let query = Event.find().populate<{ author: { _id: ObjectId, name: string } }>('author', 'name').lean()
+    let query = Event.find()
 
     // Apply filters
     if (organizationId) query = query.where("author").equals(organizationId)
@@ -24,10 +24,13 @@ function findEvents({ organizationId, location, price, date, categories }: { org
 
     if (categories && categories.length > 0) query = query.where("categories").in(categories)
 
+    query = query.populate<{ author: { _id: ObjectId, name: string } }>('author', 'name').lean()
+        .populate<{ attendees: { _id: ObjectId, name: string, username: string } }>('attendees', '_id name username').lean()
+
     return query.exec()
         .catch(error => { throw new SystemError(error.message) })
         .then(events => {
-            return events.map<{ id: string, author: { id: string, name: string }, title: string, city: string, address: string, date: Date, time: string, description: string, price: number, categories: string[] }>(({ _id, author, title, city, address, date, time, description, price, categories }) => ({
+            return events.map<{ id: string, author: { id: string, name: string }, title: string, city: string, address: string, date: Date, time: string, description: string, price: number, categories: string[], attendees: [{ id: string, name: string, username: string }] }>(({ _id, author, title, city, address, date, time, description, price, categories, attendees }) => ({
                 id: _id.toString(),
                 author: {
                     id: author._id.toString(),
@@ -40,7 +43,12 @@ function findEvents({ organizationId, location, price, date, categories }: { org
                 time,
                 description,
                 price,
-                categories
+                categories,
+                attendees: attendees.map(att => ({
+                    id: att._id.toString(),
+                    name: att.name,
+                    username: att.username
+                }))
             }))
         })
 }

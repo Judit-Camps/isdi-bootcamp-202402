@@ -5,23 +5,24 @@ import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { useEffect } from "react";
 import EventList from "../components/EventList";
 import { useState } from "react";
-import EventList from "../components/EventList";
 
 export default function UserScreen({ navigation }) {
     const { user, setUser, role, setRole, stamp, setStamp } = useContext()
 
+    const [userId, setUserId] = useState(null)
     const [events, setEvents] = useState(null)
 
     const loadEvents = () => {
-        try {
-            logic.retrieveSavedEvents()
-                .then(events => {
-                    setEvents(events)
-                })
-                .catch(error => console.error(error))
-        } catch (error) {
-            console.error(error)
-        }
+        if (user)
+            try {
+                logic.retrieveSavedEvents()
+                    .then(events => {
+                        setEvents(events)
+                    })
+                    .catch(error => console.error(error))
+            } catch (error) {
+                console.error(error)
+            }
     }
 
     useEffect(() => {
@@ -35,9 +36,6 @@ export default function UserScreen({ navigation }) {
         categories: []
     })
 
-    console.log(selectedFilters)
-
-    console.log(userId)
 
     const [view, setView] = useState(null)
 
@@ -61,7 +59,7 @@ export default function UserScreen({ navigation }) {
 
     useEffect(() => {
         try {
-            if (user) {
+            if (user !== null) {
                 logic.getLoggedInUserId()
                     .then(userId => {
                         setUserId(userId)
@@ -108,7 +106,7 @@ export default function UserScreen({ navigation }) {
                             <Text>Esdeveniments guardats</Text>
 
                             <ScrollView style={{ marginBottom: 240 }}>
-                                <EventList events={events} />
+                                <EventList events={events} onEmptyText={"No tens cap esdeveniment guardat"} />
                             </ScrollView>
                         </View>
                     ) : (
@@ -118,15 +116,28 @@ export default function UserScreen({ navigation }) {
                 </View>
 
             ) : (
-                <View>
+                <View style={{ marginTop: 100, padding: 16, justifyContent: "center", alignItems: "center" }}>
                     <Text style={styles.text} >Inicia sessió per poder veure les teves activitats guardades!</Text>
-                    <Button title="Iniciar sessió" onPress={() => navigation.navigate("Login")} />
+                    <Pressable style={styles.bigButton} onPress={() => navigation.navigate("Login")}>
+                        <Text style={styles.buttonText}>
+                            Iniciar sessió
+                        </Text>
+                    </Pressable>
 
                     <Text style={styles.text}>Encara no tens un compte?</Text>
-                    <Button title="Registrar-se" onPress={() => navigation.navigate("RegisterReg")} />
+
+                    <Pressable style={styles.bigButton} onPress={() => navigation.navigate("RegisterReg")}>
+                        <Text style={styles.buttonText}>
+                            Registrar-se
+                        </Text>
+                    </Pressable>
 
                     <Text style={styles.text}>Sou una organització o associació i voleu ensenyar tot el que feu?</Text>
-                    <Button title="Registra-se com a organització" onPress={() => navigation.navigate("RegisterOrg")} />
+                    <Pressable style={styles.bigButton} onPress={() => navigation.navigate("RegisterOrg")}>
+                        <Text style={styles.buttonText}>
+                            Registrar-se com a organització
+                        </Text>
+                    </Pressable>
 
                 </View>
             )
@@ -170,6 +181,15 @@ const styles = StyleSheet.create({
 
     button: {
         width: "20%",
+        height: 48,
+        backgroundColor: "#7ABA78",
+        borderRadius: 24,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    bigButton: {
+        width: "50%",
         height: 48,
         backgroundColor: "#7ABA78",
         borderRadius: 24,

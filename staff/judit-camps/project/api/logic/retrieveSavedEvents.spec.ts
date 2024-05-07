@@ -12,7 +12,7 @@ import logic from "./index.ts"
 
 dotenv.config()
 
-describe("retrieveEvents", () => {
+describe("retrieveSavedEvents", () => {
     before(() => mongoose.connect(process.env.MONGODB_TEST_URL))
 
     it("Should retrieve all saved events for existing user", () =>
@@ -41,7 +41,6 @@ describe("retrieveEvents", () => {
                                                                     .then(events => {
                                                                         expect(events).to.have.lengthOf(2)
 
-                                                                        console.log(events)
                                                                         const e1 = events[0]
                                                                         const e3 = events[1]
 
@@ -54,7 +53,8 @@ describe("retrieveEvents", () => {
                                                                         expect(e1.time).to.equal(event1.time)
                                                                         expect(e1.description).to.equal(event1.description)
                                                                         expect(e1.price).to.equal(event1.price)
-                                                                        expect(e1.attendees[0]).to.equal(user.id)
+
+                                                                        expect(e1.attendees).to.equal(user.name)
 
 
                                                                         expect(e3.author.name).to.equal(org.name)

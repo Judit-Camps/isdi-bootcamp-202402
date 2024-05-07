@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { View, Text, TouchableOpacity, Alert } from "react-native"
 import { AntDesign, FontAwesome } from '@expo/vector-icons'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useContext } from "../context"
 import logic from "../logic"
 import eventStyles from "./EventStyles"
@@ -9,10 +9,20 @@ import eventStyles from "./EventStyles"
 export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
     const [pressedBookmark, setPressedBookmark] = useState(false)
     // const [pressedMoreInfo, setPressedMoreInfo] = useState(false)
-    const [expanded, setExpanded] = useState(false)
-    const [saved, setSaved] = useState(false)
+    const [expanded, setExpanded] = useState(null)
 
     const { user, role, setStamp } = useContext()
+
+    // useEffect(() => {
+
+    //     if (user && ev && ev.attendees && ev.attendees.includes(user.id)) {
+    //         console.log(pressedBookmark)
+    //         setPressedBookmark(true);
+    //     }
+    // }, [user, ev])
+
+
+
 
     const handleEventAuthorPress = (author) => {
         if (user) {
@@ -29,7 +39,7 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
     }
 
     const handleEventSave = () => {
-        setPressedBookmark(!pressedBookmark)
+        setPressedBookmark(true)
         console.log(ev.id)
         try {
             logic.saveEvent(ev.id)
@@ -38,7 +48,6 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
                 })
                 .then(() => {
                     Alert.alert("esdeveniment guardat a preferits")
-                    setSaved(true)
                     setStamp(Date.now())
                 })
 
@@ -49,7 +58,7 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
     }
 
     const handleEventRemove = () => {
-        setPressedBookmark(!pressedBookmark)
+        setPressedBookmark(false)
         try {
             logic.removeEvent(ev.id)
                 .catch(error => {
@@ -57,7 +66,6 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
                 })
                 .then(() => {
                     Alert.alert("esdeveniment borrat de preferits")
-                    setSaved(false)
                     setStamp(Date.now())
                 })
 
@@ -96,7 +104,7 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
                             onPress={handleEditPress}
                         />
                     ) : (
-                        pressedBookmark && saved ? (
+                        pressedBookmark ? (
                             <FontAwesome style={eventStyles.topIcon} name="bookmark" size={32} color="#0A6847" onPress={handleEventRemove}
                             />
                         ) : (
@@ -122,6 +130,9 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
                     <>
                         <Text style={eventStyles.moreInfo}>Hora: {ev.time}</Text>
                         <Text style={eventStyles.moreInfo}>Preu: {price}</Text>
+                        {/* {ev.attendees.map(p =>
+                            <Text key={p.id} >{p.id}</Text>
+                        )} */}
                     </>
                 )}
 

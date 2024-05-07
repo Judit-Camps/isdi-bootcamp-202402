@@ -85,7 +85,8 @@ const user = new Schema({
         enum: ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers"]
     },
     savedEvents: {
-        type: [ObjectId]
+        type: [ObjectId],
+        ref: "Event"
     },
     followings: {
         type: [ObjectId]
@@ -133,7 +134,8 @@ const event = new Schema({
         enum: ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers"]
     },
     attendees: {
-        type: [ObjectId]
+        type: [ObjectId],
+        ref: "User"
     }
 
 })

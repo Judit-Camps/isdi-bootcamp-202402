@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Button, ScrollView, TextInput, Pressable, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import logic from "../logic";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useContext } from "../context";
 import CreateEventForm from "../components/CreateEventForm"
 import EventList from "../components/EventList";
@@ -22,6 +21,8 @@ export default function HomeScreen({ navigation }) {
         categories: []
     })
 
+    console.log("--", selectedFilters)
+
     const loadEvents = () => {
         try {
             logic.findEvents(selectedFilters)
@@ -36,7 +37,7 @@ export default function HomeScreen({ navigation }) {
 
     useEffect(() => {
         loadEvents()
-    }, [stamp])
+    }, [stamp, selectedFilters])
 
     const [ev, setEvent] = useState(null)
 
@@ -67,8 +68,14 @@ export default function HomeScreen({ navigation }) {
             setView("more-filters")
         } else {
             console.log(filter)
-            // setFilters(selectedFilters.categories.push(filter))
+
+            const updated = [...selectedFilters.categories, filter]
+            setFilters({ ...selectedFilters, categories: updated })
         }
+    }
+
+    const handleMoreFiltersCancel = () => {
+        setView(null)
     }
 
 
@@ -100,7 +107,8 @@ export default function HomeScreen({ navigation }) {
             </View>
 
             <FilterDiv onFilter={handleFilters} />
-            {view === "more-filters" && <MoreFilters />}
+            {view === "more-filters" && <MoreFilters onCancelClick={handleMoreFiltersCancel} />}
+
             <ScrollView style={{ marginBottom: 180 }}>
                 <EventList events={events} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} />
 

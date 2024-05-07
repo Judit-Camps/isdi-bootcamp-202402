@@ -1,11 +1,9 @@
 // @ts-nocheck
-import logic from "../logic"
-import { useState, useEffect } from "react"
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, Pressable } from "react-native"
 import Event from "./Event"
 import { useContext } from "../context"
 
-export default function EventList({ events, onEventAuthorClick, onEditEventClick }) {
+export default function EventList({ events, onEventAuthorClick, onEditEventClick, onEmptyText }) {
     const { setStamp } = useContext()
 
     const handleEventDeleted = () => setStamp(Date.now())
@@ -26,7 +24,11 @@ export default function EventList({ events, onEventAuthorClick, onEditEventClick
                     <Event key={ev.id} item={ev} onAuthorClicked={handleEventAuthorClicked} onEditClick={handleEditClick} onDeleted={handleEventDeleted} />
                 )
             ) : (
-                <Text>No events available</Text>
+                <View>
+                    <Text>{onEmptyText}</Text>
+
+                </View>
+
             )}
         </View>
     )
@@ -35,5 +37,14 @@ export default function EventList({ events, onEventAuthorClick, onEditEventClick
 const styles = StyleSheet.create({
     eventListContainer: {
         marginBottom: 100
-    }
+    },
+    button: {
+        width: "20%",
+        height: 48,
+        backgroundColor: "#7ABA78",
+        borderRadius: 24,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20,
+    },
 })
