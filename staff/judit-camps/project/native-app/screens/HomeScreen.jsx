@@ -74,6 +74,13 @@ export default function HomeScreen({ navigation }) {
         }
     }
 
+    const handleRemoveFilter = (filter) => {
+        console.log("remove - ", filter)
+
+        const removed = selectedFilters.categories.filter(category => category !== filter)
+        setFilters({ ...selectedFilters, categories: removed })
+    }
+
     const handleMoreFiltersCancel = () => {
         setView(null)
     }
@@ -106,7 +113,7 @@ export default function HomeScreen({ navigation }) {
                 </View>
             </View>
 
-            <FilterDiv onFilter={handleFilters} />
+            <FilterDiv onAddFilter={handleFilters} onRemoveFilter={handleRemoveFilter} />
             {view === "more-filters" && <MoreFilters onCancelClick={handleMoreFiltersCancel} />}
 
             <ScrollView style={{ marginBottom: 180 }}>

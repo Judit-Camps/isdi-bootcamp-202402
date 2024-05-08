@@ -2,19 +2,23 @@
 import { useState } from "react"
 import { Text, View, FlatList, SectionList, SafeAreaView, StyleSheet, TouchableOpacity } from "react-native"
 
-const ItemList = ({ item, onFilterPressed }) => {
+const ItemList = ({ item, onFilterPressed, onFilterUnpressed }) => {
 
     const [pressed, setPressed] = useState(false)
 
     const handlePress = (item) => {
-        setPressed(!pressed)
+        onFilterPressed(item)
+        setPressed(true)
+    }
 
-        if (!pressed) onFilterPressed(item)
+    const handleUnpress = (item) => {
+        onFilterUnpressed(item)
+        setPressed(false)
     }
 
     return (
         pressed ? (
-            <TouchableOpacity style={styles.pressedItemDiv} onPress={() => handlePress(item.text)}>
+            <TouchableOpacity style={styles.pressedItemDiv} onPress={() => handleUnpress(item.text)}>
                 <Text style={styles.itemText} >{item.text}</Text>
             </TouchableOpacity >
         ) : (
@@ -25,9 +29,13 @@ const ItemList = ({ item, onFilterPressed }) => {
     )
 }
 
-export default function FilterDiv({ onFilter }) {
+export default function FilterDiv({ onAddFilter, onRemoveFilter }) {
     const handleFilterPress = (filter) => {
-        onFilter(filter)
+        onAddFilter(filter)
+    }
+
+    const handleFilterUnpress = (filter) => {
+        onRemoveFilter(filter)
     }
     return (
         <View style={styles.container}>
@@ -42,7 +50,7 @@ export default function FilterDiv({ onFilter }) {
                                 data={section.data}
                                 horizontal
                                 renderItem={({ item }) => {
-                                    return <ItemList item={item} onFilterPressed={handleFilterPress} />
+                                    return <ItemList item={item} onFilterPressed={handleFilterPress} onFilterUnpressed={handleFilterUnpress} />
                                 }}
                             />
                         </>
