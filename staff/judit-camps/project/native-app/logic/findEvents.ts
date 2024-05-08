@@ -24,10 +24,11 @@ function findEvents(options = {}) {
         params.append("price", price.toString())
     }
     if (categories) {
-        params.append("categories", categories.map(category => encodeURIComponent(category)).join(","))
+        categories.forEach(category => params.append("categories[]", encodeURIComponent(category)))
     }
 
     const queryString = params.toString();
+    console.log(queryString)
     const url = `${process.env.EXPO_PUBLIC_API_URL}/events/${queryString ? `?${queryString}` : ''}`;
 
     console.log("logic - findEvents - url: ", url)

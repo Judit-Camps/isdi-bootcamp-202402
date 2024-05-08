@@ -5,9 +5,11 @@ import EventListOrg from "../components/EventListOrg";
 import { useEffect, useState } from "react";
 import logic from "../logic";
 import EventList from "../components/EventList";
+import { useContext } from "../context";
 
 export default function OrganizationProfileScreen({ navigation }) {
 
+    const { stamp } = useContext()
     const [events, setEvents] = useState(null)
 
     const route = useRoute()

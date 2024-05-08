@@ -69,8 +69,8 @@ export default function HomeScreen({ navigation }) {
         } else {
             console.log(filter)
 
-            const updated = [...selectedFilters.categories, filter]
-            setFilters({ ...selectedFilters, categories: updated })
+            const updatedFilters = [...selectedFilters.categories, filter]
+            setFilters({ ...selectedFilters, categories: updatedFilters })
         }
     }
 

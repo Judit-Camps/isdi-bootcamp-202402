@@ -22,7 +22,7 @@ function findEvents({ organizationId, location, price, date, categories }: { org
 
     if (date) query = query.where("date").equals(date)
 
-    if (categories && categories.length > 0) query = query.where("categories").in(categories)
+    if (categories && categories.length > 0) query = query.where("categories").all(categories)
 
     query = query.populate<{ author: { _id: ObjectId, name: string } }>('author', 'name').lean()
         .populate<{ attendees: { _id: ObjectId, name: string, username: string } }>('attendees', '_id name username').lean()

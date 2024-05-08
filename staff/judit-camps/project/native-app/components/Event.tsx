@@ -27,9 +27,6 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
             }
     }, [user, ev])
 
-
-
-
     const handleEventAuthorPress = (author) => {
         if (user) {
             onAuthorClicked(author)
