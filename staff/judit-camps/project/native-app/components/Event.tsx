@@ -20,6 +20,7 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
                     .then(result => {
                         console.log("-------", result)
                         if (result) setPressedBookmark(true)
+                        else setPressedBookmark(false)
                     })
             } catch (error) {
                 console.error(error)
