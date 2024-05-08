@@ -133,10 +133,10 @@ const event = new Schema({
         type: [String],
         enum: ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers"]
     },
-    attendees: {
-        type: [ObjectId],
-        ref: "User"
-    }
+    attendees: [{
+        type: ObjectId,
+        ref: "User",
+    }]
 
 })
 

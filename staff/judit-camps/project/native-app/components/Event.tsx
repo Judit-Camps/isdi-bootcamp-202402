@@ -13,13 +13,18 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
 
     const { user, role, setStamp } = useContext()
 
-    // useEffect(() => {
-
-    //     if (user && ev && ev.attendees && ev.attendees.includes(user.id)) {
-    //         console.log(pressedBookmark)
-    //         setPressedBookmark(true);
-    //     }
-    // }, [user, ev])
+    useEffect(() => {
+        if (user)
+            try {
+                logic.isUserInEvent(ev)
+                    .then(result => {
+                        console.log("-------", result)
+                        if (result) setPressedBookmark(true)
+                    })
+            } catch (error) {
+                console.error(error)
+            }
+    }, [user, ev])
 
 
 
@@ -130,9 +135,11 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
                     <>
                         <Text style={eventStyles.moreInfo}>Hora: {ev.time}</Text>
                         <Text style={eventStyles.moreInfo}>Preu: {price}</Text>
-                        {/* {ev.attendees.map(p =>
-                            <Text key={p.id} >{p.id}</Text>
-                        )} */}
+
+                        <Text> Guardat per:</Text>
+                        {ev.attendees.map(p =>
+                            <Text key={p.id} >{p.username}</Text>
+                        )}
                     </>
                 )}
 

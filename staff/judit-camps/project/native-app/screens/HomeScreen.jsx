@@ -117,7 +117,7 @@ export default function HomeScreen({ navigation }) {
             {view === "more-filters" && <MoreFilters onCancelClick={handleMoreFiltersCancel} />}
 
             <ScrollView style={{ marginBottom: 180 }}>
-                <EventList events={events} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} />
+                <EventList events={events} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} textOnEmptyList={"No hi ha esdeveniments"} />
 
             </ScrollView>
 

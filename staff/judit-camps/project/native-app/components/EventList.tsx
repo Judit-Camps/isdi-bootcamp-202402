@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native"
 import Event from "./Event"
 import { useContext } from "../context"
 
-export default function EventList({ events, onEventAuthorClick, onEditEventClick, onEmptyText }) {
+export default function EventList({ events, onEventAuthorClick, onEditEventClick, textOnEmptyList }) {
     const { setStamp } = useContext()
 
     const handleEventDeleted = () => setStamp(Date.now())
@@ -25,7 +25,7 @@ export default function EventList({ events, onEventAuthorClick, onEditEventClick
                 )
             ) : (
                 <View>
-                    <Text>{onEmptyText}</Text>
+                    <Text>{textOnEmptyList}</Text>
 
                 </View>
 

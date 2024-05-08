@@ -21,7 +21,7 @@ function retrieveSavedEvents(userId: string): Promise<[{ id: string, author: { i
 
             return Event.find({ _id: { $in: user.savedEvents } })
                 .populate<{ author: { _id: ObjectId, name: string } }>('author', 'name').lean()
-                .populate<{ attendees: { _id: ObjectId, name: string, username: string } }>('author', 'name', 'username').lean()
+                .populate<{ attendees: { _id: ObjectId, name: string, username: string } }>('attendees', '_id name username').lean()
                 .catch(error => { throw new SystemError(error.message) })
                 .then(events =>
                     events.map<{ id: string, author: { id: string, name: string }, title: string, city: string, address: string, date: string, time: string, description: string, price: number, attendees: string[] }>(({ _id, author, title, city, address, date, time, description, price, attendees }) => ({
@@ -37,7 +37,11 @@ function retrieveSavedEvents(userId: string): Promise<[{ id: string, author: { i
                         time,
                         description,
                         price,
-                        attendees: attendees.map(att => ({ id: att._id.toString(), name: att.name, username: att.username }))
+                        attendees: attendees.map(att => ({
+                            id: att._id.toString(),
+                            name: att.name,
+                            username: att.username
+                        }))
                     }))
                 )
         })
