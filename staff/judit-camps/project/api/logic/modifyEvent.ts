@@ -2,14 +2,17 @@ import { validate, errors } from "com"
 import { User, Event } from "../data/index.ts"
 const { SystemError, NotFoundError, UnauthorizedError } = errors
 
-function modifyEvent(organizationId: string, eventId: string, title?: string, location?: string, address?: string, description?: string, categories?: string[], date?: string, time?: string): Promise<void> {
+function modifyEvent(organizationId: string, eventId: string, title?: string, city?: string, address?: string, description?: string, categories?: string[], date?: string, time?: string, price?: number): Promise<void> {
+    debugger
     validate.text(organizationId, "organizationId", true)
     validate.text(eventId, "eventId", true)
     if (title) validate.text(title, "title")
-    if (location) validate.text(location, "location")
+    if (typeof city !== 'undefined') {
+        validate.text(city, "city");
+    }
     if (address) validate.text(address, "address")
     if (description) validate.text(description, "description")
-    if (date) validate.date(Date)
+    if (date) validate.date(date)
 
 
     return User.findById(organizationId)
@@ -30,12 +33,13 @@ function modifyEvent(organizationId: string, eventId: string, title?: string, lo
                     return Event.updateOne({ _id: eventId, author: organizationId }, {
                         $set: {
                             title,
-                            location,
+                            city,
                             address,
                             description,
                             categories,
                             date: new Date(date),
-                            time
+                            time,
+                            price
                         }
                     })
                         .catch(error => { throw new SystemError(error.message) })

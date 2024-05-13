@@ -73,7 +73,7 @@ v.0.1
 - com
 
 ### Technologies
-- Tailwind
+
 
 ### Data model
 

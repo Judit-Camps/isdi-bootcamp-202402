@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { View, Text, TouchableOpacity, Alert } from "react-native"
+import { View, Text, Pressable, Alert } from "react-native"
 import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import { useState, useEffect } from "react"
 import { useContext } from "../context"
@@ -11,14 +11,13 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
     // const [pressedMoreInfo, setPressedMoreInfo] = useState(false)
     const [expanded, setExpanded] = useState(null)
 
-    const { user, role, setStamp } = useContext()
+    const { user, role, setStamp, showConfirm } = useContext()
 
     useEffect(() => {
         if (user)
             try {
                 logic.isUserInEvent(ev)
                     .then(result => {
-                        console.log("-------", result)
                         if (result) setPressedBookmark(true)
                         else setPressedBookmark(false)
                     })
@@ -30,7 +29,7 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
     const handleEventAuthorPress = (author) => {
         if (user) {
             onAuthorClicked(author)
-        } else Alert.alert("log in to...")
+        } else Alert.alert("Inicia sessió per veure més")
     }
 
     const toggleExpanded = () => {
@@ -50,7 +49,7 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
                     console.error(error)
                 })
                 .then(() => {
-                    Alert.alert("esdeveniment guardat a preferits")
+                    Alert.alert("Esdeveniment guardat a preferits")
                     setStamp(Date.now())
                 })
 
@@ -62,23 +61,25 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
 
     const handleEventRemove = () => {
         setPressedBookmark(false)
+
         try {
             logic.removeEvent(ev.id)
                 .catch(error => {
                     console.error(error)
                 })
                 .then(() => {
-                    Alert.alert("esdeveniment borrat de preferits")
+                    Alert.alert("Esdeveniment borrat de preferits")
                     setStamp(Date.now())
                 })
 
         } catch (error) {
             console.error(error)
-        }
 
+        }
     }
 
     const handleDeletePress = (eventId) => {
+
         console.log(eventId)
         try {
             logic.deleteEvent(eventId)
@@ -98,7 +99,8 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
     }
 
     return (
-        <TouchableOpacity onPress={toggleExpanded} activeOpacity={1}>
+        <>
+
             <View style={eventStyles.eventContainer}>
                 <Text style={eventStyles.eventTitle}>{ev.title}</Text>
                 {(!user || (role === "organization" && ev.author.name !== user.name)) ? null :
@@ -122,31 +124,45 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
                     ))
                 }
 
-                <TouchableOpacity onPress={() => handleEventAuthorPress(ev.author)}>
+                <Pressable onPress={() => handleEventAuthorPress(ev.author)}>
                     <Text style={eventStyles.eventOrganization}>{ev.author.name}</Text>
-                </TouchableOpacity>
+                </Pressable>
                 <Text style={eventStyles.eventLocation}>{ev.city}</Text>
                 <Text style={[eventStyles.description, { maxHeight: expanded ? '100%' : 40 }]} numberOfLines={expanded ? null : 1}>
                     {ev.description}
                 </Text>
                 {expanded && (
                     <>
+                        <Text style={eventStyles.moreInfo}>Data: {ev.date}</Text>
                         <Text style={eventStyles.moreInfo}>Hora: {ev.time}</Text>
                         <Text style={eventStyles.moreInfo}>Preu: {price}</Text>
 
-                        <Text> Guardat per:</Text>
-                        {ev.attendees.map(p =>
-                            <Text key={p.id} >{p.username}</Text>
+                        {ev.attendees.length > 0 && (
+                            <View>
+                                <Text>Guardat per:</Text>
+                                {ev.attendees.map(p =>
+                                    <Text key={p.id}>{p.username}</Text>
+                                )}
+                            </View>
                         )}
                     </>
                 )}
 
                 {(user && role === "organization" && ev.author.name === user.name) &&
                     <AntDesign style={eventStyles.deleteIcon} name="delete" size={30} color="#0A6847"
-                        onPress={() => handleDeletePress(ev.id)}
+                        onLongPress={() => handleDeletePress(ev.id)}
                     />
                 }
             </View>
-        </TouchableOpacity>
+            {expanded ? (
+                <Pressable style={eventStyles.toggle} onPress={toggleExpanded} activeOpacity={1}>
+                    <AntDesign style={eventStyles.toggleIcon} name="caretup" size={24} color="black" />
+                </Pressable>
+            ) : (
+                <Pressable style={eventStyles.toggle} onPress={toggleExpanded} activeOpacity={1}>
+                    <AntDesign style={eventStyles.toggleIcon} name="caretdown" size={24} color="black" />
+                </Pressable>
+            )}
+        </>
     )
 }

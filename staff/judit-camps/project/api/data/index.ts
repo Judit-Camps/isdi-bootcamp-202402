@@ -82,7 +82,7 @@ const user = new Schema({
     },
     affinities: {
         type: [String],
-        enum: ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers"]
+        enum: ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers", "Xerrades"]
     },
     savedEvents: {
         type: [ObjectId],
@@ -131,7 +131,7 @@ const event = new Schema({
     },
     categories: {
         type: [String],
-        enum: ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers"]
+        enum: ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers", "Xerrades"]
     },
     attendees: [{
         type: ObjectId,

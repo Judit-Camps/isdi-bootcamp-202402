@@ -26,6 +26,8 @@ function findEvents({ organizationId, location, price, date, categories }: { org
 
     query = query.populate<{ author: { _id: ObjectId, name: string } }>('author', 'name').lean()
         .populate<{ attendees: { _id: ObjectId, name: string, username: string } }>('attendees', '_id name username').lean()
+        .sort({ date: 1 })
+        .sort({ 'attendees.length': -1 })
 
     return query.exec()
         .catch(error => { throw new SystemError(error.message) })
@@ -39,7 +41,12 @@ function findEvents({ organizationId, location, price, date, categories }: { org
                 title,
                 city,
                 address,
-                date,
+                date: date.toLocaleDateString("ca-ES", {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                }),
                 time,
                 description,
                 price,

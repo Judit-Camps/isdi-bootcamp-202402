@@ -14,15 +14,26 @@ export default function UserScreen({ navigation }) {
 
     const loadEvents = () => {
         if (user)
-            try {
-                logic.retrieveSavedEvents()
-                    .then(events => {
-                        setEvents(events)
-                    })
-                    .catch(error => console.error(error))
-            } catch (error) {
-                console.error(error)
-            }
+            if (role === "regular")
+                try {
+                    logic.retrieveSavedEvents()
+                        .then(events => {
+                            setEvents(events)
+                        })
+                        .catch(error => console.error(error))
+                } catch (error) {
+                    console.error(error)
+                }
+            else if (role === "organization")
+                try {
+                    logic.findEvents({ organization: userId })
+                        .then(events => {
+                            setEvents(events)
+                        })
+                        .catch(error => console.error(error))
+                } catch (error) {
+                    console.error(error)
+                }
     }
 
     useEffect(() => {
@@ -111,7 +122,12 @@ export default function UserScreen({ navigation }) {
                         </View>
                     ) : (
 
-                        <Text>Esdeveniments by org</Text>
+                        <View>
+                            <Text>Esdeveniments by org</Text>
+                            <ScrollView style={{ marginBottom: 240 }}>
+                                <EventList events={events} onEmptyText={"Encara no has creat cap event"} />
+                            </ScrollView>
+                        </View>
                     )}
                 </View>
 

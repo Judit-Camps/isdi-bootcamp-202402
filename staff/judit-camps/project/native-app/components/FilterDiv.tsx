@@ -7,8 +7,10 @@ const ItemList = ({ item, onFilterPressed, onFilterUnpressed }) => {
     const [pressed, setPressed] = useState(false)
 
     const handlePress = (item) => {
+        console.log(item)
+        if (item !== "+ Filtres")
+            setPressed(true)
         onFilterPressed(item)
-        setPressed(true)
     }
 
     const handleUnpress = (item) => {
@@ -19,7 +21,7 @@ const ItemList = ({ item, onFilterPressed, onFilterUnpressed }) => {
     return (
         pressed ? (
             <TouchableOpacity style={styles.pressedItemDiv} onPress={() => handleUnpress(item.text)}>
-                <Text style={styles.itemText} >{item.text}</Text>
+                <Text style={styles.itemTextPressed} >{item.text}</Text>
             </TouchableOpacity >
         ) : (
             <TouchableOpacity style={styles.itemDiv} onPress={() => handlePress(item.text)}>
@@ -113,22 +115,28 @@ const styles = StyleSheet.create({
         padding: 4
     },
     itemDiv: {
-        backgroundColor: "pink",
+        backgroundColor: "#7aba78",
         padding: 16,
         margin: 8,
         height: "auto",
-        width: 100,
+        width: 110,
         borderRadius: 16
     },
     pressedItemDiv: {
-        backgroundColor: "red",
+        backgroundColor: "#0a6847",
         padding: 16,
         margin: 8,
         height: "auto",
-        width: 100,
+        width: 110,
         borderRadius: 16
     },
     itemText: {
+        fontSize: 16,
+        textAlign: "center",
+    },
+    itemTextPressed: {
+        color: "white",
+        fontWeight: "bold",
         fontSize: 16,
         textAlign: "center",
     }

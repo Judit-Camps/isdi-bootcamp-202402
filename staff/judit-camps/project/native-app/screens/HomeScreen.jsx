@@ -12,7 +12,7 @@ import MoreFilters from "../components/MoreFilters";
 export default function HomeScreen({ navigation }) {
     const [events, setEvents] = useState(null)
 
-    const { user, setUser, stamp, setRole } = useContext()
+    const { user, stamp } = useContext()
 
     const [selectedFilters, setFilters] = useState({
         organization: null,
@@ -64,7 +64,6 @@ export default function HomeScreen({ navigation }) {
 
     const handleFilters = (filter) => {
         if (filter === "+ Filtres") {
-            Alert.alert("show more filters")
             setView("more-filters")
         } else {
             console.log(filter)
@@ -82,9 +81,13 @@ export default function HomeScreen({ navigation }) {
     }
 
     const handleMoreFiltersCancel = () => {
-        setView(null)
+        clearView()
     }
 
+    const handleSubmitFilters = (filters) => {
+        clearView()
+        setFilters(filters)
+    }
 
     return (
         <View style={{ marginBottom: 120 }}>
@@ -114,10 +117,10 @@ export default function HomeScreen({ navigation }) {
             </View>
 
             <FilterDiv onAddFilter={handleFilters} onRemoveFilter={handleRemoveFilter} />
-            {view === "more-filters" && <MoreFilters onCancelClick={handleMoreFiltersCancel} />}
+            {view === "more-filters" && <MoreFilters onCancelClick={handleMoreFiltersCancel} onSubmitFilters={handleSubmitFilters} setFilters />}
 
             <ScrollView style={{ marginBottom: 180 }}>
-                <EventList events={events} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} textOnEmptyList={"No hi ha esdeveniments"} />
+                <EventList events={events} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} textOnEmptyList={"Encara no hi ha esdeveniments"} />
 
             </ScrollView>
 

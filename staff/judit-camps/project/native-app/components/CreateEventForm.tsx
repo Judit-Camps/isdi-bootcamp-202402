@@ -1,11 +1,13 @@
 // @ts-nocheck
 import React, { useState } from "react"
-import { ScrollView, Text, TextInput, Button, StyleSheet, Alert } from "react-native"
+import { ScrollView, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView, View } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { MultipleSelectList } from "react-native-dropdown-select-list"
 import Picker from "@react-native-picker/picker"
 import logic from "../logic"
 import format from "date-fns"
+import Selection from "./Selection"
+import PriceSelector from "./PriceSelector"
 
 import { useContext } from "../context"
 
@@ -21,8 +23,15 @@ export default function CreateEventForm({ onEventCreated }) {
     const [showDatePicker, setShowDatePicker] = useState(false)
     const [showTimePicker, setShowTimePicker] = useState(false)
 
+    const categories = ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers", "Xerrades"].sort()
+
     const [selectedCategories, setSelectedCategories] = useState([])
-    console.log("Selected category: ", selectedCategories)
+
+    const handleSelectedCategories = (selected) => {
+        setSelectedCategories(selected)
+        console.log("Selected category: ", selected)
+    }
+
 
     const handleDateChange = (event, selectedDate) => {
         const currentDate = selectedDate || date
@@ -39,7 +48,6 @@ export default function CreateEventForm({ onEventCreated }) {
     const handleSubmit = () => {
         console.log("Form submitted")
 
-
         let eventCity
         if (!city) {
             eventCity = user.city
@@ -50,9 +58,8 @@ export default function CreateEventForm({ onEventCreated }) {
             eventAddress = user.address
         } else eventAddress = address
 
-
-
         try {
+            console.log(selectedCategories)
             logic.createEvent(title, eventCity, eventAddress, description, date.toLocaleTimeString(), 0, date.toLocaleDateString("en-CA").split(',')[0].trim(), selectedCategories)
                 .then(() => {
                     setStamp(Date.now())
@@ -62,6 +69,7 @@ export default function CreateEventForm({ onEventCreated }) {
                     setDescription("")
                     setTime(new Date())
                     setDate(new Date())
+                    setSelectedCategories([])
                     Alert.alert("Event creat")
 
                     onEventCreated()
@@ -82,114 +90,75 @@ export default function CreateEventForm({ onEventCreated }) {
     ]
 
     return (
-        <ScrollView style={styles.container}>
-            {/* <MultipleSelectList
-                setSelected={(val) => setSelectedCategories(val)}
-                data={data}
-                placeholder="Categories i/o temàtiques"
-            /> */}
-            <Text>Nom de l'activitat</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Nom de l'activitat"
-                value={title}
-                onChangeText={setTitle}
-            />
-            <Text>Poble/Ciutat</Text>
-            <TextInput
-                style={styles.input}
-                defaultValue={user.city}
-                placeholder={user.city}
-                value={city}
-                onChangeText={setCity}
-            />
-            <Text>Adreça</Text>
-            <TextInput
-                style={styles.input}
-                defaultValue={user.address}
-                placeholder={user.address}
-                value={address}
-                onChangeText={setAddress}
-            />
-            <Text>Descripció</Text>
-            <TextInput
-                style={styles.inputArea}
-                multiline={true}
-                value={description}
-                onChangeText={setDescription}
-            />
+        <KeyboardAvoidingView>
+            <View>
+                <ScrollView style={styles.container}>
+                    <Text>Categories</Text>
+                    <Selection categories={categories} placeholderText="Escriu i tria: Art, Tallers..." selectedCategories={handleSelectedCategories} >
 
-            <Text>Dia</Text>
-            <DateTimePicker
-                value={date}
-                mode="date"
-                is24Hour={true}
-                display="default"
-                onChange={handleDateChange}
-            />
+                    </Selection>
 
-            <Text>Hora</Text>
-            <DateTimePicker
-                value={date}
-                mode="time"
-                is24Hour={true}
-                display="default"
-                onChange={handleTimeChange}
-            />
+                    <Text>Nom de l'activitat</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Nom de l'activitat"
+                        value={title}
+                        onChangeText={setTitle}
+                    />
+                    <Text>Poble/Ciutat</Text>
+                    <TextInput
+                        style={styles.input}
+                        defaultValue={user.city}
+                        placeholder={user.city}
+                        value={city}
+                        onChangeText={setCity}
+                    />
+                    <Text>Adreça</Text>
+                    <TextInput
+                        style={styles.input}
+                        defaultValue={user.address}
+                        placeholder={user.address}
+                        value={address}
+                        onChangeText={setAddress}
+                    />
+                    <Text>Descripció</Text>
+                    <TextInput
+                        style={styles.inputArea}
+                        multiline={true}
+                        value={description}
+                        onChangeText={setDescription}
+                    />
 
-            <Text>Price</Text>
-            {/* <Picker
-                selectedValue={price}
-                onValueChange={(itemValue, itemIndex) => setPrice(itemValue)}
-            >
-                <Picker.Item label="Free" value="0" />
-                <Picker.Item label="Pay What You Want" value="-1" />
-                <Picker.Item label="Price" value="price" />
-            </Picker> */}
+                    <Text>Dia</Text>
+                    <DateTimePicker
+                        value={date}
+                        mode="date"
+                        is24Hour={true}
+                        display="default"
+                        onChange={handleDateChange}
+                    />
 
-            <Button title="Submit" onPress={handleSubmit} style={styles.button} />
-        </ScrollView>
+                    <Text>Hora</Text>
+                    <DateTimePicker
+                        value={date}
+                        mode="time"
+                        is24Hour={true}
+                        display="default"
+                        onChange={handleTimeChange}
+                    />
+
+                    <Text>Price</Text>
+                    <PriceSelector></PriceSelector>
+
+                    <Button title="Submit" onPress={handleSubmit} style={styles.button} />
+                </ScrollView>
+
+            </View>
+
+        </KeyboardAvoidingView>
     )
 }
 
-// const styles = StyleSheet.create({
-//     container: {
-//         paddingRight: 12,
-//         paddingTop: 10,
-//         marginTop: 20,
-//         marginBottom: 40,
-//         height: "80%",
-//         paddingBottom: 75
-//     },
-//     text: {
-//         fontSize: 24,
-//         fontWeight: "bold",
-
-//     },
-//     input: {
-//         width: "90%",
-//         height: 48,
-//         borderColor: "gray",
-//         borderWidth: 1,
-//         margin: 16,
-//         padding: 8,
-//         borderRadius: 16,
-//         fontSize: 16
-//     },
-//     inputArea: {
-//         width: '90%',
-//         height: 90,
-//         borderColor: 'gray',
-//         borderWidth: 1,
-//         margin: 16,
-//         padding: 8,
-//         borderRadius: 16,
-//         fontSize: 16
-//     },
-//     button: {
-//         margin: 30
-//     }
-// })
 
 const styles = StyleSheet.create({
     container: {

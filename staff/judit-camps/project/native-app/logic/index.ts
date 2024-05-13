@@ -19,6 +19,8 @@ import removeEvent from "./removeEvent"
 import retrieveSavedEvents from "./retrieveSavedEvents"
 import isUserInEvent from "./isUserInEvent"
 
+import retrieveOrgs from "./retrieveOrgs"
+
 const logic = {
     registerUser,
     registerOrg,
@@ -34,7 +36,8 @@ const logic = {
     deleteEvent,
     saveEvent,
     removeEvent,
-    isUserInEvent
+    isUserInEvent,
+    retrieveOrgs
 }
 
 export default logic

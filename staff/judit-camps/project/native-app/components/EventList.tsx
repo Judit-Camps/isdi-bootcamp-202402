@@ -24,9 +24,8 @@ export default function EventList({ events, onEventAuthorClick, onEditEventClick
                     <Event key={ev.id} item={ev} onAuthorClicked={handleEventAuthorClicked} onEditClick={handleEditClick} onDeleted={handleEventDeleted} />
                 )
             ) : (
-                <View>
-                    <Text>{textOnEmptyList}</Text>
-
+                <View style={{ display: "flex", alignItems: "center", paddingTop: 24 }}>
+                    <Text style={{ fontSize: 16 }}>{textOnEmptyList}</Text>
                 </View>
 
             )}

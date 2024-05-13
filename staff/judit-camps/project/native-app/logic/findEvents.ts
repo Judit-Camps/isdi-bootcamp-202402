@@ -4,7 +4,6 @@ import { validate, errors } from "../com/index.js";
 // function findEvents(organizationId?: string, location?: string, price?: number, date?: string, categories?: string[]) {
 function findEvents(options = {}) {
 
-    console.log("logic - options: ", options)
     const { organization, location, price, date, categories } = options
 
     const params = new URLSearchParams()
@@ -28,7 +27,6 @@ function findEvents(options = {}) {
     }
 
     const queryString = params.toString();
-    console.log(queryString)
     const url = `${process.env.EXPO_PUBLIC_API_URL}/events/${queryString ? `?${queryString}` : ''}`;
 
     console.log("logic - findEvents - url: ", url)

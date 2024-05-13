@@ -26,8 +26,6 @@ function createEvent(title: string, city: string, address: string, description: 
                 categories
             }
 
-            console.log("-->", ev)
-
             const json = JSON.stringify(ev)
 
             return fetch(`${process.env.EXPO_PUBLIC_API_URL}/events`, {
