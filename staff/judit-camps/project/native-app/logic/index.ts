@@ -15,6 +15,7 @@ import deleteEvent from "./deleteEvent"
 
 import saveEvent from "./saveEvent"
 import removeEvent from "./removeEvent"
+import modifyEvent from "./modifyEvent"
 
 import retrieveSavedEvents from "./retrieveSavedEvents"
 import isUserInEvent from "./isUserInEvent"
@@ -35,6 +36,7 @@ const logic = {
     getLoggedInUserId,
     deleteEvent,
     saveEvent,
+    modifyEvent,
     removeEvent,
     isUserInEvent,
     retrieveOrgs

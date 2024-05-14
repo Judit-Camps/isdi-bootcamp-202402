@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, Button, ScrollView, TextInput, Pressable, Alert
 import { useState, useEffect } from "react";
 import logic from "../logic";
 import { useContext } from "../context";
-import CreateEventForm from "../components/CreateEventForm"
 import EventList from "../components/EventList";
 import FilterDiv from "../components/FilterDiv";
 import { FontAwesome } from "@expo/vector-icons";
@@ -12,7 +11,9 @@ import MoreFilters from "../components/MoreFilters";
 export default function HomeScreen({ navigation }) {
     const [events, setEvents] = useState(null)
 
-    const { user, stamp } = useContext()
+    const [eventEdit, setEventEdit] = useState(null)
+
+    const { user, stamp, setStamp } = useContext()
 
     const [selectedFilters, setFilters] = useState({
         organization: null,
@@ -59,7 +60,9 @@ export default function HomeScreen({ navigation }) {
     }
 
     const handleEventEdited = () => {
-
+        clearView()
+        setStamp(Date.now())
+        setEventEdit(null)
     }
 
     const handleFilters = (filter) => {
@@ -124,8 +127,7 @@ export default function HomeScreen({ navigation }) {
 
             </ScrollView>
 
-            {view === "edit-event" && <EditEventForm ev={ev} onCancelClick={handleEditEventCancelClick} onEventEdited={handleEventEdited} />}
-
+            {view === "edit-event" && <EditEventForm ev={ev} onCancelClick={handleEditEventCancelClick} onEventModified={handleEventEdited} />}
 
 
         </View >

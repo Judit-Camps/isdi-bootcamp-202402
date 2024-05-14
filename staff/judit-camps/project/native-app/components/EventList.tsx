@@ -13,8 +13,8 @@ export default function EventList({ events, onEventAuthorClick, onEditEventClick
         onEventAuthorClick(author)
     }
 
-    const handleEditClick = post => {
-        onEditEventClick(post)
+    const handleEditClick = (ev) => {
+        onEditEventClick(ev)
     }
 
     return (

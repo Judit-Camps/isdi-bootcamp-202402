@@ -5,12 +5,17 @@ import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { useEffect } from "react";
 import EventList from "../components/EventList";
 import { useState } from "react";
+import EditEventForm from "../components/EditEventForm";
 
 export default function UserScreen({ navigation }) {
     const { user, setUser, role, setRole, stamp, setStamp } = useContext()
 
+    const [eventEdit, setEventEdit] = useState(null)
+    const [view, setView] = useState(null)
     const [userId, setUserId] = useState(null)
     const [events, setEvents] = useState(null)
+
+    const clearView = () => setView(null)
 
     const loadEvents = () => {
         if (user)
@@ -47,9 +52,6 @@ export default function UserScreen({ navigation }) {
         categories: []
     })
 
-
-    const [view, setView] = useState(null)
-
     const handleLogOutClick = () => {
         try {
             logic.logOutUser()
@@ -63,9 +65,19 @@ export default function UserScreen({ navigation }) {
         }
     }
 
-    const handleEditEvent = ev => {
-        setEvent(ev)
+    const handleEditEvent = (ev) => {
+        setEventEdit(ev)
         setView("edit-event")
+    }
+
+    const handleEditEventCancelClick = () => {
+        clearView()
+    }
+
+    const handleEventEdited = () => {
+        clearView()
+        setStamp(Date.now())
+        setEventEdit(null)
     }
 
     useEffect(() => {
@@ -74,7 +86,6 @@ export default function UserScreen({ navigation }) {
                 logic.getLoggedInUserId()
                     .then(userId => {
                         setUserId(userId)
-                        console.log("userI: ", userId)
                         setFilters(prevFilters => ({ ...prevFilters, organization: userId }))
                         setStamp(Date.now())
                     })
@@ -123,9 +134,9 @@ export default function UserScreen({ navigation }) {
                     ) : (
 
                         <View>
-                            <Text>Esdeveniments by org</Text>
+                            <Text>Esdeveniments creats</Text>
                             <ScrollView style={{ marginBottom: 240 }}>
-                                <EventList events={events} onEmptyText={"Encara no has creat cap event"} />
+                                <EventList events={events} onEditEventClick={handleEditEvent} textOnEmptyList={"Encara no has creat cap esdeveniment"} />
                             </ScrollView>
                         </View>
                     )}
@@ -158,6 +169,9 @@ export default function UserScreen({ navigation }) {
                 </View>
             )
             }
+
+
+            {view === "edit-event" && <EditEventForm ev={eventEdit} onCancelClick={handleEditEventCancelClick} onEventModified={handleEventEdited} />}
         </View>
     )
 }

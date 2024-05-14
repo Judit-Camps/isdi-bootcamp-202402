@@ -19,9 +19,7 @@ export default function CreateScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         padding: 16,
-        marginTop: 40,
-        backgroundColor: 'pink',
-        borderRadius: 16,
-        margin: 16
+        backgroundColor: "#f6e9b2",
+        padding: 24
     }
 })

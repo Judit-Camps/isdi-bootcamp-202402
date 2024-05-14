@@ -6,6 +6,8 @@ import { User, Event } from "../data/index.ts"
 
 function findEvents({ organizationId, location, price, date, categories }: { organizationId?: string, location?: string, price?: number, date?: string, categories?: string[] } = {}): Promise<any> {
 
+    const decodedCategories = categories ? categories.map(category => decodeURIComponent(category)) : []
+
     let query = Event.find()
 
     // Apply filters
@@ -22,7 +24,7 @@ function findEvents({ organizationId, location, price, date, categories }: { org
 
     if (date) query = query.where("date").equals(date)
 
-    if (categories && categories.length > 0) query = query.where("categories").all(categories)
+    if (categories && categories.length > 0) query = query.where("categories").all(decodedCategories)
 
     query = query.populate<{ author: { _id: ObjectId, name: string } }>('author', 'name').lean()
         .populate<{ attendees: { _id: ObjectId, name: string, username: string } }>('attendees', '_id name username').lean()
@@ -32,6 +34,8 @@ function findEvents({ organizationId, location, price, date, categories }: { org
     return query.exec()
         .catch(error => { throw new SystemError(error.message) })
         .then(events => {
+            // events = events.filter(event => new Date(event.date) >= currentDate);
+
             return events.map<{ id: string, author: { id: string, name: string }, title: string, city: string, address: string, date: Date, time: string, description: string, price: number, categories: string[], attendees: [{ id: string, name: string, username: string }] }>(({ _id, author, title, city, address, date, time, description, price, categories, attendees }) => ({
                 id: _id.toString(),
                 author: {
@@ -41,7 +45,8 @@ function findEvents({ organizationId, location, price, date, categories }: { org
                 title,
                 city,
                 address,
-                date: date.toLocaleDateString("ca-ES", {
+                date: date,
+                dateText: date.toLocaleDateString("ca-ES", {
                     weekday: 'long',
                     year: 'numeric',
                     month: 'long',

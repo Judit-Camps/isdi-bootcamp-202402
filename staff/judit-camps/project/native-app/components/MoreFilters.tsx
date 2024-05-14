@@ -1,15 +1,17 @@
 // @ts-nocheck
-import { View, Text, Pressable, TextInput, StyleSheet, Alert } from "react-native"
+import { View, Text, Pressable, TextInput, StyleSheet, Alert, ScrollView } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useFocusEffect } from "@react-navigation/native"
 import logic from "../logic"
 import SelectOne from "./SelectOne"
+import PriceSelector from "./PriceSelector"
 
 
 export default function MoreFilters({ onCancelClick, setFilters }) {
     const [city, setCity] = useState("")
     const [orgList, setOrgList] = useState([])
+    const [priceValuem, setPriceValue] = useState(null)
 
     useFocusEffect(() => {
         try {
@@ -30,10 +32,16 @@ export default function MoreFilters({ onCancelClick, setFilters }) {
         onCancelClick()
     }
 
+    const handlePriceChosen = (value) => {
+        setPriceValue(value)
+    }
+
     return (
         <View style={styles.container}>
-
-            <View style={styles.smallContainer}>
+            <ScrollView style={styles.smallContainer}>
+                <Pressable style={styles.button} onPress={handleCancelClick}>
+                    <Text>Cancel</Text>
+                </Pressable>
                 <TextInput style={styles.input} placeholder="ciutat" />
 
                 <SelectOne categories={orgList} placeholderText="Nom de l'organització" />
@@ -46,17 +54,13 @@ export default function MoreFilters({ onCancelClick, setFilters }) {
                     display="default"
                 />
 
-
-                <Pressable style={styles.button} onPress={handleCancelClick}>
-                    <Text>Cancel</Text>
-                </Pressable>
-
+                <PriceSelector onChosen={handlePriceChosen} />
 
                 <Pressable style={styles.button} onPress={handleApplyClick}>
                     <Text>Aplicar canvis</Text>
                 </Pressable>
 
-            </View>
+            </ScrollView>
         </View>
     )
 }
@@ -64,7 +68,7 @@ export default function MoreFilters({ onCancelClick, setFilters }) {
 const styles = StyleSheet.create({
     container: {
         zIndex: 1,
-        backgroundColor: "rgba(243, 202, 82, 0.2)",
+        backgroundColor: "rgba(000, 000, 000, 0.5)",
         position: "absolute",
         top: 0,
         bottom: 0,
@@ -73,20 +77,21 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        transform: [{ translateY: -120 }]
+        transform: [{ translateY: -100 }]
     },
     smallContainer: {
-        backgroundColor: "white",
+        margin: 170,
+        padding: 20,
+        backgroundColor: "#f6e9b2",
         width: "85%",
-        height: "60%",
+        height: "90%",
         display: "flex",
-        borderRadius: 24
+        borderRadius: 24,
     },
     input: {
         height: 48,
-        borderColor: "gray",
-        borderWidth: 1,
-        margin: 20,
+        backgroundColor: "white",
+        marginBottom: 20,
         padding: 10,
         borderRadius: 8,
     },

@@ -6,12 +6,11 @@ import { useContext } from "../context"
 import logic from "../logic"
 import eventStyles from "./EventStyles"
 
-export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
+export default function Event({ item: ev, onAuthorClicked, onDeleted, onEditClick }) {
     const [pressedBookmark, setPressedBookmark] = useState(false)
-    // const [pressedMoreInfo, setPressedMoreInfo] = useState(false)
     const [expanded, setExpanded] = useState(null)
 
-    const { user, role, setStamp, showConfirm } = useContext()
+    const { user, role, setStamp } = useContext()
 
     useEffect(() => {
         if (user)
@@ -36,9 +35,7 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
         setExpanded(!expanded)
     }
 
-    const handleEditPress = () => {
-        Alert.alert("functionality yet to come")
-    }
+    const handleEditPress = ev => onEditClick(ev)
 
     const handleEventSave = () => {
         setPressedBookmark(true)
@@ -100,13 +97,12 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
 
     return (
         <>
-
             <View style={eventStyles.eventContainer}>
                 <Text style={eventStyles.eventTitle}>{ev.title}</Text>
                 {(!user || (role === "organization" && ev.author.name !== user.name)) ? null :
                     ((role === "organization" && ev.author.name === user.name) ? (
                         <AntDesign style={eventStyles.topIcon} name="edit" size={32} color="#0A6847"
-                            onPress={handleEditPress}
+                            onPress={() => handleEditPress(ev)}
                         />
                     ) : (
                         pressedBookmark ? (
@@ -133,9 +129,13 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted }) {
                 </Text>
                 {expanded && (
                     <>
-                        <Text style={eventStyles.moreInfo}>Data: {ev.date}</Text>
+                        <Text style={eventStyles.moreInfo}>Data: {ev.dateText}</Text>
                         <Text style={eventStyles.moreInfo}>Hora: {ev.time}</Text>
-                        <Text style={eventStyles.moreInfo}>Preu: {price}</Text>
+                        {typeof price === "number" ? (
+                            <Text style={eventStyles.moreInfo}>Preu: {price}€</Text>
+                        ) : (
+                            <Text style={eventStyles.moreInfo}>Preu: {price}</Text>
+                        )}
 
                         {ev.attendees.length > 0 && (
                             <View>

@@ -3,13 +3,15 @@ import React, { useState } from 'react';
 import { View, TextInput, FlatList, Text, Pressable, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-export default function Selection({ categories, placeholderText, selectedCategories }) {
+export default function Selection({ placeholderText, selectedCategories, chosenCategories }) {
     const [inputValue, setInputValue] = useState('');
-    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [selectedOptions, setSelectedOptions] = chosenCategories ? useState(chosenCategories) : useState([])
 
     const handleInputChange = (text) => {
         setInputValue(text);
     };
+
+    const categories = ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers", "Xerrades"].sort()
 
     const handleOptionPress = (option) => {
         if (!selectedOptions.includes(option)) {
@@ -20,12 +22,15 @@ export default function Selection({ categories, placeholderText, selectedCategor
     };
 
     const handleRemoveOption = (option) => {
-        setSelectedOptions(selectedOptions.filter((item) => item !== option));
+        setSelectedOptions(selectedOptions.filter((item) => item !== option))
+        const updatedSelectedOptions = selectedOptions.filter((item) => item !== option);
+
+        selectedCategories(updatedSelectedOptions)
     };
 
     const renderOptionItem = ({ item }) => (
-        <Pressable onPress={() => handleOptionPress(item)}>
-            <Text>{item}</Text>
+        <Pressable style={styles.option} onPress={() => handleOptionPress(item)}>
+            <Text style={styles.optionText}>{item}</Text>
         </Pressable>
     );
 
@@ -46,9 +51,9 @@ export default function Selection({ categories, placeholderText, selectedCategor
                     />
                 )}
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                    {selectedOptions.map((option) => (
+                    {selectedOptions && selectedOptions.map((option) => (
                         <Pressable style={styles.selected} key={option} onPress={() => handleRemoveOption(option)}>
-                            <Text>{option} <MaterialIcons name="cancel" size={16} color="black" /> </Text>
+                            <Text style={styles.selectedText}>{option} <MaterialIcons name="cancel" size={16} color="black" /> </Text>
                         </Pressable>
                     ))}
                 </View>
@@ -60,21 +65,28 @@ export default function Selection({ categories, placeholderText, selectedCategor
 const styles = StyleSheet.create({
     input: {
         height: 44,
-        borderColor: "gray",
-        borderWidth: 1,
-        marginBottom: 20,
+        backgroundColor: "white",
+        marginBottom: 10,
         padding: 10,
         borderRadius: 8,
     },
-    textInput: {
-
+    option: {
+        padding: 4,
+    },
+    optionText: {
+        fontSize: 16
     },
     selected: {
-        padding: 5,
-        backgroundColor: "red",
+        padding: 8,
+        backgroundColor: "#f3ca52",
         borderRadius: 12,
         display: "flex",
         alignItems: "center",
-        margin: 2
+        margin: 4,
+        marginBottom: 10
+    },
+    selectedText: {
+        fontSize: 16,
+        fontWeight: "bold",
     }
 })

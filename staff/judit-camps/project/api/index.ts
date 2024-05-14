@@ -225,6 +225,9 @@ mongoose.connect(MONGODB_URL)
             try {
                 const { organizationId, location, price, date, categories } = req.query
 
+                // if (categories)
+                //     categories = categories.map(category => decodeURIComponent(category))
+
                 logger.debug("-----------categories: ", categories)
 
                 logic.findEvents({ organizationId, location, price, date, categories })
@@ -337,7 +340,7 @@ mongoose.connect(MONGODB_URL)
             }
         })
 
-        api.post("/events/:idEventToModify", jsonBodyParser, (req, res) => {
+        api.put("/events/:idEventToModify", jsonBodyParser, (req, res) => {
             try {
                 const { authorization } = req.headers
 

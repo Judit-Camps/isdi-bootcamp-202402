@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { useState } from "react"
-import { ScrollView, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView, View } from "react-native"
+import { ScrollView, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView, View, Pressable } from "react-native"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { MultipleSelectList } from "react-native-dropdown-select-list"
 import Picker from "@react-native-picker/picker"
@@ -18,10 +18,10 @@ export default function CreateEventForm({ onEventCreated }) {
     const [address, setAddress] = useState("")
     const [description, setDescription] = useState("")
     const [time, setTime] = useState(new Date())
-    const [price, setPrice] = useState("")
     const [date, setDate] = useState(new Date())
     const [showDatePicker, setShowDatePicker] = useState(false)
     const [showTimePicker, setShowTimePicker] = useState(false)
+    const [priceValue, setPriceValue] = useState(null)
 
     const categories = ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers", "Xerrades"].sort()
 
@@ -32,6 +32,7 @@ export default function CreateEventForm({ onEventCreated }) {
         console.log("Selected category: ", selected)
     }
 
+    console.log(priceValue)
 
     const handleDateChange = (event, selectedDate) => {
         const currentDate = selectedDate || date
@@ -43,6 +44,11 @@ export default function CreateEventForm({ onEventCreated }) {
         const currentTime = selectedTime || new Date()
         setShowTimePicker(false)
         setTime(currentTime.toLocaleTimeString())
+    }
+
+    const handlePriceChosen = (value) => {
+        console.log(typeof value)
+        setPriceValue(value)
     }
 
     const handleSubmit = () => {
@@ -59,8 +65,7 @@ export default function CreateEventForm({ onEventCreated }) {
         } else eventAddress = address
 
         try {
-            console.log(selectedCategories)
-            logic.createEvent(title, eventCity, eventAddress, description, date.toLocaleTimeString(), 0, date.toLocaleDateString("en-CA").split(',')[0].trim(), selectedCategories)
+            logic.createEvent(title, eventCity, eventAddress, description, date.toLocaleTimeString(), priceValue, date.toLocaleDateString("en-CA").split(',')[0].trim(), selectedCategories)
                 .then(() => {
                     setStamp(Date.now())
                     setTitle("")
@@ -70,7 +75,8 @@ export default function CreateEventForm({ onEventCreated }) {
                     setTime(new Date())
                     setDate(new Date())
                     setSelectedCategories([])
-                    Alert.alert("Event creat")
+                    setPriceValue(0)
+                    Alert.alert("Esdeveniment creat")
 
                     onEventCreated()
 
@@ -82,30 +88,18 @@ export default function CreateEventForm({ onEventCreated }) {
         }
     }
 
-    const data = [
-        { key: "1", value: "Tallers" },
-        { key: "2", value: "Art" },
-        { key: "3", value: "Concerts" },
-        { key: "4", value: "Xerrades" }
-    ]
-
     return (
         <KeyboardAvoidingView>
             <View>
                 <ScrollView style={styles.container}>
-                    <Text>Categories</Text>
-                    <Selection categories={categories} placeholderText="Escriu i tria: Art, Tallers..." selectedCategories={handleSelectedCategories} >
-
-                    </Selection>
-
-                    <Text>Nom de l'activitat</Text>
+                    <Text style={styles.label}>Nom de l'activitat</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Nom de l'activitat"
                         value={title}
                         onChangeText={setTitle}
                     />
-                    <Text>Poble/Ciutat</Text>
+                    <Text style={styles.label}>Poble/Ciutat</Text>
                     <TextInput
                         style={styles.input}
                         defaultValue={user.city}
@@ -113,7 +107,7 @@ export default function CreateEventForm({ onEventCreated }) {
                         value={city}
                         onChangeText={setCity}
                     />
-                    <Text>Adreça</Text>
+                    <Text style={styles.label}>Adreça</Text>
                     <TextInput
                         style={styles.input}
                         defaultValue={user.address}
@@ -121,7 +115,7 @@ export default function CreateEventForm({ onEventCreated }) {
                         value={address}
                         onChangeText={setAddress}
                     />
-                    <Text>Descripció</Text>
+                    <Text style={styles.label}>Descripció</Text>
                     <TextInput
                         style={styles.inputArea}
                         multiline={true}
@@ -129,7 +123,7 @@ export default function CreateEventForm({ onEventCreated }) {
                         onChangeText={setDescription}
                     />
 
-                    <Text>Dia</Text>
+                    <Text style={styles.label}>Dia</Text>
                     <DateTimePicker
                         value={date}
                         mode="date"
@@ -138,7 +132,7 @@ export default function CreateEventForm({ onEventCreated }) {
                         onChange={handleDateChange}
                     />
 
-                    <Text>Hora</Text>
+                    <Text style={styles.label}>Hora</Text>
                     <DateTimePicker
                         value={date}
                         mode="time"
@@ -147,10 +141,16 @@ export default function CreateEventForm({ onEventCreated }) {
                         onChange={handleTimeChange}
                     />
 
-                    <Text>Price</Text>
-                    <PriceSelector></PriceSelector>
+                    <Text style={styles.label}>Categories</Text>
+                    <Selection categories={categories} placeholderText="Escriu i tria: Art, Tallers..." selectedCategories={handleSelectedCategories}  >
 
-                    <Button title="Submit" onPress={handleSubmit} style={styles.button} />
+                    </Selection>
+
+                    <PriceSelector onChosen={handlePriceChosen} />
+
+                    <Pressable style={styles.button} onPress={handleSubmit}>
+                        <Text style={styles.buttonText}>Crea l'esdeveniment</Text>
+                    </Pressable>
                 </ScrollView>
 
             </View>
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 10,
         marginTop: 20,
-        marginBottom: 40,
+        marginBottom: 80,
     },
     label: {
         fontSize: 16,
@@ -174,18 +174,29 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 48,
-        borderColor: "gray",
-        borderWidth: 1,
+        backgroundColor: "white",
         marginBottom: 20,
         padding: 10,
         borderRadius: 8,
     },
     inputArea: {
         height: 90,
-        borderColor: "gray",
-        borderWidth: 1,
         marginBottom: 20,
         padding: 10,
         borderRadius: 8,
+        backgroundColor: "white",
+    },
+    button: {
+        height: 48,
+        backgroundColor: "#f3ca52",
+        borderRadius: 24,
+        marginBottom: 20,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    buttonText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        color: "#0A6847",
     },
 });
