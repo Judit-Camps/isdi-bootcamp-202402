@@ -12,7 +12,7 @@ function findEvents({ organizationId, location, price, date, categories }: { org
 
     // Apply filters
     if (organizationId) query = query.where("author").equals(organizationId)
-    if (location) query = query.where("city").equals(location)
+    if (location) query = query.where("city").equals(decodeURIComponent(location))
 
     if (price) {
         if (price === 0) query = query.where("price").equals(0)
@@ -45,7 +45,7 @@ function findEvents({ organizationId, location, price, date, categories }: { org
                 title,
                 city,
                 address,
-                date: date,
+                date,
                 dateText: date.toLocaleDateString("ca-ES", {
                     weekday: 'long',
                     year: 'numeric',

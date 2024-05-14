@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { validate, errors } from "../com/index.js";
 
-// function findEvents(organizationId?: string, location?: string, price?: number, date?: string, categories?: string[]) {
 function findEvents(options = {}) {
 
     const { organization, location, price, date, categories } = options
@@ -19,7 +18,7 @@ function findEvents(options = {}) {
         validate.date(date, "date")
         params.append("date", date)
     }
-    if (price) {
+    if (price || price === 0) {
         params.append("price", price.toString())
     }
     if (categories) {

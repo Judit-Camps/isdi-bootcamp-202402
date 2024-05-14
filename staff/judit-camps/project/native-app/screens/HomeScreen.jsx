@@ -11,34 +11,40 @@ import MoreFilters from "../components/MoreFilters";
 export default function HomeScreen({ navigation }) {
     const [events, setEvents] = useState(null)
 
-    const [eventEdit, setEventEdit] = useState(null)
-
     const { user, stamp, setStamp } = useContext()
 
-    const [selectedFilters, setFilters] = useState({
-        organization: null,
+    const [allFilters, setAllFilters] = useState({
+        organization: {
+            id: null,
+            name: null
+        },
         location: null,
         price: null,
         categories: []
     })
 
-    console.log("--", selectedFilters)
+    console.log("--ll", allFilters)
 
     const loadEvents = () => {
+
+        const transformedFilters = {
+            ...allFilters,
+            organization: allFilters.organization ? allFilters.organization.id : null
+        }
         try {
-            logic.findEvents(selectedFilters)
+            logic.findEvents(transformedFilters)
                 .then(events => {
                     setEvents(events)
                 })
                 .catch(error => console.error(error))
         } catch (error) {
-            console.error(error)
+            console.error(error.message)
         }
     }
 
     useEffect(() => {
         loadEvents()
-    }, [stamp, selectedFilters])
+    }, [stamp, allFilters])
 
     const [ev, setEvent] = useState(null)
 
@@ -62,7 +68,7 @@ export default function HomeScreen({ navigation }) {
     const handleEventEdited = () => {
         clearView()
         setStamp(Date.now())
-        setEventEdit(null)
+        setEvent(null)
     }
 
     const handleFilters = (filter) => {
@@ -71,16 +77,16 @@ export default function HomeScreen({ navigation }) {
         } else {
             console.log(filter)
 
-            const updatedFilters = [...selectedFilters.categories, filter]
-            setFilters({ ...selectedFilters, categories: updatedFilters })
+            const updatedFilters = [...allFilters.categories, filter]
+            setAllFilters({ ...allFilters, categories: updatedFilters })
         }
     }
 
     const handleRemoveFilter = (filter) => {
         console.log("remove - ", filter)
 
-        const removed = selectedFilters.categories.filter(category => category !== filter)
-        setFilters({ ...selectedFilters, categories: removed })
+        const removed = allFilters.categories.filter(category => category !== filter)
+        setAllFilters({ ...allFilters, categories: removed })
     }
 
     const handleMoreFiltersCancel = () => {
@@ -89,7 +95,22 @@ export default function HomeScreen({ navigation }) {
 
     const handleSubmitFilters = (filters) => {
         clearView()
-        setFilters(filters)
+        console.log("aaaa", filters)
+        const mergedFilters = { ...allFilters, ...filters }
+        setAllFilters(mergedFilters)
+    }
+
+    const handleFiltersRemoved = () => {
+        clearView()
+        setAllFilters({
+            organization: {
+                id: null,
+                name: null
+            },
+            location: null,
+            price: null,
+            categories: allFilters.categories
+        })
     }
 
     return (
@@ -120,7 +141,8 @@ export default function HomeScreen({ navigation }) {
             </View>
 
             <FilterDiv onAddFilter={handleFilters} onRemoveFilter={handleRemoveFilter} />
-            {view === "more-filters" && <MoreFilters onCancelClick={handleMoreFiltersCancel} onSubmitFilters={handleSubmitFilters} setFilters />}
+
+            {view === "more-filters" && <MoreFilters onCancelClick={handleMoreFiltersCancel} onSubmitFilters={handleSubmitFilters} onFiltersRemoved={handleFiltersRemoved} chosenFilters={allFilters} />}
 
             <ScrollView style={{ marginBottom: 180 }}>
                 <EventList events={events} onEventAuthorClick={handleOnEventAuthorClicked} onEditEventClick={handleEditEvent} textOnEmptyList={"Encara no hi ha esdeveniments"} />

@@ -29,10 +29,7 @@ export default function CreateEventForm({ onEventCreated }) {
 
     const handleSelectedCategories = (selected) => {
         setSelectedCategories(selected)
-        console.log("Selected category: ", selected)
     }
-
-    console.log(priceValue)
 
     const handleDateChange = (event, selectedDate) => {
         const currentDate = selectedDate || date
@@ -41,13 +38,13 @@ export default function CreateEventForm({ onEventCreated }) {
     }
 
     const handleTimeChange = (event, selectedTime) => {
-        const currentTime = selectedTime || new Date()
+        const currentTime = selectedTime || time
         setShowTimePicker(false)
         setTime(currentTime.toLocaleTimeString())
     }
 
+    console.log(time)
     const handlePriceChosen = (value) => {
-        console.log(typeof value)
         setPriceValue(value)
     }
 

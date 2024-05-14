@@ -99,6 +99,7 @@ export default function EditEventForm({ onEventModified, onCancelClick, ev }) {
 
             <ScrollView style={styles.smallContainer}>
                 <Text style={styles.label}>Categories</Text>
+
                 <Selection chosenCategories={selectedCategories} selectedCategories={handleSelectedCategories} placeholderText="Escriu i tria..." removedCategories={handleCategoriesOnRemove} />
 
                 <Text style={styles.label}>Nom de l'activitat</Text>

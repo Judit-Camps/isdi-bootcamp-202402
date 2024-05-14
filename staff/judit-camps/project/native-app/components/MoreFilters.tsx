@@ -8,10 +8,15 @@ import SelectOne from "./SelectOne"
 import PriceSelector from "./PriceSelector"
 
 
-export default function MoreFilters({ onCancelClick, setFilters }) {
-    const [city, setCity] = useState("")
+export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersRemoved, chosenFilters }) {
+
+    const { organization, location, price, date } = chosenFilters
+
+    const [city, setCity] = useState(location ? location : "")
     const [orgList, setOrgList] = useState([])
-    const [priceValuem, setPriceValue] = useState(null)
+    const [priceValue, setPriceValue] = useState(price ? price : null)
+    const [selectedOrg, setSelectedOrg] = useState(organization ? organization : null)
+    // const [date, setDate] = useState(new Date())
 
     useFocusEffect(() => {
         try {
@@ -22,10 +27,27 @@ export default function MoreFilters({ onCancelClick, setFilters }) {
         }
     })
 
-    const handleApplyClick = () => {
-        console.log("Aplica canvis")
+    // const handleDateChange = (event, selectedDate) => {
+    //     const currentDate = selectedDate || date
+    //     setShowDatePicker(false)
+    //     setDate(currentDate)
+    // }
 
-        Alert.alert("functionality to come")
+    const handleApplyClick = () => {
+        const filters = {
+            organization: {
+                id: selectedOrg.id,
+                name: selectedOrg.name
+            },
+            location: city,
+            price: priceValue,
+        }
+
+        console.log("-.-", filters)
+        onSubmitFilters(filters)
+
+        console.log("Aplica canvis")
+        Alert.alert("Filtres aplicats")
     }
 
     const handleCancelClick = () => {
@@ -36,30 +58,60 @@ export default function MoreFilters({ onCancelClick, setFilters }) {
         setPriceValue(value)
     }
 
+    const handleOrgChosen = (org) => {
+        setSelectedOrg(org)
+    }
+
+    const handleRemoveFilters = () => {
+        setCity("")
+        setPriceValue(null)
+        setSelectedOrg({
+            id: null,
+            name: null
+        })
+
+        onFiltersRemoved()
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.smallContainer}>
-                <Pressable style={styles.button} onPress={handleCancelClick}>
-                    <Text>Cancel</Text>
-                </Pressable>
-                <TextInput style={styles.input} placeholder="ciutat" />
+                <Text style={styles.label}>Ciutat/Poble</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Ciutat/Poble"
+                    value={city}
+                    onChangeText={setCity} />
 
-                <SelectOne categories={orgList} placeholderText="Nom de l'organització" />
+                <Text style={styles.label}>Organització</Text>
+                <SelectOne items={orgList} placeholderText="Nom de l'organització" valueChosen={handleOrgChosen} chosenOrg={selectedOrg} />
 
-                <Text>Dia</Text>
+                <Text style={styles.label}>Dia</Text>
                 <DateTimePicker
                     value={new Date}
                     mode="date"
                     is24Hour={true}
                     display="default"
+                // onChange={handleDateChange}
                 />
 
-                <PriceSelector onChosen={handlePriceChosen} />
+                <PriceSelector onChosen={handlePriceChosen} previousPrice={priceValue} />
 
-                <Pressable style={styles.button} onPress={handleApplyClick}>
-                    <Text>Aplicar canvis</Text>
-                </Pressable>
+                <View style={{ alignItems: "center" }}>
 
+                    <Pressable style={styles.button} onPress={handleApplyClick}>
+                        <Text style={styles.buttonText}>Aplicar filtres</Text>
+                    </Pressable>
+
+
+                    <Pressable style={styles.button} onPress={handleRemoveFilters}>
+                        <Text style={styles.buttonText}>Borrar filtres</Text>
+                    </Pressable>
+
+                    <Pressable style={styles.button} onPress={handleCancelClick}>
+                        <Text style={styles.buttonText}>Cancel</Text>
+                    </Pressable>
+                </View>
             </ScrollView>
         </View>
     )
@@ -77,14 +129,19 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        transform: [{ translateY: -100 }]
+        transform: [{ translateY: -120 }]
+    },
+    label: {
+        fontSize: 16,
+        fontWeight: "bold",
+        marginBottom: 5,
     },
     smallContainer: {
-        margin: 170,
+        margin: 180,
         padding: 20,
         backgroundColor: "#f6e9b2",
         width: "85%",
-        height: "90%",
+        height: "80%",
         display: "flex",
         borderRadius: 24,
     },
@@ -103,5 +160,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginBottom: 20,
+    },
+    buttonText: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "black"
     },
 })

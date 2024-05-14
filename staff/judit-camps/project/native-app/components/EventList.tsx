@@ -10,7 +10,8 @@ export default function EventList({ events, onEventAuthorClick, onEditEventClick
 
 
     const handleEventAuthorClicked = (author) => {
-        onEventAuthorClick(author)
+        if (onEventAuthorClick)
+            onEventAuthorClick(author)
     }
 
     const handleEditClick = (ev) => {
@@ -24,7 +25,7 @@ export default function EventList({ events, onEventAuthorClick, onEditEventClick
                     <Event key={ev.id} item={ev} onAuthorClicked={handleEventAuthorClicked} onEditClick={handleEditClick} onDeleted={handleEventDeleted} />
                 )
             ) : (
-                <View style={{ display: "flex", alignItems: "center", paddingTop: 24 }}>
+                <View style={{ display: "flex", alignItems: "center", paddingTop: 24, marginBottom: 300 }}>
                     <Text style={{ fontSize: 16 }}>{textOnEmptyList}</Text>
                 </View>
 

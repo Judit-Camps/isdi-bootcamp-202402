@@ -26,7 +26,7 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted, onEditClic
     }, [user, ev])
 
     const handleEventAuthorPress = (author) => {
-        if (user) {
+        if (user && onAuthorClicked) {
             onAuthorClicked(author)
         } else Alert.alert("Inicia sessió per veure més")
     }
@@ -124,12 +124,11 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted, onEditClic
                     <Text style={eventStyles.eventOrganization}>{ev.author.name}</Text>
                 </Pressable>
                 <Text style={eventStyles.eventLocation}>{ev.city}</Text>
-                <Text style={[eventStyles.description, { maxHeight: expanded ? '100%' : 40 }]} numberOfLines={expanded ? null : 1}>
-                    {ev.description}
-                </Text>
+                <Text style={eventStyles.moreInfo}>{ev.dateText}</Text>
+
                 {expanded && (
                     <>
-                        <Text style={eventStyles.moreInfo}>Data: {ev.dateText}</Text>
+                        <Text style={eventStyles.description} >{ev.description}</Text>
                         <Text style={eventStyles.moreInfo}>Hora: {ev.time}</Text>
                         {typeof price === "number" ? (
                             <Text style={eventStyles.moreInfo}>Preu: {price}€</Text>
@@ -139,10 +138,10 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted, onEditClic
 
                         {ev.attendees.length > 0 && (
                             <View>
-                                <Text>Guardat per:</Text>
-                                {ev.attendees.map(p =>
+                                <Text numberOfLines={1}>Guardat per: {ev.attendees.sort().map(p =>
                                     <Text key={p.id}>{p.username}</Text>
-                                )}
+                                )} </Text>
+
                             </View>
                         )}
                     </>
