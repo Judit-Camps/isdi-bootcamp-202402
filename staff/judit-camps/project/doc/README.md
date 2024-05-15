@@ -14,11 +14,10 @@ The main objective of this app is to provide its users with the information of c
 - view event
 - save event
 - remove event
-- list coming events (in a calendar)
+- list coming events
 
-- search and list organizations 
+- search and list by organizations 
 - view organization
-- follow organization
 
 - create event (as organization)
 - edit event
@@ -28,6 +27,7 @@ v0.1
 - search and list users
 - view user profile
 - follow user
+- follow organization
 
 
 ### User stories
