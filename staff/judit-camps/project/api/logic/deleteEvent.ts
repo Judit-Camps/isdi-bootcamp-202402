@@ -21,9 +21,15 @@ function deleteEvent(organizationId, eventId): Promise<void> {
 
                     if (org._id.toString() !== ev.author.toString()) throw new UnauthorizedError("organization unauthorized for deletion")
 
-                    return Event.deleteOne({ _id: new ObjectId(eventId) })
-                        .catch(error => { throw new SystemError(error.message) })
-                        .then(res => { })
+                    return User.updateMany(
+                        { savedEvents: eventId },
+                        { $pull: { savedEvents: eventId } }
+                    )
+                        .then(() => {
+                            return Event.deleteOne({ _id: new ObjectId(eventId) })
+                                .catch(error => { throw new SystemError(error.message) })
+                                .then(res => { })
+                        })
                 })
         })
 }
