@@ -1,8 +1,6 @@
 // @ts-nocheck
 import React, { useState } from "react"
 import { ScrollView, Text, TextInput, Button, StyleSheet, Alert, View, Pressable } from "react-native"
-import DateTimePicker from "@react-native-community/datetimepicker"
-import { MultipleSelectList } from "react-native-dropdown-select-list"
 import logic from "../logic"
 
 import { useContext } from "../context"
@@ -13,11 +11,11 @@ import TimePicker from "./TimePicker"
 
 export default function EditEventForm({ onEventModified, onCancelClick, ev }) {
 
-    const [hours, minutes, seconds] = ev.time.split(':').map(Number);
-    const timeDate = new Date();
-    timeDate.setHours(hours);
-    timeDate.setMinutes(minutes);
-    timeDate.setSeconds(seconds);
+    const [hours, minutes, seconds] = ev.time.split(':').map(Number)
+    const timeDate = new Date()
+    timeDate.setHours(hours)
+    timeDate.setMinutes(minutes)
+    timeDate.setSeconds(seconds)
 
     const { user, setStamp } = useContext()
     const [title, setTitle] = useState(ev.title)
@@ -91,7 +89,7 @@ export default function EditEventForm({ onEventModified, onCancelClick, ev }) {
             <ScrollView style={styles.smallContainer}>
                 <Text style={styles.label}>Categories</Text>
 
-                <Selection chosenCategories={selectedCategories} selectedCategories={handleSelectedCategories} placeholderText="Escriu i tria..." removedCategories={handleCategoriesOnRemove} />
+                <Selection previousCategories={selectedCategories} selectedCategories={handleSelectedCategories} placeholderText="Escriu i tria..." removedCategories={handleCategoriesOnRemove} />
 
                 <Text style={styles.label}>Nom de l'activitat</Text>
                 <TextInput
@@ -201,4 +199,4 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#0A6847",
     },
-});
+})

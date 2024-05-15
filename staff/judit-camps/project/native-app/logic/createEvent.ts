@@ -13,8 +13,6 @@ function createEvent(title: string, city: string, address: string, description: 
         .then(token => {
             validate.token(token)
 
-            console.log(token)
-
             const ev = {
                 title,
                 date,
@@ -44,7 +42,6 @@ function createEvent(title: string, city: string, address: string, description: 
                             const { error, message } = body
 
                             const constructor = errors[error]
-                            console.log(message)
 
                             throw new constructor(message)
                         })

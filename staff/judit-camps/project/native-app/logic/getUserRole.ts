@@ -20,7 +20,7 @@ function getUserRole(): Promis<{ role: string }> {
         .catch(error => {
             console.error("Error while retrieving user role:", error)
             return { role: "guest" }
-        });
+        })
 
 }
 

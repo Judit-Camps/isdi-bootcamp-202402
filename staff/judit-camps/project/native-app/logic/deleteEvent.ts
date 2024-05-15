@@ -25,7 +25,6 @@ function deleteEvent(eventId: string) {
                     const { error, message } = body
 
                     const constructor = errors[error]
-                    console.log(message)
 
                     throw new constructor(message)
                 })

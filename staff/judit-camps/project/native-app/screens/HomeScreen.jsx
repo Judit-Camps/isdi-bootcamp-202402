@@ -1,12 +1,12 @@
-import { View, Text, StyleSheet, Button, ScrollView, TextInput, Pressable, Alert } from "react-native";
-import { useState, useEffect } from "react";
-import logic from "../logic";
-import { useContext } from "../context";
-import EventList from "../components/EventList";
-import FilterDiv from "../components/FilterDiv";
-import { FontAwesome } from "@expo/vector-icons";
-import EditEventForm from "../components/EditEventForm";
-import MoreFilters from "../components/MoreFilters";
+import { View, Text, StyleSheet, Button, ScrollView, TextInput, Pressable, Alert } from "react-native"
+import { useState, useEffect } from "react"
+import logic from "../logic"
+import { useContext } from "../context"
+import EventList from "../components/EventList"
+import FilterDiv from "../components/FilterDiv"
+import { FontAwesome } from "@expo/vector-icons"
+import EditEventForm from "../components/EditEventForm"
+import MoreFilters from "../components/MoreFilters"
 
 export default function HomeScreen({ navigation }) {
     const [events, setEvents] = useState(null)
@@ -22,8 +22,6 @@ export default function HomeScreen({ navigation }) {
         price: null,
         categories: []
     })
-
-    console.log("--ll", allFilters)
 
     const loadEvents = () => {
 
@@ -75,7 +73,6 @@ export default function HomeScreen({ navigation }) {
         if (filter === "+ Filtres") {
             setView("more-filters")
         } else {
-            console.log(filter)
 
             const updatedFilters = [...allFilters.categories, filter]
             setAllFilters({ ...allFilters, categories: updatedFilters })
@@ -83,7 +80,6 @@ export default function HomeScreen({ navigation }) {
     }
 
     const handleRemoveFilter = (filter) => {
-        console.log("remove - ", filter)
 
         const removed = allFilters.categories.filter(category => category !== filter)
         setAllFilters({ ...allFilters, categories: removed })
@@ -95,7 +91,6 @@ export default function HomeScreen({ navigation }) {
 
     const handleSubmitFilters = (filters) => {
         clearView()
-        console.log("aaaa", filters)
         const mergedFilters = { ...allFilters, ...filters }
         setAllFilters(mergedFilters)
     }

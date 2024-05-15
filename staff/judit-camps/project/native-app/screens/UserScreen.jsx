@@ -1,11 +1,11 @@
-import { View, ScrollView, Text, StyleSheet, Button, Pressable, Alert } from "react-native";
-import logic from "../logic";
+import { View, ScrollView, Text, StyleSheet, Button, Pressable, Alert } from "react-native"
+import logic from "../logic"
 import { useContext } from "../context"
-import { Ionicons, AntDesign } from "@expo/vector-icons";
-import { useEffect } from "react";
-import EventList from "../components/EventList";
-import { useState } from "react";
-import EditEventForm from "../components/EditEventForm";
+import { Ionicons, AntDesign } from "@expo/vector-icons"
+import { useEffect } from "react"
+import EventList from "../components/EventList"
+import { useState } from "react"
+import EditEventForm from "../components/EditEventForm"
 
 export default function UserScreen({ navigation }) {
     const { user, setUser, role, setRole, stamp, setStamp } = useContext()
@@ -89,13 +89,13 @@ export default function UserScreen({ navigation }) {
                         setFilters(prevFilters => ({ ...prevFilters, organization: userId }))
                         setStamp(Date.now())
                     })
-                    .catch(error => console.error(error));
+                    .catch(error => console.error(error))
 
             }
         } catch (error) {
-            console.error(error);
+            console.error(error)
         }
-    }, [user]);
+    }, [user])
 
 
     return (

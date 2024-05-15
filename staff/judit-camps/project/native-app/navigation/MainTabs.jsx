@@ -1,10 +1,10 @@
 // @ts-nocheck
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import UserScreen from '../screens/UserScreen'
-import { Ionicons, AntDesign } from '@expo/vector-icons';
-import HomeScreen from '../screens/HomeScreen';
-import { useContext } from '../context';
-import CreateScreen from '../screens/CreateScreen';
+import { AntDesign } from '@expo/vector-icons'
+import HomeScreen from '../screens/HomeScreen'
+import { useContext } from '../context'
+import CreateScreen from '../screens/CreateScreen'
 
 const Tab = createBottomTabNavigator()
 

@@ -16,8 +16,6 @@ function isUserInEvent(ev) {
             const payload = JSON.parse(payloadJSON)
 
             const { sub: userId } = payload
-            console.log(userId)
-            console.log(ev)
 
             return ev.attendees.some(attendee => attendee.id === userId)
         })

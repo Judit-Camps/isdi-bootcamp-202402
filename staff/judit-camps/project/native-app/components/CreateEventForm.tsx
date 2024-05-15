@@ -1,11 +1,7 @@
 // @ts-nocheck
 import React, { useState } from "react"
-import { ScrollView, Text, TextInput, Button, StyleSheet, Alert, KeyboardAvoidingView, View, Pressable } from "react-native"
-import DateTimePicker from "@react-native-community/datetimepicker"
-import { MultipleSelectList } from "react-native-dropdown-select-list"
-import Picker from "@react-native-picker/picker"
+import { ScrollView, Text, TextInput, StyleSheet, Alert, View, Pressable } from "react-native"
 import logic from "../logic"
-import format from "date-fns"
 import Selection from "./Selection"
 import PriceSelector from "./PriceSelector"
 import TimePicker from "./TimePicker"
@@ -72,67 +68,63 @@ export default function CreateEventForm({ onEventCreated }) {
     }
 
     return (
-        <KeyboardAvoidingView>
-            <View>
-                <ScrollView style={styles.container}>
-                    <Text style={styles.label}>Nom de l'activitat</Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Nom de l'activitat"
-                        value={title}
-                        onChangeText={setTitle}
-                    />
-                    <Text style={styles.label}>Poble/Ciutat</Text>
-                    <TextInput
-                        style={styles.input}
-                        defaultValue={user.city}
-                        placeholder={user.city}
-                        value={city}
-                        onChangeText={setCity}
-                    />
-                    <Text style={styles.label}>Adreça</Text>
-                    <TextInput
-                        style={styles.input}
-                        defaultValue={user.address}
-                        placeholder={user.address}
-                        value={address}
-                        onChangeText={setAddress}
-                    />
-                    <Text style={styles.label}>Descripció</Text>
-                    <TextInput
-                        style={styles.inputArea}
-                        multiline={true}
-                        value={description}
-                        onChangeText={setDescription}
-                    />
+        <ScrollView style={styles.container}>
+            <Text style={styles.label}>Nom de l'activitat</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Nom de l'activitat"
+                value={title}
+                onChangeText={setTitle}
+            />
+            <Text style={styles.label}>Poble/Ciutat</Text>
+            <TextInput
+                style={styles.input}
+                defaultValue={user.city}
+                placeholder={user.city}
+                value={city}
+                onChangeText={setCity}
+            />
+            <Text style={styles.label}>Adreça</Text>
+            <TextInput
+                style={styles.input}
+                defaultValue={user.address}
+                placeholder={user.address}
+                value={address}
+                onChangeText={setAddress}
+            />
+            <Text style={styles.label}>Descripció</Text>
+            <TextInput
+                style={styles.inputArea}
+                multiline={true}
+                value={description}
+                onChangeText={setDescription}
+            />
 
-                    <DatePicker date={date} onDateChange={setDate} />
+            <DatePicker date={date} onDateChange={setDate} />
 
-                    <TimePicker selectedTime={time} onTimeChange={setTime} />
+            <TimePicker selectedTime={time} onTimeChange={setTime} />
 
-                    <Text style={styles.label}>Categories</Text>
-                    <Selection categories={categories} placeholderText="Escriu i tria: Art, Tallers..." selectedCategories={handleSelectedCategories}  >
+            <Text style={styles.label}>Categories</Text>
+            <Selection categories={categories} placeholderText="Escriu i tria: Art, Tallers..." selectedCategories={handleSelectedCategories}  >
 
-                    </Selection>
+            </Selection>
 
-                    <PriceSelector onChosen={handlePriceChosen} />
+            <PriceSelector onChosen={handlePriceChosen} />
 
-                    <Pressable style={styles.button} onPress={handleSubmit}>
-                        <Text style={styles.buttonText}>Crea l'esdeveniment</Text>
-                    </Pressable>
-                </ScrollView>
+            <Pressable style={styles.button} onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Crea l'esdeveniment</Text>
+            </Pressable>
+        </ScrollView>
 
-            </View>
-
-        </KeyboardAvoidingView>
     )
 }
 
 
 const styles = StyleSheet.create({
     container: {
+        flexGrow: 1,
+        paddingVertical: 20,
         paddingHorizontal: 20,
-        paddingTop: 10,
         marginTop: 20,
         marginBottom: 80,
     },
@@ -168,4 +160,4 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#0A6847",
     },
-});
+})

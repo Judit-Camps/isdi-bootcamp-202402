@@ -6,33 +6,20 @@ export default function PriceSelector({ onChosen, previousPrice }) {
     const [selectedPrice, setSelectedPrice] = useState(previousPrice ? previousPrice : null)
     const [customPrice, setCustomPrice] = useState((previousPrice && previousPrice > 0) ? previousPrice : "")
 
-    // const handlePriceSelect = (price) => {
-    //     setSelectedPrice(price)
-    //     if (price !== "price") {
-    //         setCustomPrice(price)
-    //         onChosen(price)
-    //     }
-    // }
-
-    // const handleCustomPriceChange = (text) => {
-    //     setCustomPrice(parseInt(text))
-    //     onChosen(parseInt(text))
-    // }
-
     const handlePriceSelect = (price) => {
-        setSelectedPrice(price === selectedPrice ? null : price); // Toggle selection
+        setSelectedPrice(price === selectedPrice ? null : price)
         if (price !== "price") {
-            setCustomPrice(price);
-            onChosen(price);
+            setCustomPrice(price)
+            onChosen(price)
         }
-    };
+    }
 
     const handleCustomPriceChange = (text) => {
-        const price = parseInt(text);
-        setCustomPrice(price);
-        onChosen(price !== 0 ? price : null); // If price is 0, treat it as unselected
-        if (price === 0) setSelectedPrice(null); // Unselect the custom price if it's 0
-    };
+        const price = parseInt(text)
+        setCustomPrice(price)
+        onChosen(price !== 0 ? price : null)
+        if (price === 0) setSelectedPrice(null)
+    }
 
     return (
         <View style={styles.container}>

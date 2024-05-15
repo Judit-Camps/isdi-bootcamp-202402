@@ -28,7 +28,7 @@ export default function LoginScreen({ navigation }) {
                 })
                 .then(() => navigation.navigate("Home"))
                 .catch(error => {
-                    console.log(error.message)
+                    console.error(error)
                     Alert.alert(error.message)
                 })
         } catch (error) {

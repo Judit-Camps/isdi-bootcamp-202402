@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { validate, errors } from "../com/index.js";
+import { validate, errors } from "../com/index.js"
 
 function findEvents(options = {}) {
 
@@ -25,10 +25,9 @@ function findEvents(options = {}) {
         categories.forEach(category => params.append("categories[]", encodeURIComponent(category)))
     }
 
-    const queryString = params.toString();
-    const url = `${process.env.EXPO_PUBLIC_API_URL}/events/${queryString ? `?${queryString}` : ''}`;
+    const queryString = params.toString()
+    const url = `${process.env.EXPO_PUBLIC_API_URL}/events/${queryString ? `?${queryString}` : ''}`
 
-    console.log("logic - findEvents - url: ", url)
 
     return fetch(url, {})
         .then(res => {

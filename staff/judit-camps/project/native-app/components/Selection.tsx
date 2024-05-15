@@ -1,15 +1,15 @@
 // @ts-nocheck
-import React, { useState } from 'react';
-import { View, TextInput, FlatList, Text, Pressable, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import React, { useState } from "react"
+import { View, TextInput, FlatList, Text, Pressable, StyleSheet } from "react-native"
+import { MaterialIcons } from "@expo/vector-icons"
 
-export default function Selection({ placeholderText, selectedCategories, chosenCategories }) {
-    const [inputValue, setInputValue] = useState('');
-    const [selectedOptions, setSelectedOptions] = chosenCategories ? useState(chosenCategories) : useState([])
+export default function Selection({ placeholderText, selectedCategories, previousCategories }) {
+    const [inputValue, setInputValue] = useState("")
+    const [selectedOptions, setSelectedOptions] = previousCategories ? useState(previousCategories) : useState([])
 
     const handleInputChange = (text) => {
-        setInputValue(text);
-    };
+        setInputValue(text)
+    }
 
     const categories = ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers", "Xerrades"].sort()
 
@@ -18,21 +18,15 @@ export default function Selection({ placeholderText, selectedCategories, chosenC
             setSelectedOptions([...selectedOptions, option])
             selectedCategories([...selectedOptions, option])
         }
-        setInputValue('');
-    };
+        setInputValue("")
+    }
 
     const handleRemoveOption = (option) => {
         setSelectedOptions(selectedOptions.filter((item) => item !== option))
-        const updatedSelectedOptions = selectedOptions.filter((item) => item !== option);
+        const updatedSelectedOptions = selectedOptions.filter((item) => item !== option)
 
         selectedCategories(updatedSelectedOptions)
-    };
-
-    const renderOptionItem = ({ item }) => (
-        <Pressable style={styles.option} onPress={() => handleOptionPress(item)}>
-            <Text style={styles.optionText}>{item}</Text>
-        </Pressable>
-    );
+    }
 
     return (
         <View>
@@ -44,13 +38,21 @@ export default function Selection({ placeholderText, selectedCategories, chosenC
                     style={styles.input}
                 />
                 {inputValue.length > 0 && (
-                    <FlatList
-                        data={categories.filter((option) => option.toLowerCase().includes(inputValue.toLowerCase()))}
-                        renderItem={renderOptionItem}
-                        keyExtractor={(item) => item}
-                    />
+                    <View style={styles.optionsContainer}>
+                        {categories
+                            .filter((option) => option.toLowerCase().includes(inputValue.toLowerCase()))
+                            .map((item, index) => (
+                                <Pressable
+                                    key={index}
+                                    style={styles.option}
+                                    onPress={() => handleOptionPress(item)}
+                                >
+                                    <Text style={styles.optionText}>{item}</Text>
+                                </Pressable>
+                            ))}
+                    </View>
                 )}
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                     {selectedOptions && selectedOptions.map((option) => (
                         <Pressable style={styles.selected} key={option} onPress={() => handleRemoveOption(option)}>
                             <Text style={styles.selectedText}>{option} <MaterialIcons name="cancel" size={16} color="black" /> </Text>
@@ -59,8 +61,8 @@ export default function Selection({ placeholderText, selectedCategories, chosenC
                 </View>
             </View>
         </View>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     input: {

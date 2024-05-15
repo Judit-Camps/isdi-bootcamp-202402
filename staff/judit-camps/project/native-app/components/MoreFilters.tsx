@@ -1,12 +1,12 @@
 // @ts-nocheck
 import { View, Text, Pressable, TextInput, StyleSheet, Alert, ScrollView } from "react-native"
-import DateTimePicker from "@react-native-community/datetimepicker"
 import { useState } from "react"
 import { useFocusEffect } from "@react-navigation/native"
 import logic from "../logic"
 import SelectOne from "./SelectOne"
 import PriceSelector from "./PriceSelector"
 import DatePicker from "./DatePicker"
+import { AntDesign } from '@expo/vector-icons'
 
 
 export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersRemoved, chosenFilters }) {
@@ -18,6 +18,7 @@ export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersR
     const [priceValue, setPriceValue] = useState(price ? price : null)
     const [selectedOrg, setSelectedOrg] = useState(organization ? organization : null)
     const [chosenDate, setDate] = useState(date ? new Date(date) : new Date())
+    const [showDatePicker, setShowDatePicker] = useState(date ? true : false)
 
     useFocusEffect(() => {
         try {
@@ -37,13 +38,11 @@ export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersR
             },
             location: city,
             price: priceValue,
-            date: chosenDate.toLocaleDateString("en-CA").split(',')[0].trim()
+            date: showDatePicker ? chosenDate.toLocaleDateString("en-CA").split(',')[0].trim() : null
         }
 
-        console.log("-.-", filters)
         onSubmitFilters(filters)
 
-        console.log("Aplica canvis")
         Alert.alert("Filtres aplicats")
     }
 
@@ -70,6 +69,15 @@ export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersR
         onFiltersRemoved()
     }
 
+    const handlePressDateButton = () => {
+        setShowDatePicker(true)
+    }
+
+    const handleCancelDate = () => {
+        setShowDatePicker(false)
+        setDate(new Date())
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.smallContainer}>
@@ -83,7 +91,20 @@ export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersR
                 <Text style={styles.label}>Organització</Text>
                 <SelectOne items={orgList} placeholderText="Nom de l'organització" valueChosen={handleOrgChosen} chosenOrg={selectedOrg} />
 
-                <DatePicker date={chosenDate} onDateChange={setDate} />
+
+                {showDatePicker ? (
+                    <>
+                        <Pressable onPress={handleCancelDate}>
+                            <Text style={styles.buttonText}> <AntDesign name="caretup" size={12} color="black" />Seleccionar Data</Text>
+                        </Pressable>
+                        <DatePicker date={chosenDate} onDateChange={setDate} />
+                    </>
+                ) : (
+
+                    <Pressable onPress={handlePressDateButton}>
+                        <Text style={styles.buttonText}> <AntDesign name="caretdown" size={12} color="black" />Seleccionar Data</Text>
+                    </Pressable>
+                )}
 
                 <PriceSelector onChosen={handlePriceChosen} previousPrice={priceValue} />
 

@@ -7,7 +7,6 @@ const ItemList = ({ item, onFilterPressed, onFilterUnpressed }) => {
     const [pressed, setPressed] = useState(false)
 
     const handlePress = (item) => {
-        console.log(item)
         if (item !== "+ Filtres")
             setPressed(true)
         onFilterPressed(item)

@@ -14,8 +14,6 @@ function modifyEvent(eventId: string, title?: string, city?: string, address?: s
         .then(token => {
             validate.token(token)
 
-            console.log(token)
-
             const ev = {
                 title,
                 date,
@@ -29,7 +27,6 @@ function modifyEvent(eventId: string, title?: string, city?: string, address?: s
 
             const json = JSON.stringify(ev)
 
-            console.log(ev)
             return fetch(`${process.env.EXPO_PUBLIC_API_URL}/events/${eventId}`, {
                 method: "PUT",
                 headers: {

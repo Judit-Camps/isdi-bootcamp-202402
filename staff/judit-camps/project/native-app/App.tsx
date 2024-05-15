@@ -1,11 +1,9 @@
 // @ts-nocheck
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import MainTabs from './navigation/MainTabs';
-import MainStack from './navigation/MainStack';
-import { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { Context } from './context';
+import { StyleSheet } from 'react-native'
+import MainStack from './navigation/MainStack'
+import { useState } from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { Context } from './context'
 import "react-native-reanimated"
 
 export default function App() {
@@ -21,7 +19,7 @@ export default function App() {
       </NavigationContainer>
 
     </Context.Provider>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -38,4 +36,4 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
     }
   }
-});
+})
