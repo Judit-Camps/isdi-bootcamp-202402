@@ -124,7 +124,6 @@ mongoose.connect(MONGODB_URL)
 
                 logic.retrieveUser(userId as string, targetUserId)
                     .then(user => {
-                        logger.info(user)
                         res.json(user)
                     })
                     .catch(error => {
@@ -224,11 +223,6 @@ mongoose.connect(MONGODB_URL)
             try {
                 const { organizationId, location, price, date, categories } = req.query
 
-                // if (categories)
-                //     categories = categories.map(category => decodeURIComponent(category))
-
-                logger.debug("-----------categories: ", categories)
-
                 logic.findEvents({ organizationId, location, price, date, categories })
                     .then(events => res.json(events))
                     .catch(error => {
@@ -262,7 +256,7 @@ mongoose.connect(MONGODB_URL)
                 const { authorization } = req.headers
 
                 if (!authorization) {
-                    return res.status(401).json({ error: 'Unauthorized', message: 'Authorization header missing' });
+                    return res.status(401).json({ error: 'Unauthorized', message: 'Authorization header missing' })
                 }
                 const token = authorization.slice(7)
 

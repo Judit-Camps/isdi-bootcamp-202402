@@ -73,10 +73,16 @@ v.0.1
 - com
 
 ### Technologies
+- Typescript
+- React-native
+- Expo
+- Express
+- Node
+- Mongoose
+- Mocha / Chai
 
 
 ### Data model
-
 
 User
 - id (auto)

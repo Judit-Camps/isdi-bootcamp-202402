@@ -7,7 +7,7 @@ function modifyEvent(organizationId: string, eventId: string, title?: string, ci
     validate.text(eventId, "eventId", true)
     if (title) validate.text(title, "title")
     if (typeof city !== 'undefined') {
-        validate.text(city, "city");
+        validate.text(city, "city")
     }
     if (address) validate.text(address, "address")
     if (description) validate.text(description, "description")

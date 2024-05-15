@@ -55,7 +55,6 @@ describe("retrieveSavedEvents", () => {
 
                                         expect(e1.attendees[0]).to.deep.equal({ id: user.id, name: user.name, username: user.username })
 
-
                                         expect(e3.author.name).to.equal(org.name)
                                         expect(e3.author.id).to.equal(org.id)
                                         expect(e3.title).to.equal(event3.title)
@@ -71,6 +70,37 @@ describe("retrieveSavedEvents", () => {
                             )
                     )
                 )
+            )
+    )
+
+    it("Should retrieve empty array for existing user with no saved events", () =>
+        Promise.all([
+            User.deleteMany(),
+            Event.deleteMany()
+        ])
+            .then(() =>
+                User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123", status: "active", role: "regular", savedEvents: [] })
+                    .then(user => logic.retrieveSavedEvents(user.id)
+                        .then(res => {
+                            expect(res).to.deep.equal([])
+                        })
+                    )
+            )
+    )
+
+    it("fails on non-existent user", () =>
+        Promise.all([
+            User.deleteMany(),
+            Event.deleteMany()
+        ])
+            .then(() =>
+                User.create({ name: "Pepe Roni", username: "peperoni", email: "pepe@roni.com", password: "123qwe123", status: "active", role: "regular", savedEvents: [] })
+                    .then(user => logic.retrieveSavedEvents(new ObjectId().toString())
+                        .catch(error => {
+                            expect(error).to.be.instanceOf(NotFoundError)
+                            expect(error.message).to.be.equal("user not found")
+                        })
+                    )
             )
     )
 
