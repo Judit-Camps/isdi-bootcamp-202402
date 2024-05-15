@@ -114,7 +114,7 @@ export default function HomeScreen({ navigation }) {
     }
 
     return (
-        <View style={{ marginBottom: 120 }}>
+        <View style={styles.main}>
             <View style={styles.header} >
 
                 <View>
@@ -157,9 +157,10 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    // main: {
-    //     backgroundColor: "#E4F1E4"
-    // },
+    main: {
+        backgroundColor: "#E4F1E4",
+        marginBottom: 120
+    },
     header: {
         alignItems: 'center',
         justifyContent: 'space-between',

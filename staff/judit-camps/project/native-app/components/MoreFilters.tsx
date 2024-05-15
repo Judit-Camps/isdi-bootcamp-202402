@@ -99,7 +99,7 @@ export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersR
                     </Pressable>
 
                     <Pressable style={styles.button} onPress={handleCancelClick}>
-                        <Text style={styles.buttonText}>Cancel</Text>
+                        <Text style={styles.buttonText}>Cancel·lar</Text>
                     </Pressable>
                 </View>
             </ScrollView>
@@ -119,7 +119,9 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        transform: [{ translateY: -120 }]
+        transform: [{ translateY: -120 }],
+        marginBottom: 0,
+        height: "100%"
     },
     label: {
         fontSize: 16,
@@ -134,6 +136,7 @@ const styles = StyleSheet.create({
         height: "80%",
         display: "flex",
         borderRadius: 24,
+        marginBottom: 120
     },
     input: {
         height: 48,

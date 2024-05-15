@@ -138,7 +138,7 @@ export default function EditEventForm({ onEventModified, onCancelClick, ev }) {
                 </Pressable>
 
                 <Pressable onPress={handleCancelClick} style={[styles.button, { marginBottom: 36 }]}>
-                    <Text style={styles.buttonText}>Cancel</Text>
+                    <Text style={styles.buttonText}>Cancel·lar</Text>
                 </Pressable>
             </ScrollView>
         </View>

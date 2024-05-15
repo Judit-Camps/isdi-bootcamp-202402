@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Button, Pressable, TextInput, ScrollView } from "react-native"
 import { useState } from "react"
 import logic from "../logic"
+import basicStyles from "../styles/basicStyles"
 
 export default function RegisterOrgScreen({ navigation }) {
     const [name, setName] = useState('')
@@ -68,15 +69,17 @@ export default function RegisterOrgScreen({ navigation }) {
 
 
                 <Pressable style={({ pressed }) => [
-                    styles.button,
+                    basicStyles.buttonPrimary,
                     pressed && { backgroundColor: 'rgba(0, 0, 0, 0.1)' },
                 ]}
                     onPress={handleOnRegisterClick} >
-                    <Text>Registra't</Text>
+                    <Text style={styles.buttonText}>Comença</Text>
                 </Pressable>
-                {/* <Button style={{ backgroundColor: '#AD40AA' }} color='#000000' title="Registra't" /> */}
 
-                <Button title="Cancel" onPress={() => navigation.navigate("Home")} />
+
+                <Pressable style={basicStyles.buttonSecondary} onPress={() => navigation.navigate("RegisterReg")}>
+                    <Text style={styles.buttonTextSecondary}>Cancel·la</Text>
+                </Pressable>
             </View>
         </ScrollView>
     )
@@ -121,7 +124,12 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 16,
         fontWeight: "bold",
-        color: "#ffffff", // White color
+        color: "#ffffff",
+    },
+    buttonTextSecondary: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#ffffff",
     },
     inputArea: {
         width: "100%",

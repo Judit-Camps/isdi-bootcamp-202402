@@ -4,7 +4,7 @@ import { AntDesign, FontAwesome } from '@expo/vector-icons'
 import { useState, useEffect } from "react"
 import { useContext } from "../context"
 import logic from "../logic"
-import eventStyles from "./EventStyles"
+import eventStyles from "../styles/EventStyles"
 
 export default function Event({ item: ev, onAuthorClicked, onDeleted, onEditClick }) {
     const [pressedBookmark, setPressedBookmark] = useState(false)

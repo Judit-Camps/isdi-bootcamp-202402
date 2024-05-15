@@ -1,11 +1,11 @@
 // @ts-nocheck
-import { View, Text, StyleSheet, Button, ScrollView } from "react-native";
-import { useRoute } from "@react-navigation/native";
-import EventListOrg from "../components/EventListOrg";
-import { useEffect, useState } from "react";
-import logic from "../logic";
-import EventList from "../components/EventList";
-import { useContext } from "../context";
+import { View, Text, StyleSheet, Pressable, ScrollView, Alert } from "react-native"
+import { useRoute } from "@react-navigation/native"
+import { useEffect, useState } from "react"
+import logic from "../logic"
+import EventList from "../components/EventList"
+import { useContext } from "../context"
+import { AntDesign } from "@expo/vector-icons"
 
 export default function OrganizationProfileScreen({ navigation }) {
 
@@ -31,11 +31,19 @@ export default function OrganizationProfileScreen({ navigation }) {
     }, [stamp])
 
     return (
-        <View>
+        <View style={styles.main}>
             <View style={styles.header}>
-                < Button style={styles.headerButton} title="<" onPress={() => navigation.navigate("Home")} />
-                <View >
+                < Pressable style={styles.headerButton} onPress={() => navigation.navigate("Home")}>
+                    <AntDesign name="arrowleft" size={24} color="black" />
+                </Pressable>
+                <View style={styles.infoSection} >
                     <Text style={styles.headerText}>{author.name}</Text>
+
+                    <View style={styles.linksSection}>
+                        <AntDesign style={styles.iconLink} name="instagram" size={26} color="black" onPress={() => Alert.alert("functionality to come")} />
+                        <AntDesign style={styles.iconLink} name="twitter" size={26} color="black" onPress={() => Alert.alert("functionality to come")} />
+                        <AntDesign style={styles.iconLink} name="mail" size={26} color="black" onPress={() => Alert.alert("functionality to come")} />
+                    </View>
                 </View>
 
             </View>
@@ -48,39 +56,57 @@ export default function OrganizationProfileScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+    main: {
+        backgroundColor: "#E4F1E4",
+        marginBottom: 0,
+        height: "100%"
+    },
     header: {
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        top: 0,
-        display: 'flex',
-        flexDirection: 'row',
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
         padding: 12,
-        backgroundColor: '#fff086'
+        backgroundColor: "#7aba78",
+        height: 136
     },
     headerText: {
-        marginTop: 40,
+        marginTop: 48,
         fontSize: 24,
-        fontWeight: 'bold',
+        fontWeight: "bold",
+        paddingBottom: 8
     },
     headerButton: {
-        marginTop: 90,
+        marginTop: 28,
+        padding: 12
     },
     text: {
         fontSize: 24,
-        fontWeight: 'bold',
+        fontWeight: "bold",
     },
-    button: {
+    infoSection: {
+        alignItems: "flex-end",
+        marginRight: 20,
+    },
+    linksSection: {
+        display: "flex",
+        flexDirection: "row",
 
+        padding: 8,
     },
+    iconLink: {
+        paddingRight: 8
+    },
+
     h1: {
         fontSize: 160,
         marginBottom: 30
     },
     act: {
-        backgroundColor: '#a99f00',
+        backgroundColor: "#a99f00",
         borderRadius: 12,
         margin: 12,
         height: 120,
         padding: 12
     }
 })
+

@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 import logic from "../logic"
 import { useContext } from "../context"
+import basicStyles from "../styles/basicStyles"
 
 import { ScrollView, Text, Pressable, TextInput, StyleSheet, Alert, View } from "react-native"
 export default function LoginScreen({ navigation }) {
@@ -53,14 +54,14 @@ export default function LoginScreen({ navigation }) {
                     onChangeText={setPassword}
                 />
 
-                <Pressable style={styles.buttonPrimary} onPress={handleLogin}>
-                    <Text style={styles.buttonTextPrimary}>Entrar</Text>
+                <Pressable style={basicStyles.buttonPrimary} onPress={handleLogin}>
+                    <Text style={styles.buttonTextPrimary}>Entra</Text>
                 </Pressable>
-                <Pressable style={styles.buttonSecondary} onPress={() => navigation.navigate("RegisterReg")}>
+                <Pressable style={basicStyles.buttonSecondary} onPress={() => navigation.navigate("RegisterReg")}>
                     <Text style={styles.buttonTextSecondary}>Registra't</Text>
                 </Pressable>
-                <Pressable style={styles.buttonSecondary} onPress={() => navigation.navigate("Home")}>
-                    <Text style={styles.buttonTextSecondary}>Cancel</Text>
+                <Pressable style={basicStyles.buttonSecondary} onPress={() => navigation.navigate("Home")}>
+                    <Text style={styles.buttonTextSecondary}>Cancel·la</Text>
                 </Pressable>
             </View>
         </ScrollView>
@@ -91,24 +92,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff",
     },
 
-    buttonPrimary: {
-        width: "80%",
-        height: 48,
-        backgroundColor: "#0A6847",
-        borderRadius: 24,
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: 20,
-    },
-    buttonSecondary: {
-        width: "80%",
-        height: 48,
-        backgroundColor: "#7ABA78",
-        borderRadius: 24,
-        justifyContent: "center",
-        alignItems: "center",
-        marginBottom: 20,
-    },
 
     buttonTextPrimary: {
         fontSize: 16,
