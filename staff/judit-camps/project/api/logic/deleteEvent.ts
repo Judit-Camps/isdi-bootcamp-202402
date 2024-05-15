@@ -6,17 +6,19 @@ import mongoose from "mongoose"
 const { Types: { ObjectId } } = mongoose
 
 function deleteEvent(organizationId, eventId): Promise<void> {
+    debugger
     validate.text(organizationId, "organizationId", true)
     validate.text(eventId, "eventId", true)
 
     return User.findById(organizationId)
         .catch(error => { throw new SystemError(error.message) })
-        .then((org: UserType) => {
+        .then((org) => {
+            console.log(org)
             if (!org) throw new NotFoundError("organization not found")
 
             return Event.findById(eventId)
                 .catch(error => { throw new SystemError(error.message) })
-                .then((ev: EventType) => {
+                .then((ev) => {
                     if (!ev) throw new NotFoundError("event not found")
 
                     if (org._id.toString() !== ev.author.toString()) throw new UnauthorizedError("organization unauthorized for deletion")

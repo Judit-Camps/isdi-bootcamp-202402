@@ -24,7 +24,6 @@ describe("saveEvent", () => {
                                         Event.findById(ev.id)
                                     ]))
                                 .then(([updatedUser, updatedEvent]) => {
-                                    console.log(updatedUser, updatedEvent)
                                     expect(updatedEvent.attendees).to.have.lengthOf(1)
                                     expect(updatedEvent.attendees[0].toString()).to.be.equal(user.id)
 

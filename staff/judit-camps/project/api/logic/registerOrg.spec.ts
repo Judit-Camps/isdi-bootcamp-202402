@@ -28,11 +28,31 @@ describe("registerOrg", () => {
             })
 
     )
-    // 
-    it("should fail to register an organization that already exists", () =>
+
+    it("fails to register an organization that already exists", () =>
         User.deleteMany({ role: "organization" })
             .then(() => User.create({ name: "Casal 1", username: "casal1", email: "casal@gmail.com", password: "123qwe123", city: "Manresa", address: "Carrer 1", status: "inactive", role: "organization" }))
             .then(() => logic.registerOrg("Casal 1", "casal1", "casal@gmail.com", "123qwe123", "Manresa", "Carrer 1", "bla bla bla"))
+            .catch(error => {
+                expect(error).to.be.instanceOf(DuplicityError)
+                expect(error.message).to.equal("organization already exists")
+            })
+    )
+
+    it("fails to register an organization with username already existent", () =>
+        User.deleteMany({ role: "organization" })
+            .then(() => User.create({ name: "Casal 1", username: "casal1", email: "casal@gmail.com", password: "123qwe123", city: "Manresa", address: "Carrer 1", status: "inactive", role: "organization" }))
+            .then(() => logic.registerOrg("Casal one", "casal1", "casalone@gmail.com", "123qwe123", "Manresa", "Carrer 1", "bla bla bla"))
+            .catch(error => {
+                expect(error).to.be.instanceOf(DuplicityError)
+                expect(error.message).to.equal("organization already exists")
+            })
+    )
+
+    it("fails to register an organization with email already existent", () =>
+        User.deleteMany({ role: "organization" })
+            .then(() => User.create({ name: "Casal 1", username: "casal1", email: "casal@gmail.com", password: "123qwe123", city: "Manresa", address: "Carrer 1", status: "inactive", role: "organization" }))
+            .then(() => logic.registerOrg("Casal one", "casalone", "casal@gmail.com", "123qwe123", "Manresa", "Carrer 1", "bla bla bla"))
             .catch(error => {
                 expect(error).to.be.instanceOf(DuplicityError)
                 expect(error.message).to.equal("organization already exists")

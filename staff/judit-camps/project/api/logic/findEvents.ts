@@ -8,7 +8,9 @@ function findEvents({ organizationId, location, price, date, categories }: { org
 
     const decodedCategories = categories ? categories.map(category => decodeURIComponent(category)) : []
 
-    let query = Event.find()
+    const today = new Date().setHours(0, 0, 0, 0)
+
+    let query = Event.find({ date: { $gte: today } })
 
     // Apply filters
     if (organizationId) query = query.where("author").equals(organizationId)
@@ -31,10 +33,10 @@ function findEvents({ organizationId, location, price, date, categories }: { org
         .sort({ date: 1 })
         .sort({ 'attendees.length': -1 })
 
+
     return query.exec()
         .catch(error => { throw new SystemError(error.message) })
         .then(events => {
-            // events = events.filter(event => new Date(event.date) >= currentDate);
 
             return events.map<{ id: string, author: { id: string, name: string }, title: string, city: string, address: string, date: Date, time: string, description: string, price: number, categories: string[], attendees: [{ id: string, name: string, username: string }] }>(({ _id, author, title, city, address, date, time, description, price, categories, attendees }) => ({
                 id: _id.toString(),

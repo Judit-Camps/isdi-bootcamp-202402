@@ -27,7 +27,6 @@ describe("removeEvent", () => {
                                                 Event.findById(ev.id)
                                             ]))
                                         .then(([updatedUser, updatedEvent]) => {
-                                            console.log(updatedUser, updatedEvent)
                                             expect(updatedEvent.attendees).to.have.lengthOf(0)
 
                                             expect(updatedUser.savedEvents).to.have.lengthOf(0)

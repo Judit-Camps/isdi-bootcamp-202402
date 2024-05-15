@@ -8,8 +8,6 @@ const { SystemError, NotFoundError } = errors
 
 
 function retrieveSavedEvents(userId: string): Promise<[{ id: string, author: { id: string, name: string }, title: string, city: string, address: string, date: string, time: string, description: string, price: number, attendees: string[] }] | { id: string; author: { id: string; name: string }; title: string; city: string; address: string; date: string; time: string; description: string; price: number; attendees: string[] }[]> {
-
-    debugger
     validate.text(userId, "userId", true)
 
 
@@ -19,7 +17,9 @@ function retrieveSavedEvents(userId: string): Promise<[{ id: string, author: { i
             if (!user)
                 throw new NotFoundError("user not found")
 
-            return Event.find({ _id: { $in: user.savedEvents } })
+            const today = new Date().setHours(0, 0, 0, 0)
+
+            return Event.find({ _id: { $in: user.savedEvents }, date: { $gte: today } })
                 .populate<{ author: { _id: ObjectId, name: string } }>('author', 'name').lean()
                 .populate<{ attendees: { _id: ObjectId, name: string, username: string } }>('attendees', '_id name username').lean()
                 .sort({ date: 1 })

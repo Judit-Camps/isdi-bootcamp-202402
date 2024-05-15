@@ -193,7 +193,7 @@ mongoose.connect(MONGODB_URL)
 
         api.get("/organizations", (req, res) => {
             try {
-                logic.retrieveOrg()
+                logic.retrieveOrgList()
                     .then(organizations => res.json(organizations))
                     .catch(error => {
                         if (error instanceof SystemError) {

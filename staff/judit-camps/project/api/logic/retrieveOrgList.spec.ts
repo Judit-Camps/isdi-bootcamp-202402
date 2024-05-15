@@ -5,7 +5,7 @@ import { User } from "../data/index.ts"
 import { expect } from "chai"
 import logic from "./index.ts"
 
-describe("retrieveOrg", () => {
+describe("retrieveOrgList", () => {
     before(() => mongoose.connect(process.env.MONGODB_TEST_URL))
 
     it("should return an array of all organizations", () =>
@@ -20,7 +20,7 @@ describe("retrieveOrg", () => {
             )
             .then(([org1, org2, org3]) => Promise.all([
                 org1, org2, org3,
-                logic.retrieveOrg().then(orgs => {
+                logic.retrieveOrgList().then(orgs => {
                     expect(orgs[0].id).to.equal(org1.id)
                     expect(orgs[0].name).to.equal(org1.name)
 
