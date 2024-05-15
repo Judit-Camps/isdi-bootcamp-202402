@@ -11,7 +11,6 @@ export default function EventListSaved({ stamp, userId }) {
         try {
             logic.retrieveSavedEvents(userId)
                 .then(events => {
-                    console.log("->", events)
                     setEvents(events)
                 })
                 .catch(error => console.error(error))

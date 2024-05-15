@@ -39,7 +39,6 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted, onEditClic
 
     const handleEventSave = () => {
         setPressedBookmark(true)
-        console.log(ev.id)
         try {
             logic.saveEvent(ev.id)
                 .catch(error => {
@@ -58,7 +57,6 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted, onEditClic
 
     const handleEventRemove = () => {
         setPressedBookmark(false)
-
         try {
             logic.removeEvent(ev.id)
                 .catch(error => {
@@ -76,11 +74,12 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted, onEditClic
     }
 
     const handleDeletePress = (eventId) => {
-
-        console.log(eventId)
         try {
             logic.deleteEvent(eventId)
-                .then(() => onDeleted())
+                .then(() => {
+                    Alert.alert("Esdeveniment borrat correctament")
+                    onDeleted()
+                })
                 .catch(error => console.error(error))
         } catch (error) {
             console.error("-->", error)

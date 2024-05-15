@@ -6,14 +6,12 @@ import mongoose from "mongoose"
 const { Types: { ObjectId } } = mongoose
 
 function deleteEvent(organizationId, eventId): Promise<void> {
-    debugger
     validate.text(organizationId, "organizationId", true)
     validate.text(eventId, "eventId", true)
 
     return User.findById(organizationId)
         .catch(error => { throw new SystemError(error.message) })
         .then((org) => {
-            console.log(org)
             if (!org) throw new NotFoundError("organization not found")
 
             return Event.findById(eventId)

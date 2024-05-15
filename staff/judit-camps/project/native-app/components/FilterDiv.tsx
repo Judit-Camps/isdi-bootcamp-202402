@@ -70,41 +70,20 @@ export default function FilterDiv({ onAddFilter, onRemoveFilter }) {
 
 }
 
-const SECTIONS = [
-    {
-        title: "Filtres",
-        data: [
-            {
-                key: "0",
-                text: "+ Filtres",
-            },
-            {
-                key: "1",
-                text: "Tallers",
-            },
-            {
-                key: "2",
-                text: "Art",
-            },
-            {
-                key: "3",
-                text: "Música",
-            },
-            {
-                key: "4",
-                text: "Concerts",
-            },
-            {
-                key: "5",
-                text: "Xerrades",
-            },
-            {
-                key: "6",
-                text: "Llibres",
-            }
-        ]
-    }
+const sectionTitles = ["Filtres"]
+const sectionData = [
+    ["+ Filtres", "Tallers", "Art", "Música", "Concerts", "Xerrades", "Llibres"]
 ]
+
+const SECTIONS = sectionTitles.map((title, index) => {
+    return {
+        title,
+        data: sectionData[index].map((text, key) => ({
+            key: key.toString(),
+            text
+        }))
+    }
+})
 
 const styles = StyleSheet.create({
     container: {

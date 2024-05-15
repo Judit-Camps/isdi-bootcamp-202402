@@ -8,39 +8,34 @@ import logic from "../logic"
 import { useContext } from "../context"
 import PriceSelector from "./PriceSelector"
 import Selection from "./Selection"
+import DatePicker from "./DatePicker"
+import TimePicker from "./TimePicker"
 
 export default function EditEventForm({ onEventModified, onCancelClick, ev }) {
+
+    const [hours, minutes, seconds] = ev.time.split(':').map(Number);
+    const timeDate = new Date();
+    timeDate.setHours(hours);
+    timeDate.setMinutes(minutes);
+    timeDate.setSeconds(seconds);
+
     const { user, setStamp } = useContext()
     const [title, setTitle] = useState(ev.title)
     const [city, setCity] = useState("")
     const [address, setAddress] = useState("")
     const [description, setDescription] = useState(ev.description)
-    const [time, setTime] = useState(new Date())
+    const [time, setTime] = useState(new Date(timeDate))
     const [price, setPrice] = useState("")
     const [date, setDate] = useState(new Date(ev.date))
-    const [showDatePicker, setShowDatePicker] = useState(false)
-    const [showTimePicker, setShowTimePicker] = useState(false)
+
     const [priceValue, setPriceValue] = useState(ev.price)
 
     const categories = ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers", "Xerrades"].sort()
 
     const [selectedCategories, setSelectedCategories] = useState(ev.categories)
-    console.log("Selected category: ", selectedCategories)
 
     const handlePriceChosen = (value) => {
-        console.log(typeof value)
         setPriceValue(value)
-    }
-    const handleDateChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date
-        setShowDatePicker(false)
-        setDate(currentDate)
-    }
-
-    const handleTimeChange = (event, selectedTime) => {
-        const currentTime = selectedTime || new Date()
-        setShowTimePicker(false)
-        setTime(currentTime.toLocaleTimeString())
     }
 
     const handleCancelClick = () => {
@@ -49,16 +44,13 @@ export default function EditEventForm({ onEventModified, onCancelClick, ev }) {
 
     const handleSelectedCategories = (selected) => {
         setSelectedCategories(selected)
-        console.log("Selected category: ", selected)
     }
 
     const handleCategoriesOnRemove = (selected) => {
         setSelectedCategories(selected)
-        console.log("Selected category: ", selected)
     }
 
     const handleSubmit = () => {
-        console.log("Form submitted")
 
         let eventCity
         if (!city) {
@@ -72,8 +64,7 @@ export default function EditEventForm({ onEventModified, onCancelClick, ev }) {
 
 
         try {
-            console.log("---", selectedCategories)
-            logic.modifyEvent(ev.id, title, eventCity, eventAddress, description, ev.time, priceValue, date.toLocaleDateString("en-CA").split(',')[0].trim(), selectedCategories)
+            logic.modifyEvent(ev.id, title, eventCity, eventAddress, description, time.toLocaleTimeString(), priceValue, date.toLocaleDateString("en-CA").split(',')[0].trim(), selectedCategories)
                 .then(() => {
                     setStamp(Date.now())
                     setTitle("")
@@ -136,23 +127,9 @@ export default function EditEventForm({ onEventModified, onCancelClick, ev }) {
                     onChangeText={setDescription}
                 />
 
-                <Text>Dia</Text>
-                <DateTimePicker
-                    value={date}
-                    mode="date"
-                    is24Hour={true}
-                    display="default"
-                    onChange={handleDateChange}
-                />
+                <DatePicker date={date} onDateChange={setDate} />
 
-                <Text>Hora</Text>
-                <DateTimePicker
-                    value={date}
-                    mode="time"
-                    is24Hour={true}
-                    display="default"
-                    onChange={handleTimeChange}
-                />
+                <TimePicker selectedTime={time} onTimeChange={setTime} />
 
                 <PriceSelector onChosen={handlePriceChosen} />
 

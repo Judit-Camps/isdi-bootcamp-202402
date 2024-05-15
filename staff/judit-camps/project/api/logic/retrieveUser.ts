@@ -4,7 +4,6 @@ import { validate, errors } from "com"
 const { SystemError, NotFoundError } = errors
 
 function retrieveUser(userId: string, targetUserId: string): Promise<{ name: string, username: string, email: string, city?: string, address?: string }> {
-    debugger
     validate.text(userId, "userId", true)
     validate.text(targetUserId, "targetUserId", true)
 

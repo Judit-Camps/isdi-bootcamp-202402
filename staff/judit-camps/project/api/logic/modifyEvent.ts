@@ -3,7 +3,6 @@ import { User, Event } from "../data/index.ts"
 const { SystemError, NotFoundError, UnauthorizedError } = errors
 
 function modifyEvent(organizationId: string, eventId: string, title?: string, city?: string, address?: string, description?: string, categories?: string[], date?: string, time?: string, price?: number): Promise<void> {
-    debugger
     validate.text(organizationId, "organizationId", true)
     validate.text(eventId, "eventId", true)
     if (title) validate.text(title, "title")

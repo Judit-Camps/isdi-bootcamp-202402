@@ -6,6 +6,7 @@ import { useFocusEffect } from "@react-navigation/native"
 import logic from "../logic"
 import SelectOne from "./SelectOne"
 import PriceSelector from "./PriceSelector"
+import DatePicker from "./DatePicker"
 
 
 export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersRemoved, chosenFilters }) {
@@ -16,7 +17,7 @@ export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersR
     const [orgList, setOrgList] = useState([])
     const [priceValue, setPriceValue] = useState(price ? price : null)
     const [selectedOrg, setSelectedOrg] = useState(organization ? organization : null)
-    // const [date, setDate] = useState(new Date())
+    const [chosenDate, setDate] = useState(date ? new Date(date) : new Date())
 
     useFocusEffect(() => {
         try {
@@ -27,13 +28,8 @@ export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersR
         }
     })
 
-    // const handleDateChange = (event, selectedDate) => {
-    //     const currentDate = selectedDate || date
-    //     setShowDatePicker(false)
-    //     setDate(currentDate)
-    // }
-
     const handleApplyClick = () => {
+
         const filters = {
             organization: {
                 id: selectedOrg.id,
@@ -41,6 +37,7 @@ export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersR
             },
             location: city,
             price: priceValue,
+            date: chosenDate.toLocaleDateString("en-CA").split(',')[0].trim()
         }
 
         console.log("-.-", filters)
@@ -86,14 +83,7 @@ export default function MoreFilters({ onCancelClick, onSubmitFilters, onFiltersR
                 <Text style={styles.label}>Organització</Text>
                 <SelectOne items={orgList} placeholderText="Nom de l'organització" valueChosen={handleOrgChosen} chosenOrg={selectedOrg} />
 
-                <Text style={styles.label}>Dia</Text>
-                <DateTimePicker
-                    value={new Date}
-                    mode="date"
-                    is24Hour={true}
-                    display="default"
-                // onChange={handleDateChange}
-                />
+                <DatePicker date={chosenDate} onDateChange={setDate} />
 
                 <PriceSelector onChosen={handlePriceChosen} previousPrice={priceValue} />
 

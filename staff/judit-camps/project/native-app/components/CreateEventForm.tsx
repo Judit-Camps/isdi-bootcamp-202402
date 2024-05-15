@@ -8,8 +8,10 @@ import logic from "../logic"
 import format from "date-fns"
 import Selection from "./Selection"
 import PriceSelector from "./PriceSelector"
+import TimePicker from "./TimePicker"
 
 import { useContext } from "../context"
+import DatePicker from "./DatePicker"
 
 export default function CreateEventForm({ onEventCreated }) {
     const { user, setStamp } = useContext()
@@ -19,8 +21,6 @@ export default function CreateEventForm({ onEventCreated }) {
     const [description, setDescription] = useState("")
     const [time, setTime] = useState(new Date())
     const [date, setDate] = useState(new Date())
-    const [showDatePicker, setShowDatePicker] = useState(false)
-    const [showTimePicker, setShowTimePicker] = useState(false)
     const [priceValue, setPriceValue] = useState(null)
 
     const categories = ["Música", "Art", "Concerts", "Esport", "Política", "Feminisme", "Infantil", "Llibres", "Tallers", "Xerrades"].sort()
@@ -31,25 +31,11 @@ export default function CreateEventForm({ onEventCreated }) {
         setSelectedCategories(selected)
     }
 
-    const handleDateChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date
-        setShowDatePicker(false)
-        setDate(currentDate)
-    }
-
-    const handleTimeChange = (event, selectedTime) => {
-        const currentTime = selectedTime || time
-        setShowTimePicker(false)
-        setTime(currentTime.toLocaleTimeString())
-    }
-
-    console.log(time)
     const handlePriceChosen = (value) => {
         setPriceValue(value)
     }
 
     const handleSubmit = () => {
-        console.log("Form submitted")
 
         let eventCity
         if (!city) {
@@ -62,7 +48,7 @@ export default function CreateEventForm({ onEventCreated }) {
         } else eventAddress = address
 
         try {
-            logic.createEvent(title, eventCity, eventAddress, description, date.toLocaleTimeString(), priceValue, date.toLocaleDateString("en-CA").split(',')[0].trim(), selectedCategories)
+            logic.createEvent(title, eventCity, eventAddress, description, time.toLocaleTimeString(), priceValue, date.toLocaleDateString("en-CA").split(',')[0].trim(), selectedCategories)
                 .then(() => {
                     setStamp(Date.now())
                     setTitle("")
@@ -120,23 +106,9 @@ export default function CreateEventForm({ onEventCreated }) {
                         onChangeText={setDescription}
                     />
 
-                    <Text style={styles.label}>Dia</Text>
-                    <DateTimePicker
-                        value={date}
-                        mode="date"
-                        is24Hour={true}
-                        display="default"
-                        onChange={handleDateChange}
-                    />
+                    <DatePicker date={date} onDateChange={setDate} />
 
-                    <Text style={styles.label}>Hora</Text>
-                    <DateTimePicker
-                        value={date}
-                        mode="time"
-                        is24Hour={true}
-                        display="default"
-                        onChange={handleTimeChange}
-                    />
+                    <TimePicker selectedTime={time} onTimeChange={setTime} />
 
                     <Text style={styles.label}>Categories</Text>
                     <Selection categories={categories} placeholderText="Escriu i tria: Art, Tallers..." selectedCategories={handleSelectedCategories}  >

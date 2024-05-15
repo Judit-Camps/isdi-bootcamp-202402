@@ -3,7 +3,6 @@ import { User, Event } from "../data/index.ts"
 const { NotFoundError, SystemError, DuplicityError } = errors
 
 function saveEvent(userId: string, eventId: string): Promise<any> {
-    debugger
     validate.text(userId, "userId", true)
     validate.text(eventId, "eventId", true)
 

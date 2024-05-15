@@ -79,7 +79,6 @@ mongoose.connect(MONGODB_URL)
                         res.json(token)
                     })
                     .catch(error => {
-                        console.log(error)
                         if (error instanceof SystemError) {
                             logger.error(error.message)
 
