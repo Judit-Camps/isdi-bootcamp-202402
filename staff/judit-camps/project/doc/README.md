@@ -1,4 +1,4 @@
-# Final project - app name
+# Final project
 
 ## Intro
 The main objective of this app is to provide its users with the information of cultural and popular events from organizations and associations. And for organizations to be able to promote their activities
@@ -38,7 +38,6 @@ as organization:
 - i can see how many times my events have been saved
 - i can edit events
 - i can delete events
-- i can edit my information
 - i can search my events by filters or name
 
 as root:
@@ -48,22 +47,25 @@ as root:
 - i can delete an organization
 
 as user:
-- i can search for events and organizations by search bar or filters
-- i can search for events and organizations by map (location: city | [city, comarca, província])
-- i can edit my profile (change information, add links/contact info, add favourite activity themes)
+- i can search for events by theme filters
+- i can search for events by location, organization
 - i can visualize event information
 - i can look at organizations pages
-- i can see organizations and other users with similar affinities
-- i can follow organizations and users
 
 
 
 v.0.1
+- i can search for events and organizations by map (location: city | [city, comarca, província])
+- i can edit my profile (change information, add links/contact info, add favourite activity themes)
+- i can see organizations and other users with similar affinities
+- i can follow organizations and users
+
+v.0.2
 - generate QR codes for each organization to be scanned
 - send notifications/emails when saved event is approaching
 
 ### UI design
-[Figma]()
+[Figma](https://www.figma.com/design/ysEOMIDvNCjH4jZNjZeWKx/Untitled?node-id=1-2)
 
 ## Technical description
 

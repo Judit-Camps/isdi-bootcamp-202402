@@ -48,7 +48,7 @@ export default function SelectOne({ items, placeholderText, valueChosen, chosenO
                 <FlatList
                     data={items.filter((option) => option.name.toLowerCase().includes(inputValue.toLowerCase()))}
                     renderItem={renderOptionItem}
-                    keyExtractor={(item) => item}
+                    keyExtractor={(item) => item.id.toString()}
                 />
             )}
 

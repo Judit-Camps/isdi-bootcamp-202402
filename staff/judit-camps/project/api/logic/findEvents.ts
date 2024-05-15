@@ -1,15 +1,14 @@
 // @ts-nocheck
-import { validate, errors } from "com"
-const { SystemError, NotFoundError } = errors
+import { errors } from "com"
+const { SystemError } = errors
 import { ObjectId } from "mongoose"
-import { User, Event } from "../data/index.ts"
+import { Event } from "../data/index.ts"
 
 function findEvents({ organizationId, location, price, date, categories }: { organizationId?: string, location?: string, price?: number, date?: string, categories?: string[] } = {}): Promise<any> {
 
     const decodedCategories = categories ? categories.map(category => decodeURIComponent(category)) : []
 
     const today = new Date().setHours(0, 0, 0, 0)
-
     let query = Event.find({ date: { $gte: today } })
 
     // Apply filters
@@ -31,8 +30,6 @@ function findEvents({ organizationId, location, price, date, categories }: { org
     query = query.populate<{ author: { _id: ObjectId, name: string } }>('author', 'name').lean()
         .populate<{ attendees: { _id: ObjectId, name: string, username: string } }>('attendees', '_id name username').lean()
         .sort({ date: 1 })
-        .sort({ 'attendees.length': -1 })
-
 
     return query.exec()
         .catch(error => { throw new SystemError(error.message) })

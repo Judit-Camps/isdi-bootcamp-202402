@@ -28,6 +28,12 @@ export default function Selection({ placeholderText, selectedCategories, previou
         selectedCategories(updatedSelectedOptions)
     }
 
+    const renderOptionItem = ({ item }) => (
+        <Pressable style={styles.option} onPress={() => handleOptionPress(item)}>
+            <Text style={styles.optionText}>{item}</Text>
+        </Pressable>
+    )
+
     return (
         <View>
             <View style={{ flex: 1 }}>
@@ -38,19 +44,11 @@ export default function Selection({ placeholderText, selectedCategories, previou
                     style={styles.input}
                 />
                 {inputValue.length > 0 && (
-                    <View style={styles.optionsContainer}>
-                        {categories
-                            .filter((option) => option.toLowerCase().includes(inputValue.toLowerCase()))
-                            .map((item, index) => (
-                                <Pressable
-                                    key={index}
-                                    style={styles.option}
-                                    onPress={() => handleOptionPress(item)}
-                                >
-                                    <Text style={styles.optionText}>{item}</Text>
-                                </Pressable>
-                            ))}
-                    </View>
+                    <FlatList
+                        data={categories.filter((option) => option.toLowerCase().includes(inputValue.toLowerCase()))}
+                        renderItem={renderOptionItem}
+                        keyExtractor={(item) => item}
+                    />
                 )}
                 <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                     {selectedOptions && selectedOptions.map((option) => (

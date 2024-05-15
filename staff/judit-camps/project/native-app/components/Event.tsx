@@ -136,9 +136,9 @@ export default function Event({ item: ev, onAuthorClicked, onDeleted, onEditClic
                         )}
 
                         {ev.attendees.length > 0 && (
-                            <View>
+                            <View style={{ padding: 4 }}>
                                 <Text numberOfLines={1}>Guardat per: {ev.attendees.sort().map(p =>
-                                    <Text key={p.id}>{p.username}</Text>
+                                    <Text key={p.id}>{p.username} </Text>
                                 )} </Text>
 
                             </View>

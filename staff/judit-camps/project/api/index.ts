@@ -219,7 +219,7 @@ mongoose.connect(MONGODB_URL)
         })
 
 
-        api.get("/events/*", (req, res) => {
+        api.get("/events", (req, res) => {
             try {
                 const { organizationId, location, price, date, categories } = req.query
 

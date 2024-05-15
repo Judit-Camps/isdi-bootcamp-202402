@@ -23,7 +23,6 @@ function retrieveSavedEvents(userId: string): Promise<[{ id: string, author: { i
                 .populate<{ author: { _id: ObjectId, name: string } }>('author', 'name').lean()
                 .populate<{ attendees: { _id: ObjectId, name: string, username: string } }>('attendees', '_id name username').lean()
                 .sort({ date: 1 })
-                .sort({ 'attendees.length': -1 })
 
                 .catch(error => { throw new SystemError(error.message) })
                 .then(events =>
