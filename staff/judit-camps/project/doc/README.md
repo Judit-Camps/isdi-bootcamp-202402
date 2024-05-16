@@ -40,11 +40,6 @@ as organization:
 - i can delete events
 - i can search my events by filters or name
 
-as root:
-- i can list registered organization
-- i can accept an organization
-- i can disable an organization
-- i can delete an organization
 
 as user:
 - i can search for events by theme filters
@@ -53,6 +48,11 @@ as user:
 - i can look at organizations pages
 
 
+as root:
+- i can list registered organization
+- i can accept an organization
+- i can disable an organization
+- i can delete an organization
 
 v.0.1
 - i can search for events and organizations by map (location: city | [city, comarca, província])
