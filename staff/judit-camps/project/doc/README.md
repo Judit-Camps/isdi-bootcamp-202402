@@ -9,7 +9,6 @@ The main objective of this app is to provide its users with the information of c
 
 ### Use cases
 
-- view map
 - find and list events (by location, type, theme, organization, date)
 - view event
 - save event
@@ -24,6 +23,7 @@ The main objective of this app is to provide its users with the information of c
 - delete event
 
 v0.1
+- view map
 - search and list users
 - view user profile
 - follow user
